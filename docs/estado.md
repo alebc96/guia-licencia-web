@@ -5,6 +5,61 @@ Registro de qué se ha hecho, iteración por iteración. Lo que falta está en
 
 ---
 
+## Iteración 2 — 2026-11-11
+
+**Objetivo:** dos cosas pedidas tras ver la iteración 1: quitar el ruido visual y
+llenar de verdad el catálogo de señales.
+
+### Catálogo completo desde el BOE
+
+- Localizado el catálogo oficial en PDF (RD 465/2025, Tomo I) y extraído con
+  `pdftotext` + `scripts/extract-catalog.mjs`: **394 señales** con código, nombre
+  y definición literal del BOE en `data/catalogo-oficial.json`.
+- `scripts/generate-signs.mjs` reescrito: ahora combina el catálogo oficial con
+  la capa curada de `data/senales.txt` y genera una ficha por señal.
+- `scripts/fetch-sign-images.mjs`: descarga los SVG de Wikimedia Commons con
+  crédito (autor, licencia y página de origen) en `data/creditos.json`; usa `curl`
+  espaciado porque `upload.wikimedia.org` responde 429 a las ráfagas.
+- Cuando no hay imagen disponible se genera un pictograma esquemático propio, y
+  la ficha lo declara.
+- Wikimedia exige un User-Agent descriptivo con contacto: con uno genérico
+  responde 429 y el fichero descargado es una página de error HTML. El script
+  valida que el contenido empiece por `<svg`/`<?xml` y borra lo que no lo cumpla.
+- El esquema Zod hace opcionales `action`, `where` y `mistake`: una ficha sin nota
+  curada enseña solo lo que dice la norma, sin relleno inventado.
+
+**Corrección importante detectada al cruzar la capa curada con el catálogo
+oficial:** seis fichas curadas apuntaban a códigos equivocados.
+
+| Código | Lo que decía la ficha curada | Nombre oficial |
+|---|---|---|
+| P-1 | «Cruce de vías» | Intersección con prioridad |
+| R-108 | «Entrada prohibida a bicicletas» | Mercancías peligrosas |
+| S-3 | «Entrada a autovía» | Vía reservada para automóviles |
+| S-4 | «Fin de autovía» | Fin de vía reservada para automóviles |
+| S-7 | «Entrada a poblado» | Velocidad máxima aconsejada |
+| S-8 | «Fin de poblado» | Fin de velocidad máxima aconsejada |
+
+Se reancló la capa curada a los códigos correctos (P-2, R-114, R-118, S-1a, S-2a,
+S-500, S-510) y se documentó la trampa en `MEMORY.md`: **nunca curar una fila sin
+comprobar el nombre oficial**.
+
+### Limpieza de diseño
+
+Pedido textual: los subtítulos de sección, los contadores y la fila de etiquetas
+bajo el título sobran.
+
+- Fuera el `eyebrow` de todas las secciones (solo queda la línea de identidad del
+  hero).
+- Fuera contadores («20 enlaces», «Fichas por familia», «12 fichas publicadas»).
+- Fuera la fila de etiquetas del tema; en su lugar una línea de texto pequeño con
+  «Tema 10 de 17 · 11 min de lectura».
+- Fuera las etiquetas del catálogo y del práctico.
+- Fuera el botón «Tema 8» de la cabecera de `/senales`.
+- Las tarjetas de tema dejan de mostrar «Fundamentos · 12 min · Peso Media».
+
+---
+
 ## Iteración 1 — 2026-11-11
 
 **Objetivo:** aplicación completa sobre Next.js con el sistema de diseño de

@@ -4,59 +4,89 @@
 
 | Métrica | Valor |
 |---|---|
-| Fichas publicadas | 19 |
-| Objetivo del plan | 315 señales verticales + ~126 marcas viales (≈441) |
-| Cobertura | ≈4 % |
-| Fichas con nombre confirmado en el texto del BOE | 4 (P-18, R-301, R-411, S-17) |
-| Pictogramas oficiales | 0 (los actuales son esquemáticos propios) |
+| Fichas publicadas | **394** |
+| Fuente de códigos, nombres y definiciones | Catálogo oficial de señales verticales de circulación, RD 465/2025 (BOE, 17/06/2025), Tomo I |
+| Fichas con nota de estudio curada (tier A) | 20 |
+| Fichas con la definición oficial (tier B) | 374 |
+| Pictogramas oficiales descargados | ver `data/creditos.json` |
+| Marcas viales | 0 (catálogo aparte, pendiente) |
 
-Fichas publicadas: P-1, P-18, R-1, R-2, R-3, R-4, R-5, R-101, R-102, R-108,
-R-301, R-411, S-1, S-2, S-3, S-4, S-7, S-8, S-17.
+Familias cubiertas: peligro (58), reglamentación (86) e indicación (250).
 
-## Por qué no está completo
+## Cómo se construye
 
-El catálogo oficial es el anexo del Reglamento General de Circulación, con
-centenares de fichas gráficas. Volcarlo exige:
+```
+PDF del BOE ──pdftotext──▶ /tmp/tomo1.txt
+                              │
+                              ▼
+              scripts/extract-catalog.mjs
+                              │
+                              ▼
+                 data/catalogo-oficial.json      (394 señales: código, nombre, definición, párrafos)
+                              │
+        data/senales.txt ─────┤  capa curada: acción, error de examen, relacionadas (opcional)
+                              │
+        data/creditos.json ───┤  autor y licencia de cada SVG
+                              │
+                              ▼
+              scripts/generate-signs.mjs
+                              │
+              ┌───────────────┴────────────────┐
+              ▼                                ▼
+   content/senales/*.md              public/senales/*.svg
+   (una ficha por señal)       (el de Commons o uno esquemático)
+```
 
-1. Leer el anexo y transcribir **código + nombre + familia** de cada señal.
-2. Conseguir una imagen con licencia para cada una (Commons) o dibujarla.
-3. Redactar significado, acción, alcance y error típico.
+Comandos:
 
-La regla editorial del proyecto prohíbe publicar un código que no se haya
-contrastado con la fuente. Escribir 441 fichas «de memoria» habría producido
-errores de nombre y de familia, que es exactamente el fallo que la guía quiere
-evitar. Se publicó lo que se pudo afirmar con seguridad y el resto queda como
-trabajo planificado (T-01 a T-04 en `docs/tareas.md`).
+```bash
+# 1. Extraer el catálogo (una vez por edición del BOE)
+pdftotext -layout 5-SENALES-VERTICALES-DE-CIRCULACION.pdf /tmp/tomo1.txt
+node scripts/extract-catalog.mjs /tmp/tomo1.txt
 
-Comprobación hecha en la iteración 1: el texto consolidado del RGC en el BOE
-menciona 57 códigos distintos, pero **no contiene el anexo gráfico completo**;
-solo lo referencia en la prosa. Por eso las fichas publicadas no se marcan como
-verificadas salvo las cuatro cuyo nombre aparece literalmente en ese texto.
+# 2. Descargar las imágenes que falten (necesita red; luego se versionan)
+node scripts/fetch-sign-images.mjs
 
-## Cómo se amplía (pipeline ya funcionando)
+# 3. Regenerar fichas y SVG de reserva
+npm run generate:signs
 
-1. Añadir filas a `data/senales.txt` (14 columnas separadas por `|`; el formato
-   está documentado en la cabecera del propio archivo).
-2. `npm run generate:signs` regenera `content/senales/*.md` y
-   `public/senales/*.svg`.
-3. `npm run check:signs` verifica que nada quede desincronizado.
-4. `npm run check:content` comprueba que la imagen existe y que los enlaces
-   internos resuelven.
+# 4. Verificar que nada se ha desincronizado
+npm run check:signs && npm run check:content
+```
 
-Para imágenes reales, el cambio es de una línea por ficha: apuntar `image` a
-`/senales/<codigo>.svg` servido desde `public/` con su crédito en `imageCredit`.
+PDF de origen: <https://www.boe.es/eli/es/rd/2025/06/10/465>. El fichero no se
+versiona (14 MB); sí se versiona el JSON extraído, que es el artefacto que consume
+el generador.
 
 ## Niveles de ficha
 
 | Nivel | Qué contiene | Hoy |
 |---|---|---|
-| A | Significado, acción, alcance, error típico y relacionadas redactados | 12 fichas |
-| B | Definición tomada del nombre oficial + acción básica | 7 fichas |
-| C | Solo lo que el nombre oficial permite afirmar | 0 fichas |
+| A | Definición oficial + acción, error típico y señales relacionadas, revisados a mano | 20 |
+| B | Definición oficial íntegra del BOE | 374 |
+| C | Nombre oficial sin definición utilizable | 0 |
 
-## Incidencias conocidas
+El esquema de contenido hace **opcionales** `action`, `where` y `mistake`
+precisamente para no rellenarlos con texto inventado: una ficha B enseña solo lo
+que la norma dice.
 
-- Los pictogramas de P-1 (cruce), P-18 (obras), R-102 (vehículos a motor) y R-108
-  (bicicletas) son abstracciones: se entiende la idea, no son el símbolo oficial.
-- Las marcas viales no están representadas: el formato de código `M-x.y` no se ha
-  validado todavía contra el anexo, así que no se publicó ninguna.
+## Imágenes
+
+- Se descargan de Wikimedia Commons con `scripts/fetch-sign-images.mjs`, que
+  rechaza ficheros no oficiales (históricos, regionales, prototipos).
+- Cada descarga guarda autor, licencia y página de origen en `data/creditos.json`,
+  y el crédito se muestra en la ficha y en `/creditos`.
+- Cuando no hay SVG en Commons se genera un pictograma esquemático propio: forma
+  y colores correctos, sin reproducir el símbolo oficial. La ficha lo indica.
+- Wikimedia devuelve HTTP 429 a clientes que descargan en ráfaga; el script usa
+  `curl`, 250 ms de espera entre ficheros y un User-Agent descriptivo.
+
+## Qué falta
+
+| Tarea | Detalle |
+|---|---|
+| Curar nivel A | Las ~80 señales más preguntadas necesitan acción y error típico redactados |
+| Marcas viales | El catálogo de marcas viales es un documento aparte (códigos `M-x.y`); no se ha volcado |
+| Paneles de orientación | Los carteles grandes (S-4xx, S-5xx, S-6xx) tienen definición pero no un dibujo útil: se muestran con pictograma propio |
+| Revisión de pictogramas | Algunos SVG de Commons son de la edición anterior del catálogo; hay que cotejarlos con la nueva |
+| Semáforos y agentes | No están en el catálogo de señales verticales; faltan como contenido propio |

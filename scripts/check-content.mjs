@@ -108,7 +108,8 @@ for (const file of senalFiles) {
     if (!fs.existsSync(imagePath)) fail(`${relative}: image not found at public${data.image}`);
   }
 
-  for (const required of ["meaning", "action", "where", "imageAlt", "imageCredit", "officialSource", "updated"]) {
+  // `action`, `where` and `mistake` are optional: only curated fichas carry them.
+  for (const required of ["meaning", "imageAlt", "imageCredit", "officialSource", "updated"]) {
     if (!data[required]) fail(`${relative}: missing ${required}`);
   }
 
@@ -129,20 +130,53 @@ for (const file of senalFiles) {
   }
 }
 
-const dataFile = path.join(ROOT, "data", "senales.txt");
-if (fs.existsSync(dataFile)) {
-  const rows = fs
-    .readFileSync(dataFile, "utf8")
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0 && !line.startsWith("#"));
+const catalogFile = path.join(ROOT, "data", "catalogo-oficial.json");
+const officialCodes = new Set();
 
-  const dataCodes = new Set(rows.map((row) => row.split("|")[0].trim()));
-  for (const code of dataCodes) {
-    if (!senalCodes.has(code)) fail(`data/senales.txt: ${code} has no generated ficha in content/senales`);
+if (!fs.existsSync(catalogFile)) {
+  fail("data/catalogo-oficial.json: missing (run scripts/extract-catalog.mjs)");
+} else {
+  const catalog = JSON.parse(fs.readFileSync(catalogFile, "utf8"));
+  if (catalog.length < 100) fail(`data/catalogo-oficial.json: only ${catalog.length} signals, expected the full catalogue`);
+
+  for (const signal of catalog) {
+    officialCodes.add(signal.code);
+    if (!signal.name || !signal.definition) fail(`data/catalogo-oficial.json: ${signal.code} has no name or definition`);
   }
+
   for (const code of senalCodes) {
-    if (!dataCodes.has(code)) fail(`content/senales/${code.toLowerCase()}.md: missing row in data/senales.txt`);
+    if (!officialCodes.has(code)) fail(`content/senales/${code.toLowerCase()}.md: ${code} is not in the official catalogue`);
+  }
+
+  const curatedFile = path.join(ROOT, "data", "senales.txt");
+  if (fs.existsSync(curatedFile)) {
+    const rows = fs
+      .readFileSync(curatedFile, "utf8")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0 && !line.startsWith("#"));
+
+    for (const row of rows) {
+      const code = row.split("|")[0].trim();
+      if (!officialCodes.has(code)) fail(`data/senales.txt: curated row ${code} does not exist in the official catalogue`);
+      if (!senalCodes.has(code)) fail(`data/senales.txt: curated row ${code} has no ficha in content/senales`);
+    }
+  }
+}
+
+/* --------------------------------------------------------- image credits --- */
+
+const creditsFile = path.join(ROOT, "data", "creditos.json");
+if (fs.existsSync(creditsFile)) {
+  const credits = JSON.parse(fs.readFileSync(creditsFile, "utf8"));
+  for (const [code, credit] of Object.entries(credits)) {
+    if (!senalCodes.has(code)) fail(`data/creditos.json: ${code} has no ficha`);
+    for (const field of ["artist", "license", "page"]) {
+      if (!credit[field]) fail(`data/creditos.json: ${code} is missing ${field}`);
+    }
+    if (!fs.existsSync(path.join(ROOT, "public", "senales", `${code.toLowerCase()}.svg`))) {
+      fail(`data/creditos.json: ${code} credits an image that does not exist`);
+    }
   }
 }
 

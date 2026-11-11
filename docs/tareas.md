@@ -8,9 +8,11 @@ de X)».
 
 | ID | Tarea | Hecho cuando |
 |---|---|---|
-| T-01 | Auditar el anexo del catálogo oficial del BOE y volcar los 315 códigos verticales y las ~126 marcas en `data/senales.txt` | Cada fila tiene código, nombre y familia contrastados con el anexo; `npm run generate:signs` genera las fichas sin duplicados |
-| T-02 | Conseguir SVG de las señales con licencia y crédito (Wikimedia Commons) y sustituir los pictogramas esquemáticos | Cada ficha apunta a un SVG con autor, licencia y enlace a la fuente; `docs/cobertura-senales.md` al 100 % |
-| T-03 | Subir a nivel A las 80 señales más preguntadas (significado, acción, error típico, relacionadas) | Fichas con texto propio y `verified: true` |
+| ~~T-01~~ | ~~Auditar el anexo del catálogo oficial del BOE~~ | **Hecho en la iteración 2**: 394 señales verticales extraídas del PDF del RD 465/2025 a `data/catalogo-oficial.json`. Las marcas viales siguen fuera (T-01b) |
+| T-01b | Volcar el catálogo de marcas viales (documento aparte del BOE) | Códigos `M-x.y` con nombre y definición, y su propio dibujo esquemático |
+| ~~T-02~~ | ~~Conseguir SVG con licencia y crédito~~ | **Hecho en la iteración 2**: `scripts/fetch-sign-images.mjs` descarga de Commons lo que existe y guarda autor y licencia en `data/creditos.json`. Queda T-02b |
+| T-02b | Cotejar los SVG descargados con la edición 2025 del catálogo | Las señales rediseñadas usan el dibujo nuevo; las que no, lo indican |
+| T-03 | Subir a nivel A las 80 señales más preguntadas (acción, error típico, relacionadas) | 80 fichas con nota curada; hoy hay 20 |
 | T-04 | Añadir semáforos, agentes y balizamiento como entradas propias | Existen fichas de las tres categorías en `/senales` |
 
 ## Prioridad 2 — verificación editorial del temario

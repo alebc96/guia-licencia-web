@@ -9,8 +9,17 @@ Fecha de corte normativo: **2026-11-11**.
 | Reglamento General de Circulación, RD 1428/2003 (texto consolidado) | Normas de circulación, señales, velocidades, maniobras, alumbrado | Citado; texto consultado |
 | Ley de Tráfico y Seguridad Vial, RDL 6/2015 | Infracciones, sanciones, permiso por puntos | Citado; pendiente de cotejo cifra a cifra |
 | Reglamento General de Conductores, RD 818/2009 | Permisos, vigencia, centros de reconocimiento | Citado; pendiente de cotejo |
-| RD 465/2025 (nuevo catálogo de señales) | Catálogo de señales | **Referenciado, no auditado**: el anexo con las 315 fichas no se ha volcado todavía |
+| RD 465/2025 (nuevo catálogo de señales) | Catálogo de señales | **Auditado**: catálogo de señales verticales (Tomo I) extraído del PDF del BOE a `data/catalogo-oficial.json` con 394 códigos, nombres y definiciones. El PDF no se versiona; el script `extract-catalog.mjs` lo regenera |
 | RD 518/2026 (usuarios vulnerables) | Tema 11 y normas urbanas | Referenciado desde `PLAN.md`; falta contrastar la numeración del título urbano |
+
+## Catálogo oficial de señales
+
+- Documento: Catálogo de señales verticales de circulación, Tomo I. Definición de
+  las señales, publicado con el RD 465/2025 (BOE núm. 145, 17/06/2025).
+- Enlace: <https://www.boe.es/eli/es/rd/2025/06/10/465>
+- Extracción: `pdftotext -layout` + `scripts/extract-catalog.mjs`.
+- Arte: los SVG se descargan de Wikimedia Commons con autor y licencia en
+  `data/creditos.json`.
 
 ## Páginas oficiales de la DGT
 
