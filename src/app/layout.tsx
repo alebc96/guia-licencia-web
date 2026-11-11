@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { GlobalNav } from "@/components/layout/GlobalNav";
 import { Footer } from "@/components/layout/Footer";
@@ -7,8 +7,14 @@ import { ProgressProvider } from "@/components/progress/ProgressProvider";
 import { loadTemas } from "@/lib/content";
 import { BASE_PATH, SITE, publicUrl } from "@/lib/constants";
 
-const inter = Inter({
-  subsets: ["latin"],
+/**
+ * Inter is vendored as a woff2 (latin subset, variable weights) instead of being
+ * downloaded by `next/font/google`: the build and the dev server must work
+ * offline, and self-hosting is what the plan asked for. Licence: SIL OFL 1.1,
+ * see src/fonts/OFL.txt.
+ */
+const inter = localFont({
+  src: [{ path: "../fonts/inter-latin-wght-normal.woff2", weight: "100 900", style: "normal" }],
   display: "swap",
   variable: "--font-inter",
   fallback: ["system-ui", "sans-serif"],
