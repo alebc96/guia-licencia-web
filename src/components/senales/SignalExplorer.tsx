@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FAMILY_LABELS } from "@/lib/constants";
 import { filterSenales, countByFamily, type SignalFilter } from "@/lib/catalog";
 import { SignalCard, type SignalCardData } from "./SignalCard";
@@ -18,14 +18,24 @@ const FAMILY_OPTIONS: Array<{ value: SignalFilter["family"]; label: string }> = 
   })),
 ];
 
+const PAGE_SIZE = 48;
+
 /** Client-side catalogue filter: no reload, keyboard friendly, no hidden state. */
 export function SignalExplorer({ signals }: { signals: ExplorerSignal[] }) {
   const [family, setFamily] = useState<SignalFilter["family"]>("todas");
   const [query, setQuery] = useState("");
+  const [limit, setLimit] = useState(PAGE_SIZE);
 
   const counts = useMemo(() => countByFamily(signals), [signals]);
 
-  const visible = useMemo(() => filterSenales(signals, { family, query }), [signals, family, query]);
+  const matched = useMemo(() => filterSenales(signals, { family, query }), [signals, family, query]);
+
+  // A new filter starts from the first page again.
+  useEffect(() => {
+    setLimit(PAGE_SIZE);
+  }, [family, query]);
+
+  const visible = matched.slice(0, limit);
 
   return (
     <div className="stack-lg">
@@ -62,7 +72,7 @@ export function SignalExplorer({ signals }: { signals: ExplorerSignal[] }) {
       </div>
 
       <p className="t-caption muted" role="status" aria-live="polite">
-        {visible.length} {visible.length === 1 ? "señal" : "señales"}
+        {matched.length} {matched.length === 1 ? "señal" : "señales"}
         {family !== "todas" ? ` en ${FAMILY_LABELS[family as keyof typeof FAMILY_LABELS]}` : ""}
         {query ? ` para «${query}»` : ""}.
       </p>
@@ -80,17 +90,28 @@ export function SignalExplorer({ signals }: { signals: ExplorerSignal[] }) {
             onClick={() => {
               setQuery("");
               setFamily("todas");
+              setLimit(PAGE_SIZE);
             }}
           >
             Limpiar filtros
           </button>
         </div>
       ) : (
-        <div className="sign-grid">
-          {visible.map((senal) => (
-            <SignalCard key={senal.code} senal={senal} />
-          ))}
-        </div>
+        <>
+          <div className="sign-grid">
+            {visible.map((senal) => (
+              <SignalCard key={senal.code} senal={senal} />
+            ))}
+          </div>
+
+          {matched.length > visible.length ? (
+            <div className="row" style={{ justifyContent: "center" }}>
+              <button type="button" className="btn btn-ghost" onClick={() => setLimit((value) => value + PAGE_SIZE)}>
+                Ver más señales ({matched.length - visible.length} restantes)
+              </button>
+            </div>
+          ) : null}
+        </>
       )}
     </div>
   );

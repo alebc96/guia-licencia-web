@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { loadTemas } from "@/lib/content";
-import { BLOCK_LABELS, EXAM_WEIGHT_LABELS } from "@/lib/constants";
+import { EXAM_WEIGHT_LABELS } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import { SubNav } from "@/components/layout/SubNav";
 import { TopicCard, type TopicSummary } from "@/components/temario/TopicCard";
@@ -15,7 +15,6 @@ export const metadata: Metadata = buildMetadata({
 export default function TemarioPage() {
   const temas = loadTemas();
 
-  const blocks = Array.from(new Set(temas.map((tema) => tema.block)));
   const totalMinutes = temas.reduce((total, tema) => total + tema.readingTime, 0);
 
   return (
@@ -32,8 +31,7 @@ export default function TemarioPage() {
 
       <section className="tile tile-parchment">
         <div className="container">
-          <p className="eyebrow">Ruta de estudio</p>
-          <h1 className="t-display-lg" style={{ marginTop: 8 }}>
+          <h1 className="t-display-lg">
             Diecisiete temas, en el orden que funciona
           </h1>
           <p className="t-lead" style={{ marginTop: 16, maxWidth: 680 }}>
@@ -41,15 +39,6 @@ export default function TemarioPage() {
             se lee en {Math.round(totalMinutes / Math.max(temas.length, 1))} minutos de media y termina con las fuentes
             oficiales.
           </p>
-          <div className="row" style={{ marginTop: 24 }}>
-            {blocks.map((block) => (
-              <span key={block} className="badge">
-                {BLOCK_LABELS[block as keyof typeof BLOCK_LABELS] ?? block} ·{" "}
-                {temas.filter((tema) => tema.block === block).length}
-              </span>
-            ))}
-            <span className="badge">{totalMinutes} min de lectura</span>
-          </div>
         </div>
       </section>
 

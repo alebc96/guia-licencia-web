@@ -57,6 +57,25 @@ resultados, `prefers-reduced-motion`, `aria-label` completo en cada SVG de seña
 | Top nav con «anillo de progreso» separado | Anillo integrado en el enlace a `/progreso` | Menos ruido visual y un solo destino |
 | Página `/buscar` con Ctrl+K | `/buscar` accesible desde la nav | El atajo global se pospone: hoy no hay componente de diálogo |
 
+## Ajustes de la revisión de diseño (iteración 2)
+
+El usuario rechazó tres patrones que se habían extendido por todas las páginas
+porque abarataban el resultado:
+
+1. **Eyebrow sobre cada titular** («Prueba de circulación», «Vocabulario»,
+   «Catálogo»…). Fuera. El titular solo, sin subtítulo de relleno. La única
+   excepción es la línea de identidad del hero.
+2. **Contadores en las cabeceras de sección** («20 enlaces», «Fichas por
+   familia: …»). Fuera: el número no aporta al lector y parece relleno.
+3. **Fila de etiquetas bajo el título** («12 min de lectura», «Peso Media»,
+   «Actualizado…», «Contenido pendiente de revisión»). Fuera. En la ficha del
+   tema queda una sola línea en cuerpo pequeño: «Tema 10 de 17 · 11 min de
+   lectura».
+
+Regla general que se deriva de esto: **si un dato no cambia lo que el lector
+hace, no se muestra**. Y si hay que mostrarlo, va en texto corrido, no en una
+etiqueta.
+
 ## Reglas para futuras pantallas
 
 1. No añadir un segundo color de marca: la jerarquía se hace con tipografía y
@@ -66,3 +85,5 @@ resultados, `prefers-reduced-motion`, `aria-label` completo en cada SVG de seña
 4. Cualquier valor nuevo se convierte primero en token.
 5. Cada componente nuevo entra con su clase en `globals.css`, no con estilos en
    línea.
+6. Nada de `eyebrow` ni de `badge` decorativos: solo se admite el badge que
+   comunica un estado real (por ejemplo, una norma en tramitación).

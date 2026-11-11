@@ -42,28 +42,22 @@ export default function RecursosPage() {
 
       <section className="tile tile-parchment">
         <div className="container">
-          <p className="eyebrow">Fuentes</p>
-          <h1 className="t-display-lg" style={{ marginTop: 8 }}>
+          <h1 className="t-display-lg">
             De dónde sale cada dato
           </h1>
           <p className="t-lead" style={{ marginTop: 16, maxWidth: 680 }}>
             Esta guía se redacta desde los textos legales y las páginas oficiales. Los materiales externos sirven para
             ampliar, nunca como autoridad.
           </p>
-          <div className="row" style={{ marginTop: 24 }}>
-            <span className="badge">{recursos.length} recursos enlazados</span>
-            <span className="badge">Sin enlaces de pago presentados como gratuitos</span>
-          </div>
         </div>
       </section>
 
       {grouped.map((group) => (
         <section key={group.type} className="tile tile-light">
           <div className="container">
-            <div className="section-head">
-              <h2 className="t-display-md">{group.label}</h2>
-              <span className="t-caption muted">{group.items.length} enlaces</span>
-            </div>
+            <h2 className="t-display-md" style={{ marginBottom: 16 }}>
+              {group.label}
+            </h2>
             <ul className="plain-list">
               {group.items.map((recurso) => (
                 <li key={recurso.url} className="resource-item">

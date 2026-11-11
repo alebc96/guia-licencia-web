@@ -10,14 +10,9 @@ export function SignalFeature({ senales }: { senales: Senal[] }) {
     <section className="tile tile-dark" aria-labelledby="signals-title">
       <div className="container">
         <div className="section-head">
-          <div>
-            <p className="eyebrow" style={{ color: "var(--color-primary-on-dark)" }}>
-              Catálogo
-            </p>
-            <h2 id="signals-title" className="t-display-lg">
-              Cada señal. Qué significa y qué hacer.
-            </h2>
-          </div>
+          <h2 id="signals-title" className="t-display-lg">
+            Cada señal. Qué significa y qué hacer.
+          </h2>
           <Link href="/senales" className="btn btn-primary">
             Abrir el catálogo
           </Link>

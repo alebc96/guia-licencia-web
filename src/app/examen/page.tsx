@@ -61,8 +61,7 @@ export default function ExamenPage() {
 
       <section className="tile tile-parchment">
         <div className="container">
-          <p className="eyebrow">Prueba teórica</p>
-          <h1 className="t-display-lg" style={{ marginTop: 8 }}>
+          <h1 className="t-display-lg">
             Treinta preguntas. Tres fallos.
           </h1>
           <p className="t-lead" style={{ marginTop: 16, maxWidth: 680 }}>

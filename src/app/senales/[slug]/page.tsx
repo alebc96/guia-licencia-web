@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { loadSenal, loadSenales } from "@/lib/content";
 import { relatedSenales } from "@/lib/catalog";
-import { FAMILY_LABELS } from "@/lib/constants";
+import { FAMILY_LABELS, SHAPE_LABELS, SUBFAMILY_LABELS } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import { SignalImage } from "@/components/senales/SignalImage";
 import { SignalCard, toCardData } from "@/components/senales/SignalCard";
@@ -57,30 +57,32 @@ export default async function SenalPage({ params }: PageProps) {
             </div>
 
             <div className="stack">
-              <div className="row">
-                <span className="badge">{senal.code}</span>
-                <span className="badge">{familyLabel}</span>
-                {senal.isNew ? <span className="badge badge--new">Catálogo nuevo</span> : null}
-                {senal.verified ? null : <span className="badge badge--pending">Pendiente de verificar</span>}
-              </div>
-
+              <p className="t-fine muted">
+                {senal.code} · {familyLabel}
+              </p>
               <h1 className="t-display-lg">{senal.name}</h1>
               <p className="t-lead">{senal.meaning}</p>
 
-              <div className="keyfacts">
-                <div className="keyfact">
-                  <p className="keyfact__label">Qué haces</p>
-                  <p className="keyfact__value" style={{ fontSize: 17 }}>
-                    {senal.action}
-                  </p>
+              {senal.action || senal.where ? (
+                <div className="keyfacts">
+                  {senal.action ? (
+                    <div className="keyfact">
+                      <p className="keyfact__label">Qué haces</p>
+                      <p className="keyfact__value" style={{ fontSize: 17 }}>
+                        {senal.action}
+                      </p>
+                    </div>
+                  ) : null}
+                  {senal.where ? (
+                    <div className="keyfact">
+                      <p className="keyfact__label">Dónde aparece</p>
+                      <p className="keyfact__value" style={{ fontSize: 17 }}>
+                        {senal.where}
+                      </p>
+                    </div>
+                  ) : null}
                 </div>
-                <div className="keyfact">
-                  <p className="keyfact__label">Dónde aparece</p>
-                  <p className="keyfact__value" style={{ fontSize: 17 }}>
-                    {senal.where}
-                  </p>
-                </div>
-              </div>
+              ) : null}
 
               {senal.mistake ? (
                 <div className="callout">
@@ -108,14 +110,14 @@ export default async function SenalPage({ params }: PageProps) {
               <dl className="meta-list">
                 <dt>Familia</dt>
                 <dd>{familyLabel}</dd>
-                <dt>Subfamilia</dt>
-                <dd>{senal.subfamily}</dd>
+                <dt>Tipo</dt>
+                <dd>{SUBFAMILY_LABELS[senal.subfamily] ?? senal.subfamily}</dd>
                 <dt>Forma</dt>
-                <dd>{senal.shape}</dd>
+                <dd>{SHAPE_LABELS[senal.shape] ?? senal.shape}</dd>
                 <dt>Colores</dt>
                 <dd>{senal.colors.join(", ")}</dd>
-                <dt>Nivel de ficha</dt>
-                <dd>{senal.tier}</dd>
+                <dt>Ficha</dt>
+                <dd>{senal.tier === "A" ? "Curada (definición, acción y error típico)" : "Definición oficial del catálogo"}</dd>
                 <dt>Fuente oficial</dt>
                 <dd>{senal.officialSource}</dd>
                 <dt>Crédito de imagen</dt>

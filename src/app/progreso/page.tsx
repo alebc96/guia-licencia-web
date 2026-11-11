@@ -27,8 +27,7 @@ export default function ProgresoPage() {
 
       <section className="tile tile-parchment">
         <div className="container">
-          <p className="eyebrow">Tu avance</p>
-          <h1 className="t-display-lg" style={{ marginTop: 8 }}>
+          <h1 className="t-display-lg">
             Nada de cuentas: tu progreso vive en este navegador
           </h1>
           <p className="t-lead" style={{ marginTop: 16, maxWidth: 640 }}>

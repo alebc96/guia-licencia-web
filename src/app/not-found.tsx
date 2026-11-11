@@ -4,8 +4,7 @@ export default function NotFound() {
   return (
     <section className="tile tile-parchment">
       <div className="container-read" style={{ textAlign: "center", paddingBlock: 64 }}>
-        <p className="eyebrow">Error 404</p>
-        <h1 className="t-hero" style={{ marginTop: 8 }}>
+        <h1 className="t-hero">
           Esta página no existe
         </h1>
         <p className="t-lead" style={{ marginTop: 16 }}>

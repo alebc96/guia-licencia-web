@@ -7,12 +7,9 @@ export function TopicGrid({ topics }: { topics: TopicSummary[] }) {
     <section className="tile tile-parchment" aria-labelledby="topic-grid-title">
       <div className="container">
         <div className="section-head">
-          <div>
-            <p className="eyebrow">Ruta de estudio</p>
-            <h2 id="topic-grid-title" className="t-display-md">
-              Tus 17 temas
-            </h2>
-          </div>
+          <h2 id="topic-grid-title" className="t-display-md">
+            Tus 17 temas
+          </h2>
           <Link href="/temario" className="btn-link">
             Ver el temario completo
           </Link>

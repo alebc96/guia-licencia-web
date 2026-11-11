@@ -7,12 +7,9 @@ export function NormativeTimeline() {
     <section className="tile tile-light" aria-labelledby="changelog-title">
       <div className="container">
         <div className="section-head">
-          <div>
-            <p className="eyebrow">Actualizado</p>
-            <h2 id="changelog-title" className="t-display-md">
-              Qué ha cambiado en la normativa
-            </h2>
-          </div>
+          <h2 id="changelog-title" className="t-display-md">
+            Qué ha cambiado en la normativa
+          </h2>
           <span className="t-caption muted">Fecha de corte: 11/11/2026</span>
         </div>
 

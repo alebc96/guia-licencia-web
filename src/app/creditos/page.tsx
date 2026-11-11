@@ -24,8 +24,7 @@ export default function CreditosPage() {
 
       <section className="tile tile-parchment">
         <div className="container-read">
-          <p className="eyebrow">Legal</p>
-          <h1 className="t-display-lg" style={{ marginTop: 8 }}>
+          <h1 className="t-display-lg">
             Aviso legal y créditos
           </h1>
           <p className="t-lead" style={{ marginTop: 16 }}>{SITE.disclaimer}</p>

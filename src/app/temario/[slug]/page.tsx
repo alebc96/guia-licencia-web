@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { loadTema, loadTemas } from "@/lib/content";
 import { extractHeadings } from "@/lib/markdown";
-import { BLOCK_LABELS, EXAM_WEIGHT_LABELS, SITE } from "@/lib/constants";
+import { SITE } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import { SubNav } from "@/components/layout/SubNav";
 import { Markdown } from "@/components/content/Markdown";
@@ -58,22 +58,16 @@ export default async function TemaPage({ params }: PageProps) {
 
       <section className="tile tile-parchment">
         <div className="container-read" style={{ maxWidth: 880 }}>
-          <p className="eyebrow">
-            Tema {String(tema.order).padStart(2, "0")} · {BLOCK_LABELS[tema.block] ?? tema.block}
-          </p>
-          <h1 className="t-display-lg" style={{ marginTop: 8 }}>
+          <h1 className="t-display-lg">
             {tema.title}
           </h1>
           <p className="t-lead" style={{ marginTop: 16 }}>
             {tema.description}
           </p>
 
-          <div className="row" style={{ marginTop: 20 }}>
-            <span className="badge">{tema.readingTime} min de lectura</span>
-            <span className="badge">Peso {EXAM_WEIGHT_LABELS[tema.examWeight] ?? tema.examWeight}</span>
-            <span className="badge">Actualizado el {formatSpanishDate(tema.updated)}</span>
-            {tema.verified ? null : <span className="badge badge--pending">Contenido pendiente de revisión</span>}
-          </div>
+          <p className="t-fine muted" style={{ marginTop: 16 }}>
+            Tema {String(tema.order).padStart(2, "0")} de {temas.length} · {tema.readingTime} min de lectura
+          </p>
 
           <div className="keyfacts" style={{ marginTop: 32 }}>
             {tema.keyFacts.map((fact) => (

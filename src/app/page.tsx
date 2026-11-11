@@ -45,12 +45,9 @@ export default function HomePage() {
       <section className="tile tile-parchment" aria-labelledby="practice-title">
         <div className="container">
           <div className="section-head">
-            <div>
-              <p className="eyebrow">Después del teórico</p>
-              <h2 id="practice-title" className="t-display-md">
-                El práctico no se aprueba de memoria
-              </h2>
-            </div>
+            <h2 id="practice-title" className="t-display-md">
+              El práctico no se aprueba de memoria
+            </h2>
             <Link href="/practico" className="btn-link">
               Ver el examen práctico
             </Link>

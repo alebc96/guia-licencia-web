@@ -45,19 +45,13 @@ export default function PracticoPage() {
 
       <section className="tile tile-parchment">
         <div className="container">
-          <p className="eyebrow">Prueba de circulación</p>
-          <h1 className="t-display-lg" style={{ marginTop: 8 }}>
+          <h1 className="t-display-lg">
             El práctico se aprueba conduciendo con criterio
           </h1>
           <p className="t-lead" style={{ marginTop: 16, maxWidth: 680 }}>
             El examinador no busca perfección: busca que circules con seguridad, respetes la prioridad y resuelvas las
             maniobras sin poner a nadie en peligro.
           </p>
-          <div className="row" style={{ marginTop: 24 }}>
-            <span className="badge">Duración aproximada: 25 minutos</span>
-            <span className="badge">Incluye una maniobra obligatoria</span>
-            <span className="badge">Puede empezar en vía urbana o interurbana</span>
-          </div>
         </div>
       </section>
 
