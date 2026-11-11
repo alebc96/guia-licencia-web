@@ -1,0 +1,48 @@
+# Tareas pendientes
+
+Backlog vivo. Ordenado por impacto. Cada tarea dice qué falta, por qué importa y
+cómo se sabe que está hecha. Las que están bloqueadas lleva la nota «(pendiente
+de X)».
+
+## Prioridad 1 — contenido del catálogo de señales
+
+| ID | Tarea | Hecho cuando |
+|---|---|---|
+| T-01 | Auditar el anexo del catálogo oficial del BOE y volcar los 315 códigos verticales y las ~126 marcas en `data/senales.txt` | Cada fila tiene código, nombre y familia contrastados con el anexo; `npm run generate:signs` genera las fichas sin duplicados |
+| T-02 | Conseguir SVG de las señales con licencia y crédito (Wikimedia Commons) y sustituir los pictogramas esquemáticos | Cada ficha apunta a un SVG con autor, licencia y enlace a la fuente; `docs/cobertura-senales.md` al 100 % |
+| T-03 | Subir a nivel A las 80 señales más preguntadas (significado, acción, error típico, relacionadas) | Fichas con texto propio y `verified: true` |
+| T-04 | Añadir semáforos, agentes y balizamiento como entradas propias | Existen fichas de las tres categorías en `/senales` |
+
+## Prioridad 2 — verificación editorial del temario
+
+| ID | Tarea | Hecho cuando |
+|---|---|---|
+| T-05 | Revisar los 17 temas contra BOE/DGT y marcar `verified: true` | Los 17 tienen `verified: true` y `docs/fuentes.md` refleja la fecha de revisión |
+| T-06 | Verificar las cifras que no están en `PLAN.md` y que escribieron los redactores (sanciones, puntos por infracción, intervalo de ITV, ratios de RCP, distancias de frenada) | Cada cifra tiene fuente citada en el tema o se ha eliminado |
+| T-07 | Revisar el alcance exacto de la regla de 5 m a ciclistas en vía urbana y el régimen del carril de emergencia | Texto ajustado a la redacción del reglamento, sin paráfrasis dudosas |
+| T-08 | Confirmar la numeración del título urbano del RD 518/2026 | La referencia es literal o no se cita |
+
+## Prioridad 3 — calidad técnica
+
+| ID | Tarea | Hecho cuando |
+|---|---|---|
+| T-09 | Añadir Playwright con el recorrido completo (inicio → tema → señal → progreso → búsqueda) | `npm run test:e2e` recorre el flujo en CI |
+| T-10 | Medir Lighthouse y dejarlo ≥ 95/95/95/95 | Informe adjunto en `docs/estado.md` |
+| T-11 | Añadir `npm run check:links` a la CI semanal | Workflow con `schedule` que falla si un enlace oficial desaparece |
+| T-12 | Comprimir las imágenes y servir AVIF/WebP donde aplique | Hero con `srcset` y peso < 100 KB |
+| T-13 | Configurar `sitemap.xml` con `lastmod` real por página | Cada tema usa su propia fecha de `updated` (ya implementado; falta revisar el resultado) |
+
+## Prioridad 4 — producto
+
+| ID | Tarea | Hecho cuando |
+|---|---|---|
+| T-14 | Exportar e importar el progreso en JSON | Botón que descarga y restaura el estado local |
+| T-15 | Página «Novedades» con el changelog normativo completo | `/novedades` enlazada desde el footer |
+| T-16 | Reducir la duplicación de cabeceras de sección en las páginas de contenido | Componente `SectionHeader` único |
+| T-17 | Valorar Netlify/Vercel como despliegue alternativo documentado | Una sección del README con los pasos exactos |
+
+## Pendiente de decisión del usuario
+
+- Dominio propio (hoy se publica en GitHub Pages).
+- Si se quiere alguna foto editorial real en la portada (hoy es ilustración propia
+  para no arrastrar licencias).
