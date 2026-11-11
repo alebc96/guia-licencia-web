@@ -10,7 +10,6 @@ No es una lista de deseos: cada entrada se aceptó por una razón concreta.
 | DT-03 | Los pictogramas de señales son esquemáticos, no oficiales | Publicar 441 dibujos oficiales exige resolver licencias y descargas, y el riesgo de una señal mal dibujada es educativo | La web no sirve como referencia gráfica fiel | Sustituir por SVG de Commons con crédito (T-02) |
 | DT-04 | Catálogo incompleto: 19 de ~441 fichas | Auditar el anexo oficial es trabajo de varias sesiones y no se quiso inventar ningún código | La sección Señales es la más floja del producto | T-01 a T-04 |
 | DT-05 | Contenido de los temas con `verified: false` | Los redactores trabajaron desde `PLAN.md` y la norma, sin cotejo final uno a uno | Puede haber cifras desactualizadas y se avisa en la interfaz | T-05 a T-08 |
-| DT-06 | `next/font/google` descarga Inter en cada build | Self-hostear exige versionar el `.woff2` en el repo | El build necesita red; en CI es aceptable | Mover Inter a `public/fonts` con `next/font/local` |
 | DT-07 | Sin tests de extremo a extremo | No había todavía un flujo con volumen suficiente para que aportaran | Las regresiones de navegación se detectan tarde | Playwright (T-09) |
 | DT-08 | Buscador solo en producción | Pagefind indexa `out/`, no el servidor de desarrollo | Confusión al probar la búsqueda en `dev` | Mostrar aviso explícito (ya implementado) y documentar en README |
 | DT-09 | `tsconfig.json` no incluye `tests/` ni `scripts/` | El type-check de Next debe quedarse en el código de la app | Los tests no se validan con `tsc` | Añadir un `tsconfig.test.json` con `tsc --noEmit` en CI |
@@ -20,4 +19,6 @@ No es una lista de deseos: cada entrada se aceptó por una razón concreta.
 
 ## Deuda cerrada
 
-Ninguna todavía: la iteración 1 es la primera.
+| ID | Deuda | Cómo se cerró |
+|---|---|---|
+| DT-06 | `next/font/google` descargaba Inter en cada build | `fonts.gstatic.com` empezó a dar timeout y todas las rutas de `dev` devolvían 500. Inter pasa a `src/fonts/inter-latin-wght-normal.woff2` (subset latin variable, 48 KB) con `next/font/local` y su licencia OFL en `src/fonts/OFL.txt`. Build y dev funcionan sin red. |

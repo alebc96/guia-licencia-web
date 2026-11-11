@@ -90,8 +90,16 @@ Docker y despliegue público.
 | `npx next build` | 50 páginas estáticas sin errores |
 | `node scripts/generate-signs.mjs --check` | 19 señales sincronizadas |
 | `node scripts/check-content.mjs` | 17 temas, 19 señales, 20 recursos, 49 términos |
-| `npm test` | ver informe de la iteración |
-| `docker compose up --build` | ver informe de la iteración |
+| `npm test` | 6 archivos, 85 pruebas en verde |
+| `docker compose up --build` | imagen nginx en el puerto 8080 con healthcheck |
+| `gh run` (Pages) | despliegue publicado en https://alebc96.github.io/guia-licencia-web/ |
+
+### Incidencia resuelta durante la iteración
+
+`next/font/google` dejó de poder descargar Inter (`fonts.gstatic.com` daba
+timeout) y todas las rutas del servidor de desarrollo respondían 500. Se vendorizó
+la fuente en `src/fonts` con `next/font/local` y su licencia OFL, lo que además
+cierra la deuda DT-06 y hace que build y dev funcionen sin red.
 
 ### Lo que no se hizo (y por qué)
 

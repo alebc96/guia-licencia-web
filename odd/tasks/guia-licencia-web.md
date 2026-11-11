@@ -2,7 +2,8 @@
 
 Guía de estudio estática, responsive y accesible para el teórico del permiso B, construida con Next.js 16 y exportación estática, con contenido en Markdown como fuente de verdad.
 Fuente de diseño y de contenido: `PLAN.md` (plan de investigación previo del usuario).
-Estado: en curso. Iteración 1 = aplicación completa + catálogo inicial + Docker + despliegue.
+Estado: iteración 1 completada (aplicación, contenido, pruebas, Docker, despliegue). Iteración 2 = catálogo completo.
+Sustitución de spec: la decisión «sin tests» de `PLAN.md` queda anulada por S4.
 
 ## Specs
 
@@ -20,18 +21,18 @@ Estado: en curso. Iteración 1 = aplicación completa + catálogo inicial + Dock
 
 | ID | Tarea | Specs | Ruta | Commit |
 |---|---|---|---|---|
-| T1 | Repositorio, scaffold Next.js 16 + TypeScript, configuración de exportación estática y arnés de pruebas | S1, S4 | inline | (pendiente) |
-| T2 | Sistema de diseño: tokens, tipografía, base CSS, componentes UI | S1 | inline | (pendiente) |
-| T3 | Shell: layout raíz, nav global, sub-nav, menú móvil, footer, 404 | S1 | inline | (pendiente) |
-| T4 | Modelo de contenido: esquemas Zod, cargadores, SEO, tabla de contenidos | S1, S4 | inline | (pendiente) |
-| T5 | Contenido de los 17 temas del temario | S1 | writer | (pendiente) |
-| T6 | Catálogo de señales: datos, generador de SVG, índice y fichas | S1 | inline | (pendiente) |
-| T7 | Páginas especiales: /examen, /practico, /recursos, /glosario, /creditos | S1 | inline | (pendiente) |
-| T8 | Progreso en localStorage y búsqueda con Pagefind | S1, S5 | inline | (pendiente) |
-| T9 | Pruebas automáticas de cada unidad y check de contenido | S4 | inline | (pendiente) |
-| T10 | Documentación: MEMORY.md, estado, tareas, deuda técnica, fuentes, diseño | S2, S3 | inline | (pendiente) |
-| T11 | Imagen Docker + compose + prueba de arranque | S8 | inline | (pendiente) |
-| T12 | Repositorio en GitHub, push y despliegue público automatizado | S6, S7 | inline | (pendiente) |
+| T1 | Repositorio, scaffold Next.js 16 + TypeScript, configuración de exportación estática y arnés de pruebas | S1, S4 | inline | `a212d76` |
+| T2 | Sistema de diseño: tokens, tipografía, base CSS, componentes UI | S1 | inline | `493caa0` |
+| T3 | Shell: layout raíz, nav global, sub-nav, menú móvil, footer, 404 | S1 | inline | `493caa0` |
+| T4 | Modelo de contenido: esquemas Zod, cargadores, SEO, tabla de contenidos | S1, S4 | inline | `b18710d` |
+| T5 | Contenido de los 17 temas del temario | S1 | writer | `4e73f12` |
+| T6 | Catálogo de señales: datos, generador de SVG, índice y fichas | S1 | inline | `0cb55e9` |
+| T7 | Páginas especiales: /examen, /practico, /recursos, /glosario, /creditos | S1 | inline | `a4b31fe` |
+| T8 | Progreso en localStorage y búsqueda con Pagefind | S1, S5 | inline | `a4b31fe` |
+| T9 | Pruebas automáticas de cada unidad y check de contenido | S4 | inline | `026a631` |
+| T10 | Documentación: MEMORY.md, estado, tareas, deuda técnica, fuentes, diseño | S2, S3 | inline | `18d691a` |
+| T11 | Imagen Docker + compose + prueba de arranque | S8 | inline | `472de1c` |
+| T12 | Repositorio en GitHub, push y despliegue público automatizado | S6, S7 | inline | `472de1c` |
 
 ## Log
 

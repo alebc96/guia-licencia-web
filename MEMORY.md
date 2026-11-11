@@ -6,7 +6,7 @@ vive en `docs/` (estado, tareas, deuda técnica, fuentes, diseño, cobertura del
 catálogo) y el plan original está en `PLAN.md`.
 
 - **Última actualización:** 2026-11-11
-- **Iteración actual:** 1 (aplicación completa, catálogo inicial, Docker, despliegue)
+- **Iteración actual:** 1 (aplicación completa, catálogo inicial, Docker, despliegue en GitHub Pages)
 - **Documento de trabajo ODD:** `odd/tasks/guia-licencia-web.md`
 
 ---
@@ -33,7 +33,7 @@ fuera de alcance por decisión del usuario.
 | Contenido | Markdown + `gray-matter` + `next-mdx-remote/rsc` + Zod |
 | Búsqueda | Pagefind, indexado después del build (`npm run build:search`) |
 | Tests | Vitest 5 + Testing Library, más `npm run check:content` |
-| Tipografía | Inter vía `next/font/google`; en Apple gana `-apple-system` (SF Pro) |
+| Tipografía | Inter self-hosted en `src/fonts` (`next/font/local`); en Apple gana `-apple-system` (SF Pro) |
 | Servidor de producción | Imagen Docker multi-etapa con nginx (puerto 8080) |
 | Despliegue público | GitHub Pages con GitHub Actions (sin tokens extra) |
 
@@ -114,6 +114,10 @@ odd/tasks/          documento ODD de la feature
    El ejemplo de `PLAN.md` §6.1 está desactualizado.
 7. **`next build` reescribe `tsconfig.json`** (jsx y el include de tipos). Es
    esperado; no revertirlo.
+8. **Nunca volver a `next/font/google`**: `fonts.gstatic.com` da timeout en esta
+   red y tumba todas las rutas de `dev` con un 500. Inter está vendorizada.
+9. **`next dev` genera `AGENTS.md`** si no se desactiva; aquí está desactivado con
+   `agentRules: false` porque la memoria del proyecto es `MEMORY.md`.
 
 ---
 
@@ -125,7 +129,9 @@ odd/tasks/          documento ODD de la feature
 - Catálogo **incompleto a propósito**: 19 de ~441 entradas. Es la parte que exige
   auditoría del catálogo oficial (`docs/cobertura-senales.md`).
 - Suite de pruebas y checks de contenido en `npm run verify`.
-- Imagen Docker y despliegue en GitHub Pages.
+- Imagen Docker (nginx en 8080) y despliegue en GitHub Pages:
+  https://alebc96.github.io/guia-licencia-web/
+- `npm run dev` en http://localhost:3000 con las 13 rutas en 200.
 
 ## 7. Lo siguiente, en orden
 
