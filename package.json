@@ -1,0 +1,44 @@
+{
+  "name": "guia-licencia-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Guía de estudio web para el teórico del permiso B (España)",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && npm run build:search",
+    "build:search": "pagefind --site out",
+    "start": "npx serve out -l 3000",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check:content": "node scripts/check-content.mjs",
+    "check:links": "node scripts/check-links.mjs",
+    "generate:signs": "node scripts/generate-signs.mjs",
+    "check:signs": "node scripts/generate-signs.mjs --check",
+    "verify": "npm run test && npm run check:signs && npm run check:content"
+  },
+  "dependencies": {
+    "gray-matter": "4.0.3",
+    "next": "16.4.6",
+    "next-mdx-remote": "6.0.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "rehype-slug": "6.0.0",
+    "remark-gfm": "4.0.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "24.10.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.3.0",
+    "jsdom": "31.0.0",
+    "pagefind": "1.6.0",
+    "typescript": "5.9.3",
+    "vitest": "5.1.0"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

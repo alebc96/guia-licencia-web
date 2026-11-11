@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" width="640" height="420" role="img" aria-label="Carretera de dos carriles con señales de tráfico">
+  <rect width="640" height="420" fill="#f5f5f7"/>
+  <rect y="232" width="640" height="188" fill="#fafafc"/>
+  <!-- horizon line -->
+  <rect y="231" width="640" height="1" fill="#e0e0e0"/>
+  <!-- vanishing road -->
+  <path d="M300 232 L340 232 L470 420 L170 420 Z" fill="#3a3a3c"/>
+  <!-- centre dashes -->
+  <path d="M319 240 L321 240 L322 258 L318 258 Z" fill="#ffffff"/>
+  <path d="M316 270 L324 270 L326 292 L314 292 Z" fill="#ffffff"/>
+  <path d="M312 308 L328 308 L331 340 L309 340 Z" fill="#ffffff"/>
+  <path d="M306 362 L334 362 L339 404 L301 404 Z" fill="#ffffff"/>
+  <!-- road edge lines -->
+  <path d="M300 232 L170 420" stroke="#ffffff" stroke-width="3" fill="none"/>
+  <path d="M340 232 L470 420" stroke="#ffffff" stroke-width="3" fill="none"/>
+  <!-- road sign: prohibición -->
+  <rect x="150" y="196" width="4" height="46" fill="#7a7a7a"/>
+  <circle cx="152" cy="186" r="26" fill="#ffffff" stroke="#c8102e" stroke-width="8"/>
+  <rect x="136" y="183" width="32" height="7" rx="3.5" fill="#1d1d1f"/>
+  <!-- road sign: peligro -->
+  <rect x="492" y="204" width="4" height="38" fill="#7a7a7a"/>
+  <path d="M494 148 L526 202 L462 202 Z" fill="#ffffff" stroke="#c8102e" stroke-width="7" stroke-linejoin="round"/>
+  <rect x="490" y="178" width="8" height="14" rx="4" fill="#1d1d1f"/>
+  <rect x="490" y="164" width="8" height="8" rx="4" fill="#1d1d1f"/>
+  <!-- car ahead on the road -->
+  <g opacity="0.95">
+    <path d="M286 300 q6 -18 26 -18 q20 0 26 18 l6 14 q3 10 -8 10 l-48 0 q-11 0 -8 -10 z" fill="#1d1d1f"/>
+    <circle cx="296" cy="316" r="5" fill="#f5f5f7"/>
+    <circle cx="328" cy="316" r="5" fill="#f5f5f7"/>
+  </g>
+</svg>
