@@ -30,7 +30,7 @@ de X)».
 | T-10 | Medir Lighthouse y dejarlo ≥ 95/95/95/95 | Informe adjunto en `docs/estado.md` |
 | T-11 | Añadir `npm run check:links` a la CI semanal | Workflow con `schedule` que falla si un enlace oficial desaparece |
 | T-12 | Comprimir las imágenes y servir AVIF/WebP donde aplique | Hero con `srcset` y peso < 100 KB |
-| T-13 | Configurar `sitemap.xml` con `lastmod` real por página | Cada tema usa su propia fecha de `updated` (ya implementado; falta revisar el resultado) |
+| T-13 | Incluir la auditoría del HTML construido en los checks | `scripts/check-build.mjs` verifica un solo `h1` por página, ausencia de `undefined`/`NaN` y que no haya enlaces internos muertos en `out/` (la comprobación se hizo a mano en la iteración 1 con 49 páginas y 0 problemas) |
 
 ## Prioridad 4 — producto
 
