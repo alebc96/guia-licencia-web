@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo } from "react";
 import { useProgress } from "@/components/progress/ProgressProvider";
 
@@ -42,9 +43,9 @@ export function ProgressSummary({ temas }: { temas: ProgressItem[] }) {
           {temas.map((tema) => (
             <li key={tema.slug} className="progress-list__item" data-done={ready && done.has(tema.slug)}>
               <span className="progress-list__index">{String(tema.order).padStart(2, "0")}</span>
-              <a href={`/temario/${tema.slug}`} className="progress-list__title">
+              <Link href={`/temario/${tema.slug}`} className="progress-list__title">
                 {tema.title}
-              </a>
+              </Link>
               <span className="progress-list__state">{ready && done.has(tema.slug) ? "Leído" : "Pendiente"}</span>
             </li>
           ))}
@@ -53,13 +54,13 @@ export function ProgressSummary({ temas }: { temas: ProgressItem[] }) {
 
       <div className="row">
         {nextTopic ? (
-          <a href={`/temario/${nextTopic.slug}`} className="btn btn-primary">
+          <Link href={`/temario/${nextTopic.slug}`} className="btn btn-primary">
             Continuar por el tema {String(nextTopic.order).padStart(2, "0")}
-          </a>
+          </Link>
         ) : (
-          <a href="/examen" className="btn btn-primary">
+          <Link href="/examen" className="btn btn-primary">
             Repasar el formato del examen
-          </a>
+          </Link>
         )}
         <button type="button" className="btn btn-ghost" onClick={reset} disabled={!ready || doneSlugs.length === 0}>
           Borrar el progreso
