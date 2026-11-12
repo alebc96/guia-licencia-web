@@ -26,7 +26,7 @@ const DRY_RUN = process.argv.includes("--dry-run");
 const MAX_BYTES = 300 * 1024;
 // Wikimedia requires a descriptive User-Agent with contact information;
 // a generic one is answered with HTTP 429.
-const UA = { "user-agent": "guia-licencia-web/0.1 (https://github.com/alebc96/guia-licencia-web; alebecerrac96@gmail.com)" };
+const UA = { "user-agent": "guia-licencia-web/0.1 (https://github.com/alebc96/guia-licencia-web)" };
 
 /** Commons is slow and occasionally drops connections; retry before giving up. */
 async function fetchWithRetry(url, attempts = 3) {

@@ -14,7 +14,8 @@
     "check:links": "node scripts/check-links.mjs",
     "generate:signs": "node scripts/generate-signs.mjs",
     "check:signs": "node scripts/generate-signs.mjs --check",
-    "verify": "npm run test && npm run check:signs && npm run check:content"
+    "verify": "npm run test && npm run check:signs && npm run check:content && npm run check:secrets",
+    "check:secrets": "node scripts/check-secrets.mjs"
   },
   "dependencies": {
     "gray-matter": "4.0.3",

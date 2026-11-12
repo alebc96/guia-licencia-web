@@ -4,7 +4,7 @@
 > **Decisiones confirmadas:** Next.js + React · catálogo completo de señales (315 verticales + marcas) · sin tests.
 > **Estructura de referencia:** Vialtest, 17 temas (adaptada y actualizada con BOE/DGT).
 > **Fecha de corte normativo:** 11/11/2026.
-> **Ubicación prevista:** `/home/ale/Documentos/Proyecto predeterminado/Proyectos/guia-licencia-web`
+> **Ubicación prevista:** carpeta local del proyecto (el repositorio no publica rutas del sistema)
 > **Idioma:** español de España.
 > **Diseño:** sistema Apple descrito por el usuario (tiles full-bleed, tipografía SF Pro, azul único, sin sombras salvo producto).
 

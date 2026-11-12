@@ -98,8 +98,8 @@ export default function CreditosPage() {
           <article className="stack">
             <h2 className="t-display-md">Titularidad y contacto</h2>
             <p>
-              Proyecto personal de {SITE.author}. El código está publicado en abierto y las correcciones se hacen mediante
-              el repositorio del proyecto.
+              Proyecto personal publicado en abierto. El código y el contenido están en un repositorio
+              público y las correcciones se hacen mediante incidencias y propuestas sobre ese repositorio.
             </p>
             <p>
               <a href={`${SITE.url.replace(/\/$/, "")}`} className="btn-link">

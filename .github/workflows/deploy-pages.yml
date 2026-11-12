@@ -36,6 +36,9 @@ jobs:
           npm run check:signs
           npm run check:content
 
+      - name: Secret and personal-data scan
+        run: npm run check:secrets
+
       - name: Build static site
         env:
           # GitHub Pages project site: the site lives under /<repository>/

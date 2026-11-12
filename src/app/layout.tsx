@@ -25,7 +25,6 @@ export const metadata: Metadata = {
   title: { default: SITE.title, template: `%s — ${SITE.name}` },
   description: SITE.description,
   applicationName: SITE.name,
-  authors: [{ name: SITE.author }],
   alternates: { canonical: BASE_PATH ? `${BASE_PATH}/` : "/" },
   robots: { index: true, follow: true },
   icons: { icon: publicUrl("/favicon.svg") },

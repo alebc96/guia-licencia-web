@@ -63,6 +63,41 @@ bajo el título sobran.
 
 ---
 
+## Iteración 3 — 2026-11-12
+
+**Objetivo:** revisar que la guía publicada no expone credenciales ni datos
+personales.
+
+### Hallazgos y correcciones
+
+| Hallazgo | Dónde | Corrección |
+|---|---|---|
+| Correo personal en el User-Agent de descargas | `scripts/fetch-sign-images.mjs` | User-Agent con la URL del repositorio como contacto |
+| Nombre y apellidos del autor | `src/lib/constants.ts`, footer de todas las páginas, `/creditos` y metadatos `authors` | Eliminado; el footer muestra el nombre del proyecto y `/creditos` ya no menciona a ninguna persona |
+| Ruta absoluta del sistema | `PLAN.md` | Sustituida por una descripción genérica |
+
+No se encontraron claves, tokens ni ficheros de entorno versionados: el único
+`secrets.GITHUB_TOKEN` del repo es la referencia estándar del propio GitHub.
+
+### Prevención
+
+- `scripts/check-secrets.mjs`: revisa los archivos versionados y el HTML
+  construido buscando credenciales con forma conocida (GitHub, OpenAI, AWS,
+  Google, Slack, GitLab, claves privadas, JWT), correos y rutas de inicio.
+- `npm run check:secrets` entra en `npm run verify` y en el workflow de Pages, así
+  que un dato personal en el contenido publicado rompe el despliegue.
+- `tests/secrets.test.ts` fija qué debe detectar y qué no (imports
+  `@/components/home/...`, `noreply@github.com`, `${{ secrets.GITHUB_TOKEN }}`).
+
+### Riesgo que queda fuera del repositorio
+
+Los commits están firmados con el correo de la cuenta de git. Eso se arregla en
+GitHub (**Settings → Emails → Keep my email addresses private**) y usando el
+correo `noreply` en los commits nuevos; reescribir el historial es una operación
+aparte que requiere decisión explícita.
+
+---
+
 ## Iteración 1 — 2026-11-11
 
 **Objetivo:** aplicación completa sobre Next.js con el sistema de diseño de

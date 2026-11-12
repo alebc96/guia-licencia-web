@@ -14,7 +14,6 @@ export const SITE = {
   lang: "es",
   updated: "2026-11-11",
   normCutoff: "2026-11-11",
-  author: "Alejandro Becerra",
   disclaimer:
     "Guía independiente. No es una publicación oficial de la Dirección General de Tráfico.",
 } as const;

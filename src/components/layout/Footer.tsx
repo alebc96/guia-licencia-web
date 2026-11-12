@@ -23,7 +23,7 @@ export function Footer() {
 
         <div className="footer__legal">
           <span>
-            © {new Date(SITE.updated).getFullYear()} {SITE.author}
+            © {new Date(SITE.updated).getFullYear()} {SITE.name}
           </span>
           <span>{SITE.disclaimer}</span>
           <span>Actualizado el {formatSpanishDate(SITE.updated)}</span>
