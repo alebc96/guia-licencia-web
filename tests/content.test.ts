@@ -21,8 +21,16 @@ const REQUIRED_SECTIONS = [
   "## Para profundizar",
 ] as const;
 
-/** Codes declared in `data/senales.txt`, the source of truth for the catalogue. */
-function dataSenalCodes(): string[] {
+/** Codes of the official catalogue extracted from the BOE (source of truth). */
+function officialCatalogCodes(): string[] {
+  const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "catalogo-oficial.json"), "utf8")) as Array<{
+    code: string;
+  }>;
+  return catalog.map((signal) => signal.code);
+}
+
+/** Codes that carry a curated study note in `data/senales.txt`. */
+function curatedCodes(): string[] {
   const raw = fs.readFileSync(path.join(ROOT, "data", "senales.txt"), "utf8");
   return raw
     .split("\n")
@@ -114,13 +122,28 @@ describe("señales", () => {
     expect(problems).toEqual([]);
   });
 
-  it("no duplica códigos entre data/senales.txt y content/senales/", () => {
-    const fromData = dataSenalCodes();
+  it("publica exactamente los códigos del catálogo oficial", () => {
+    const official = officialCatalogCodes();
     const fromContent = senales.map((senal) => senal.code);
 
-    expect(new Set(fromData).size).toBe(fromData.length);
+    expect(new Set(official).size).toBe(official.length);
     expect(new Set(fromContent).size).toBe(fromContent.length);
-    expect([...fromContent].sort()).toEqual([...fromData].sort());
+    expect([...fromContent].sort()).toEqual([...official].sort());
+  });
+
+  it("solo escribe notas curadas de códigos que existen en el catálogo", () => {
+    const official = new Set(officialCatalogCodes());
+    const orphans = curatedCodes().filter((code) => !official.has(code));
+
+    expect(orphans).toEqual([]);
+  });
+
+  it("da a cada ficha significado, alt de imagen y fuente oficial", () => {
+    const problems = senales
+      .filter((senal) => !senal.meaning.trim() || !senal.imageAlt.trim() || !senal.officialSource.trim())
+      .map((senal) => `${senal.code}: ficha incompleta`);
+
+    expect(problems).toEqual([]);
   });
 });
 
