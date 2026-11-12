@@ -148,6 +148,34 @@ export const EXAM_WEIGHT_LABELS: Record<"muy-alta" | "alta" | "media" | "baja", 
   baja: "Baja",
 };
 
+export const SUBFAMILY_LABELS: Record<string, string> = {
+  advertencia: "Advertencia de peligro",
+  prioridad: "Prioridad",
+  "prohibicion-de-entrada": "Prohibición de entrada",
+  "restriccion-de-paso": "Restricción de paso",
+  obligacion: "Obligación",
+  "indicaciones-generales": "Indicaciones generales",
+  carriles: "Carriles",
+  servicio: "Servicio",
+  localizacion: "Localización",
+  presenalizacion: "Preseñalización",
+  confirmacion: "Confirmación",
+  "identificacion-carreteras": "Identificación de carreteras",
+  "uso-especifico-poblado": "Uso específico en poblado",
+  otras: "Otras",
+};
+
+export const SHAPE_LABELS: Record<string, string> = {
+  circulo: "Círculo",
+  triangulo: "Triángulo",
+  "triangulo-invertido": "Triángulo invertido",
+  octogono: "Octógono",
+  cuadrado: "Cuadrado",
+  rectangulo: "Rectángulo",
+  rombo: "Rombo",
+  panel: "Panel",
+};
+
 export const FAMILY_LABELS: Record<
   "peligro" | "reglamentacion" | "indicacion" | "marca" | "balizamiento" | "semaforo" | "agente" | "vehiculo",
   string

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { loadTemas } from "@/lib/content";
-import { EXAM_WEIGHT_LABELS } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import { SubNav } from "@/components/layout/SubNav";
 import { TopicCard, type TopicSummary } from "@/components/temario/TopicCard";
@@ -80,8 +79,7 @@ export default function TemarioPage() {
               <h2 className="t-display-md">Cómo usar el temario</h2>
               <p style={{ marginTop: 12 }}>
                 Un tema por sesión, con la sección «Lo esencial» el día antes del examen. Marca cada tema como leído: el
-                progreso se guarda en tu navegador y aparece en la barra superior con el porcentaje del{" "}
-                {EXAM_WEIGHT_LABELS["muy-alta"]} al {EXAM_WEIGHT_LABELS.baja} de peso.
+                progreso se guarda en tu navegador y el porcentaje aparece en la barra superior.
               </p>
             </div>
           </div>

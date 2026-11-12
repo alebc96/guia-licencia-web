@@ -70,8 +70,11 @@ export const senalFrontmatterSchema = z.object({
   shape: z.enum(SIGN_SHAPES),
   colors: z.array(nonEmpty).min(1),
   meaning: nonEmpty,
-  action: nonEmpty,
-  where: nonEmpty,
+  // `action`, `where` and `mistake` are only present on curated fichas: the
+  // official catalogue gives a definition, not a study note, and inventing one
+  // would break the editorial rule.
+  action: nonEmpty.optional(),
+  where: nonEmpty.optional(),
   mistake: nonEmpty.optional(),
   related: z.array(z.string()).default([]),
   image: z.string().regex(/^\/senales\/[a-z0-9-]+\.svg$/, "expected an SVG under /senales/"),
