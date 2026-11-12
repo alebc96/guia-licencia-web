@@ -79,12 +79,14 @@ no está verificado, la ficha se publica con `verified: false` y la web muestra
 
 ```
 content/temas/      17 temas en Markdown (fuente de verdad del temario)
-content/senales/    fichas de señales GENERADAS desde data/senales.txt
+content/senales/    fichas de señales GENERADAS desde data/catalogo-oficial.json
 content/recursos/   enlaces y fuentes
 content/glosario/   términos
-data/senales.txt    tabla maestra de señales (14 columnas separadas por |)
+data/catalogo-oficial.json  catálogo del BOE (código, nombre, definición) — la fuente de verdad
+data/senales.txt            capa curada: acción, error de examen y relacionadas (opcional, 14 columnas)
+data/creditos.json          autor y licencia de cada SVG descargado de Commons
 public/senales/     SVG esquemáticos GENERADOS
-scripts/            generate-signs.mjs, check-content.mjs, check-links.mjs
+scripts/            extract-catalog, fetch-sign-images, generate-signs, check-content, check-links
 src/app/            rutas (App Router)
 src/components/     layout, contenido, señales, progreso, glosario, búsqueda
 src/lib/            schemas (Zod), content (loaders), catalog, markdown, seo
@@ -123,11 +125,12 @@ odd/tasks/          documento ODD de la feature
 
 ## 6. Estado real hoy
 
-- Aplicación completa navegable: inicio, temario (17 temas), señales (19 fichas),
+- Aplicación completa navegable: inicio, temario (17 temas), señales (catálogo completo del BOE),
   examen, práctico, recursos, glosario (49 términos), progreso, búsqueda, créditos, 404.
 - 50 páginas estáticas generadas correctamente.
-- Catálogo **incompleto a propósito**: 19 de ~441 entradas. Es la parte que exige
-  auditoría del catálogo oficial (`docs/cobertura-senales.md`).
+- Catálogo de señales verticales **completo** desde el PDF oficial del BOE (RD
+  465/2025, Tomo I): código, nombre y definición de cada señal. Las marcas viales
+  y los paneles de orientación grandes quedan fuera de esta entrega.
 - Suite de pruebas y checks de contenido en `npm run verify`.
 - Imagen Docker (nginx en 8080) y despliegue en GitHub Pages:
   https://alebc96.github.io/guia-licencia-web/
@@ -135,8 +138,8 @@ odd/tasks/          documento ODD de la feature
 
 ## 7. Lo siguiente, en orden
 
-1. Ampliar el catálogo de señales con la auditoría del anexo del BOE (nivel A/B/C).
-2. Sustituir los pictogramas esquemáticos por SVG con licencia y crédito.
+1. Curar (nivel A) las señales más preguntadas: hoy solo 20 tienen nota de estudio.
+2. Completar las imágenes: las que no tienen SVG en Commons usan pictograma propio.
 3. Revisión editorial de los 17 temas contra BOE/DGT (`verified: true`).
 4. Playwright para el recorrido completo y Lighthouse en CI.
 5. Revisión normativa semestral.

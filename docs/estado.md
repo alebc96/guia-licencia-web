@@ -25,6 +25,9 @@ llenar de verdad el catálogo de señales.
 - Wikimedia exige un User-Agent descriptivo con contacto: con uno genérico
   responde 429 y el fichero descargado es una página de error HTML. El script
   valida que el contenido empiece por `<svg`/`<?xml` y borra lo que no lo cumpla.
+- Resultado del arte: **286 fichas con SVG de Wikimedia Commons** (autor y licencia
+  en `data/creditos.json`) y **108 con pictograma esquemático propio**. El
+  catálogo de `/senales` pagina de 48 en 48 para no pedir 394 imágenes de golpe.
 - El esquema Zod hace opcionales `action`, `where` y `mistake`: una ficha sin nota
   curada enseña solo lo que dice la norma, sin relleno inventado.
 
