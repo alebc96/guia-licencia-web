@@ -1,3 +1,5 @@
+> Nota: `docs/rediseno.md` sustituye partes de este documento (estilos, tipografía, temas, movimiento).
+
 # Sistema de diseño
 
 Implementa `PLAN.md` §5 («Apple adaptado»). Todo vive en

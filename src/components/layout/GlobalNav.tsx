@@ -4,8 +4,9 @@ import { NavLink } from "./NavLink";
 import { MobileMenu } from "./MobileMenu";
 import { ProgressRing } from "@/components/progress/ProgressRing";
 import { SearchIcon } from "@/components/ui/icons";
+import { ReadingTools } from "@/components/reading/ReadingTools";
 
-/** Black 44 px global bar: brand, section links, search and progress. */
+/** Barra global de cristal: marca, secciones, búsqueda, ajustes de lectura y progreso. */
 export function GlobalNav() {
   return (
     <header className="global-nav">
@@ -30,6 +31,7 @@ export function GlobalNav() {
           <Link href="/buscar" className="global-nav__icon" aria-label="Buscar en la guía">
             <SearchIcon />
           </Link>
+          <ReadingTools />
           <Link href="/progreso" className="global-nav__icon" aria-label="Ver mi progreso">
             <ProgressRing />
           </Link>

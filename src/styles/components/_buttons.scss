@@ -1,0 +1,219 @@
+@use "../abstracts/mixins" as *;
+
+// ==========================================================================
+// Botones
+// Interacción en tres tiempos, al estilo Apple:
+//   hover  → se eleva 1 px y un brillo cruza la superficie
+//   active → se hunde (scale .96) con respuesta instantánea
+//   focus  → doble anillo animado, visible sobre cualquier fondo
+// Si el botón lleva icono final (.btn__icon o svg:last-child) se desplaza.
+// ==========================================================================
+
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--primary);
+  --btn-border: transparent;
+  --btn-bg-hover: var(--btn-bg);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.7rem 1.4rem;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1.5px solid var(--btn-border);
+  border-radius: var(--radius-pill);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-display-stack);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard),
+    box-shadow var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+
+  // Brillo diagonal que cruza al pasar el ratón.
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      110deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.28) 50%,
+      transparent 70%
+    );
+    transform: translateX(-110%);
+    pointer-events: none;
+  }
+
+  > svg:last-child:not(:first-child),
+  .btn__icon {
+    transition: transform var(--dur-base) var(--ease-spring);
+  }
+
+  &:hover {
+    background: var(--btn-bg-hover);
+    color: var(--btn-fg);
+    text-decoration: none;
+
+    @include motion-ok {
+      transform: translateY(-1px);
+
+      &::before {
+        transform: translateX(110%);
+        transition: transform 700ms var(--ease-out);
+      }
+
+      > svg:last-child:not(:first-child),
+      .btn__icon {
+        transform: translateX(3px);
+      }
+    }
+  }
+
+  &:active {
+    transition-duration: var(--dur-instant);
+
+    @include motion-ok {
+      transform: translateY(0) scale(0.96);
+    }
+  }
+
+  &:focus-visible {
+    @include focus-ring(3px);
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.btn-primary {
+  --btn-bg: var(--primary);
+  --btn-bg-hover: var(--primary-hover);
+  --btn-fg: var(--on-primary);
+
+  &:hover {
+    box-shadow: var(--elevation-2);
+  }
+}
+
+.btn-ghost {
+  --btn-border: var(--primary);
+  --btn-fg: var(--primary);
+  --btn-bg-hover: var(--primary-soft);
+
+  &::before {
+    background: linear-gradient(110deg, transparent 30%, var(--primary-soft) 50%, transparent 70%);
+  }
+}
+
+// Botón de marca: amarillo carril, para la llamada principal de la portada.
+.btn-accent {
+  --btn-bg: var(--accent);
+  --btn-bg-hover: color-mix(in srgb, var(--accent) 88%, #000);
+  --btn-fg: var(--on-accent);
+
+  &:hover {
+    box-shadow: 0 10px 30px -10px color-mix(in srgb, var(--accent) 70%, transparent);
+  }
+}
+
+.btn-dark {
+  --btn-bg: var(--text);
+  --btn-bg-hover: color-mix(in srgb, var(--text) 85%, var(--bg));
+  --btn-fg: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 1rem;
+  font-size: 0.9375rem;
+}
+
+.btn-pearl {
+  --btn-bg: var(--surface);
+  --btn-bg-hover: var(--bg-soft);
+  --btn-fg: var(--text);
+  --btn-border: var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+}
+
+.btn-lg {
+  min-height: 3.25rem;
+  padding: 0.9rem 1.8rem;
+  font-size: 1.0625rem;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-standard),
+    transform var(--dur-base) var(--ease-spring);
+
+  &:hover {
+    background: color-mix(in srgb, var(--text) 14%, transparent);
+  }
+
+  &:active {
+    @include motion-ok {
+      transform: scale(0.9);
+    }
+  }
+}
+
+// Enlace de acción: "Ver todo ›" con flecha que avanza y subrayado que crece.
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.75rem;
+  color: var(--primary);
+  font-family: var(--font-display-stack);
+  font-weight: 600;
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 calc(100% - 0.55rem) / 0 1.5px no-repeat;
+  transition:
+    background-size var(--dur-base) var(--ease-out),
+    color var(--dur-fast) var(--ease-standard);
+
+  &::after {
+    content: "›";
+    font-size: 1.2em;
+    line-height: 1;
+    transition: transform var(--dur-base) var(--ease-spring);
+  }
+
+  &:hover {
+    text-decoration: none;
+    background-size: calc(100% - 1em) 1.5px;
+
+    &::after {
+      transform: translateX(3px);
+    }
+  }
+}

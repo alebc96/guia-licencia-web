@@ -1,0 +1,151 @@
+// ==========================================================================
+// Biblioteca de movimiento. Duraciones cortas, curvas "expo out", recorridos
+// pequeños (≤ 24 px): se nota que la página está viva, pero no distrae.
+// ==========================================================================
+
+// Entradas al hacer scroll (se usan con animation-timeline: view()).
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-left {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+// Entrada al cargar (titulares de cabecera).
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// Barra de navegación: gana filo y sombra al bajar.
+@keyframes nav-elevate {
+  from {
+    border-bottom-color: transparent;
+    box-shadow: none;
+  }
+
+  to {
+    border-bottom-color: var(--border);
+    box-shadow: 0 6px 24px -12px var(--shadow-color-strong);
+  }
+}
+
+// Línea de carril que avanza con el scroll.
+@keyframes road-run {
+  from {
+    background-position-x: 0;
+  }
+
+  to {
+    background-position-x: -18rem;
+  }
+}
+
+// Halo de cabecera que deriva despacio.
+@keyframes glow-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(-3%, 3%, 0) scale(1.05);
+  }
+}
+
+// Imagen del hero: zoom suave mientras cruza la pantalla.
+@keyframes hero-media {
+  from {
+    transform: scale(0.94);
+    opacity: 0.6;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Confirmación de "tema leído".
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(1.06);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes draw-check {
+  from {
+    stroke-dashoffset: 24;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}

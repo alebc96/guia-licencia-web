@@ -1,0 +1,365 @@
+@use "../abstracts/mixins" as *;
+
+// ==========================================================================
+// Tarjetas
+// En reposo: planas, con borde fino. En hover: suben, ganan sombra tintada y
+// una barra amarilla recorre el borde superior. Entran al hacer scroll.
+// ==========================================================================
+
+%card-base {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  transition:
+    transform var(--dur-slow) var(--ease-out),
+    box-shadow var(--dur-slow) var(--ease-out),
+    border-color var(--dur-base) var(--ease-standard),
+    background-color var(--dur-base) var(--ease-standard);
+}
+
+.card {
+  @extend %card-base;
+  @include scroll-reveal(reveal-up);
+}
+
+.card-plain {
+  @extend %card-base;
+  background: var(--bg-soft);
+}
+
+// --------------------------------------------------------------------------
+// Tarjeta de tema (temario)
+// --------------------------------------------------------------------------
+.topic-card {
+  @extend %card-base;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  height: 100%;
+  overflow: hidden;
+  @include scroll-reveal(reveal-up, entry 0% cover 22%);
+
+  // Barra de marca superior.
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+
+  // Hover / foco dentro: la tarjeta entera responde.
+  &:hover,
+  &:focus-within {
+    border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
+    box-shadow: var(--elevation-2);
+
+    &::before {
+      transform: scaleX(1);
+    }
+
+    @include motion-ok {
+      transform: translateY(-4px);
+    }
+  }
+
+  // Tema leído (sin tocar el JSX: se detecta el estado del botón).
+  &:has(.progress-toggle[data-done="true"]) {
+    background: color-mix(in srgb, var(--success-soft) 55%, var(--surface));
+    border-color: color-mix(in srgb, var(--success) 35%, var(--border));
+
+    &::before {
+      transform: scaleX(1);
+      background: var(--success);
+    }
+
+    .topic-card__order {
+      color: var(--success);
+    }
+  }
+}
+
+.topic-card__order {
+  @include label-caps;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent-ink);
+
+  // Pequeña "línea de carril" delante del número.
+  &::before {
+    content: "";
+    width: 1.25rem;
+    height: 3px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: width var(--dur-base) var(--ease-out);
+  }
+
+  .topic-card:hover &::before {
+    width: 2rem;
+  }
+}
+
+.topic-card__title {
+  font-family: var(--font-display-stack);
+  font-size: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+
+  a {
+    color: var(--text);
+    text-decoration: none;
+
+    // Toda la tarjeta es clicable (enlace estirado)…
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      border-radius: inherit;
+    }
+
+    &:hover {
+      color: var(--primary);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: none;
+
+      &::after {
+        @include focus-ring(-3px);
+      }
+    }
+  }
+}
+
+.topic-card__meta {
+  font-size: var(--fs-fine);
+  color: var(--text-subtle);
+}
+
+.topic-card__description {
+  flex: 1;
+  font-size: calc(var(--fs-caption) * var(--user-scale));
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+// …pero el botón "Marcar como leído" queda por encima del enlace.
+.topic-card .progress-toggle {
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+  margin-top: var(--space-xs);
+}
+
+// --------------------------------------------------------------------------
+// Datos clave (cabecera del tema)
+// --------------------------------------------------------------------------
+.keyfacts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xs);
+
+  @include up(xs) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include up(md) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.keyfact {
+  position: relative;
+  padding: var(--space-md);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(6px);
+  transition: transform var(--dur-base) var(--ease-out), border-color var(--dur-base);
+
+  &:hover {
+    border-color: var(--accent);
+
+    @include motion-ok {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.keyfact__label {
+  @include label-caps;
+  color: var(--text-subtle);
+  margin-bottom: 0.35rem;
+}
+
+.keyfact__value {
+  font-family: var(--font-display-stack);
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  font-variant-numeric: tabular-nums;
+}
+
+// --------------------------------------------------------------------------
+// Avisos ("Errores típicos", "Lo esencial")
+// --------------------------------------------------------------------------
+.callout {
+  --callout-color: var(--accent-ink);
+  --callout-bg: var(--accent-soft);
+  --callout-bar: var(--accent);
+
+  position: relative;
+  padding: var(--space-lg) var(--space-lg) var(--space-lg) calc(var(--space-lg) + 4px);
+  background: var(--callout-bg);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  @include scroll-reveal(reveal-left);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: var(--callout-bar);
+  }
+
+  // Variante informativa, por si se necesita.
+  &--info {
+    --callout-color: var(--primary);
+    --callout-bg: var(--primary-soft);
+    --callout-bar: var(--primary);
+  }
+
+  .plain-list {
+    gap: var(--space-xs);
+  }
+
+  li {
+    position: relative;
+    padding-left: 1.5rem;
+    line-height: var(--leading-prose);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0.25rem;
+      top: 0.7em;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: var(--callout-bar);
+    }
+  }
+}
+
+.callout__label {
+  @include label-caps;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--callout-color);
+  margin-bottom: var(--space-2xs);
+}
+
+// --------------------------------------------------------------------------
+// Índice lateral (TOC) con "scroll spy"
+// --------------------------------------------------------------------------
+.toc {
+  padding: var(--space-md) var(--space-md) var(--space-md) 0;
+  font-size: var(--fs-caption);
+  max-height: calc(100vh - var(--sticky-offset) - 2rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.toc__title {
+  @include label-caps;
+  color: var(--text-subtle);
+  margin-bottom: var(--space-xs);
+  padding-left: var(--space-sm);
+}
+
+.toc__list {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid var(--border);
+}
+
+.toc__link {
+  position: relative;
+  display: block;
+  margin-left: -2px;
+  padding: 0.4rem var(--space-sm);
+  border-left: 2px solid transparent;
+  color: var(--text-muted);
+  line-height: 1.4;
+  text-decoration: none;
+  transition:
+    color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-base) var(--ease-out),
+    background-color var(--dur-fast);
+
+  &:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 4%, transparent);
+  }
+
+  &[aria-current="true"] {
+    color: var(--primary);
+    font-weight: 700;
+    border-left-color: var(--primary);
+  }
+}
+
+.toc__link--3 {
+  padding-left: calc(var(--space-sm) + var(--space-sm));
+  font-size: 0.875rem;
+}
+
+// --------------------------------------------------------------------------
+// Navegación anterior / siguiente
+// --------------------------------------------------------------------------
+.topic-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-display-stack);
+  font-weight: 700;
+  font-size: 1.125rem;
+  text-decoration: none;
+  transition:
+    transform var(--dur-slow) var(--ease-out),
+    border-color var(--dur-base),
+    box-shadow var(--dur-slow) var(--ease-out);
+
+  &:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+    box-shadow: var(--elevation-1);
+
+    @include motion-ok {
+      transform: translateY(-2px);
+    }
+  }
+
+  .grid > div:last-child & {
+    text-align: right;
+    align-items: flex-end;
+  }
+}

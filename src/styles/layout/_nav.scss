@@ -1,0 +1,329 @@
+@use "../abstracts/mixins" as *;
+
+// --------------------------------------------------------------------------
+// Barra global: cristal del color del tema (antes era negra fija).
+// --------------------------------------------------------------------------
+.global-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--nav-height);
+  @include glass;
+  color: var(--nav-text);
+  border-bottom: 1px solid transparent;
+
+  // Al hacer scroll aparece el filo y una sombra suave (CSS puro).
+  @supports (animation-timeline: scroll()) {
+    animation: nav-elevate linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 120px;
+  }
+
+  @supports not (animation-timeline: scroll()) {
+    border-bottom-color: var(--border);
+  }
+}
+
+.global-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  height: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.global-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  color: var(--text);
+  font-family: var(--font-display-stack);
+  font-size: 1.0625rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+
+  svg {
+    color: var(--on-accent);
+    background: var(--accent);
+    border-radius: 50%;
+    padding: 3px;
+    width: 1.5rem;
+    height: 1.5rem;
+    transition: transform var(--dur-slow) var(--ease-spring);
+  }
+
+  &:hover {
+    color: var(--text);
+
+    svg {
+      @include motion-ok {
+        transform: rotate(-12deg) scale(1.08);
+      }
+    }
+  }
+}
+
+.global-nav__links {
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+
+  @include up(sm) {
+    display: flex;
+  }
+}
+
+.global-nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding-inline: 0.75rem;
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  font-family: var(--font-display-stack);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    color var(--dur-fast) var(--ease-standard),
+    background-color var(--dur-fast) var(--ease-standard);
+
+  // Indicador inferior: crece desde el centro.
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.45rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  &:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 6%, transparent);
+  }
+
+  &[aria-current="page"] {
+    color: var(--text);
+    font-weight: 700;
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.global-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.global-nav__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  padding-inline: 0.5rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color var(--dur-fast) var(--ease-standard),
+    transform var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 8%, transparent);
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+.global-nav__menu {
+  @include up(sm) {
+    display: none;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Menú móvil a pantalla completa
+// --------------------------------------------------------------------------
+.mobile-menu {
+  position: fixed;
+  inset: var(--nav-height) 0 0;
+  z-index: 99;
+  background: var(--bg);
+  color: var(--text);
+  padding: var(--space-xl) var(--gutter) var(--space-2xl);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  @include motion-ok {
+    animation: menu-in var(--dur-slow) var(--ease-out) both;
+  }
+}
+
+.mobile-menu__list {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-lg);
+}
+
+.mobile-menu__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 3.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-display-stack);
+  font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+
+  @include motion-ok {
+    animation: rise-in var(--dur-slow) var(--ease-out) both;
+  }
+
+  // El retraso solo tiene efecto si hay animación.
+  @for $i from 1 through 8 {
+    li:nth-child(#{$i}) > & {
+      animation-delay: #{40ms * $i};
+    }
+  }
+
+  &:hover,
+  &[aria-current="page"] {
+    color: var(--primary);
+  }
+}
+
+// --------------------------------------------------------------------------
+// Sub-navegación de sección
+// --------------------------------------------------------------------------
+.sub-nav {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 90;
+  min-height: var(--subnav-height);
+  @include glass(var(--subnav-bg));
+  border-bottom: 1px solid var(--border);
+}
+
+.sub-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  min-height: var(--subnav-height);
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.sub-nav__title {
+  font-family: var(--font-display-stack);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.sub-nav__links {
+  display: none;
+  align-items: center;
+  gap: var(--space-sm);
+
+  @include up(sm) {
+    display: flex;
+  }
+}
+
+.sub-nav__link {
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--primary);
+  }
+}
+
+// El botón de acción de la sub-nav tiene estilos en línea (32 px). Se le
+// devuelve el área táctil sin cambiar su tamaño visual.
+.sub-nav .btn {
+  @include touch-target;
+}
+
+// --------------------------------------------------------------------------
+// Pie
+// --------------------------------------------------------------------------
+.footer {
+  background: var(--bg-soft);
+  color: var(--text-muted);
+  padding-block: var(--space-3xl) var(--space-xl);
+  font-size: var(--fs-caption);
+  border-top: 1px solid var(--border);
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+
+  @include up(sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.footer__title {
+  @include label-caps;
+  color: var(--text);
+  margin-bottom: var(--space-xs);
+}
+
+.footer__links {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  color: var(--text-muted);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--primary);
+    text-decoration: underline;
+  }
+}
+
+.footer__legal {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-md);
+  font-size: var(--fs-fine);
+  color: var(--text-subtle);
+}

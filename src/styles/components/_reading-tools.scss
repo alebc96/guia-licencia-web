@@ -1,0 +1,196 @@
+@use "../abstracts/mixins" as *;
+
+// ==========================================================================
+// Ajustes de lectura: panel flotante (API Popover nativa) con
+//   - selector de tema segmentado: Claro · Oscuro · Lectura
+//   - tamaño de texto: A− · A · A+ · A++
+// El panel entra con @starting-style (sin JS de animación).
+// ==========================================================================
+
+.reading-tools {
+  position: fixed;
+  inset: auto;
+  top: calc(var(--nav-height) + 0.5rem);
+  right: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+  width: min(22rem, calc(100vw - 2 * var(--gutter)));
+  margin: 0;
+  padding: var(--space-lg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface-raised) 92%, transparent);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  color: var(--text);
+  box-shadow: var(--elevation-3);
+
+  // Animación de entrada / salida del popover.
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out),
+    overlay var(--dur-base) allow-discrete,
+    display var(--dur-base) allow-discrete;
+
+  &:not(:popover-open) {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+
+  @starting-style {
+    &:popover-open {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.97);
+    }
+  }
+
+  &::backdrop {
+    background: transparent;
+  }
+}
+
+.reading-tools__title {
+  font-family: var(--font-display-stack);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin-bottom: var(--space-md);
+}
+
+.reading-tools__group + .reading-tools__group {
+  margin-top: var(--space-lg);
+}
+
+.reading-tools__legend {
+  @include label-caps;
+  color: var(--text-subtle);
+  margin-bottom: var(--space-2xs);
+  padding: 0;
+}
+
+.reading-tools fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+// --- Control segmentado con "pastilla" deslizante ----------------------------
+.theme-switch {
+  --count: 3;
+  --index: 0;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--count), minmax(0, 1fr));
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+
+  // La pastilla se coloca según la opción marcada (CSS :has, sin JS).
+  &:has(> :nth-child(2)[aria-checked="true"]) {
+    --index: 1;
+  }
+
+  &:has(> :nth-child(3)[aria-checked="true"]) {
+    --index: 2;
+  }
+
+  &:has(> :nth-child(4)[aria-checked="true"]) {
+    --index: 3;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc((100% - 8px) / var(--count));
+    border-radius: var(--radius-pill);
+    background: var(--surface-raised);
+    box-shadow: var(--elevation-1);
+    transform: translateX(calc(100% * var(--index)));
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+
+  &--sizes {
+    --count: 4;
+  }
+}
+
+.theme-switch__option {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-height: 3.25rem;
+  padding: 0.35rem 0.25rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-display-stack);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--dur-fast);
+
+  svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    transition: transform var(--dur-slow) var(--ease-spring);
+  }
+
+  &:hover {
+    color: var(--text);
+  }
+
+  &[aria-checked="true"] {
+    color: var(--text);
+
+    svg {
+      @include motion-ok {
+        transform: rotate(-10deg) scale(1.12);
+      }
+    }
+  }
+
+  &:focus-visible {
+    @include focus-ring(-2px);
+    border-radius: var(--radius-pill);
+  }
+}
+
+// Muestras de tamaño "A" con su propio cuerpo, para que se vea la diferencia.
+.theme-switch--sizes .theme-switch__option {
+  min-height: 2.75rem;
+  font-family: var(--font-text-stack);
+  font-weight: 700;
+
+  &:nth-child(1) {
+    font-size: 0.8125rem;
+  }
+
+  &:nth-child(2) {
+    font-size: 0.9375rem;
+  }
+
+  &:nth-child(3) {
+    font-size: 1.0625rem;
+  }
+
+  &:nth-child(4) {
+    font-size: 1.25rem;
+  }
+}
+
+.reading-tools__hint {
+  margin-top: var(--space-md);
+  font-size: var(--fs-fine);
+  color: var(--text-subtle);
+  line-height: 1.5;
+}

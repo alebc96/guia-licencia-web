@@ -1,0 +1,160 @@
+@use "sass:map";
+@use "palettes" as p;
+@use "../abstracts/tokens" as t;
+@use "../abstracts/mixins" as *;
+
+// Vuelca un mapa de paleta como custom properties.
+@mixin emit($palette) {
+  @each $key, $value in $palette {
+    @if $key == scheme {
+      color-scheme: $value;
+    } @else {
+      --#{$key}: #{$value};
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+// Tokens que no dependen del tema
+// --------------------------------------------------------------------------
+:root {
+  // Tipografía
+  --font-display-stack: #{t.$font-display};
+  --font-text-stack: #{t.$font-text};
+  --font-reading-stack: #{t.$font-reading};
+  --font-mono-stack: #{t.$font-mono};
+  --font-body: var(--font-text-stack);
+  --font-prose: var(--font-text-stack);
+
+  @each $key, $value in t.$type-scale {
+    --fs-#{$key}: #{$value};
+  }
+
+  // Tamaño de texto elegido por el usuario (A− / A / A+ / A++).
+  --text-scale: 1;
+  --leading-body: #{map.get(t.$leading, normal)};
+  --leading-prose: #{map.get(t.$leading, study)};
+  --tracking-body: #{map.get(t.$tracking, body)};
+  --word-spacing: 0.02em;
+  --paragraph-gap: 1.15em;
+  --measure: #{t.$measure};
+
+  @each $key, $value in t.$space {
+    --space-#{$key}: #{$value};
+  }
+
+  @each $key, $value in t.$radii {
+    --radius-#{$key}: #{$value};
+  }
+
+  @each $key, $value in t.$elevations {
+    --elevation-#{$key}: #{$value};
+  }
+
+  @each $key, $value in t.$ease {
+    --ease-#{$key}: #{$value};
+  }
+
+  @each $key, $value in t.$duration {
+    --dur-#{$key}: #{$value};
+  }
+
+  --nav-height: #{t.$nav-height};
+  --subnav-height: #{t.$subnav-height};
+  --sticky-offset: calc(var(--nav-height) + var(--subnav-height) + 1.5rem);
+  --gutter: #{t.$gutter};
+  --container: #{t.$container};
+
+  // Colores de contenido de señales: nunca acentos de interfaz.
+  --sign-red: #c8102e;
+  --sign-blue: #0055a4;
+  --sign-yellow: #f2c200;
+  --sign-black: #111111;
+  --sign-white: #ffffff;
+}
+
+// --------------------------------------------------------------------------
+// Temas
+// Sin data-theme → se sigue al sistema. Con data-theme → manda el usuario.
+// --------------------------------------------------------------------------
+:root,
+[data-theme="light"] {
+  @include emit(p.$light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    @include emit(p.$dark);
+  }
+}
+
+[data-theme="dark"] {
+  @include emit(p.$dark);
+}
+
+[data-theme="reading"] {
+  @include emit(p.$reading);
+
+  // El modo lectura cambia también el ritmo del texto, no solo el color.
+  --font-prose: var(--font-reading-stack);
+  --leading-prose: 1.85;
+  --tracking-body: 0.004em;
+  --paragraph-gap: 1.35em;
+  --measure: #{t.$measure-reading};
+  --text-scale: 1.08;
+}
+
+// Tamaño de texto (se multiplica con el del modo lectura).
+@each $size, $scale in (s: 0.92, m: 1, l: 1.12, xl: 1.25) {
+  [data-text-size="#{$size}"] {
+    --user-scale: #{$scale};
+  }
+}
+
+:root {
+  --user-scale: 1;
+}
+
+// Más contraste si el sistema lo pide.
+@media (prefers-contrast: more) {
+  :root {
+    --text-muted: var(--text);
+    --text-subtle: var(--text);
+    --border: var(--border-strong);
+  }
+}
+
+// En oscuro, el texto claro sobre negro "engorda" ópticamente: se compensa.
+[data-theme="dark"] {
+  --weight-optical: -20;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --weight-optical: -20;
+  }
+}
+
+// Transición del cambio de tema con View Transitions (revelado circular desde
+// el botón pulsado; el JS pasa --vt-x / --vt-y). Sin soporte: cambio directo.
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-new(root) {
+    animation: theme-reveal 620ms var(--ease-out) both;
+  }
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0%));
+  }
+
+  to {
+    clip-path: circle(150% at var(--vt-x, 50%) var(--vt-y, 0%));
+  }
+}
