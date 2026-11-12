@@ -39,11 +39,31 @@ jobs:
       - name: Secret and personal-data scan
         run: npm run check:secrets
 
-      - name: Build static site
+      # Optional repository variable (Settings -> Secrets and variables -> Actions
+      # -> Variables). Set CUSTOM_DOMAIN (e.g. guiab.es) to serve from the domain
+      # root; leave it unset to keep the project-site URL under /<repository>/.
+      # A shell step is used because `cond && '' || 'x'` yields 'x' in expressions.
+      - name: Resolve site URL and base path
         env:
-          # GitHub Pages project site: the site lives under /<repository>/
-          NEXT_PUBLIC_BASE_PATH: /guia-licencia-web
-          NEXT_PUBLIC_SITE_URL: https://alebc96.github.io
+          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
+        shell: bash
+        run: |
+          # [[ =~ ]] matches the whole value, so a newline cannot smuggle extra
+          # lines into $GITHUB_ENV the way line-based grep allowed.
+          if [ -n "$CUSTOM_DOMAIN" ]; then
+            if ! [[ "$CUSTOM_DOMAIN" =~ ^([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$ ]]; then
+              echo "::error::CUSTOM_DOMAIN must be a bare hostname such as guiab.es"
+              exit 1
+            fi
+            echo "NEXT_PUBLIC_BASE_PATH=" >> "$GITHUB_ENV"
+            echo "NEXT_PUBLIC_SITE_URL=https://$CUSTOM_DOMAIN" >> "$GITHUB_ENV"
+          else
+            # GitHub Pages project site: the site lives under /<repository>/
+            echo "NEXT_PUBLIC_BASE_PATH=/guia-licencia-web" >> "$GITHUB_ENV"
+            echo "NEXT_PUBLIC_SITE_URL=https://alebc96.github.io" >> "$GITHUB_ENV"
+          fi
+
+      - name: Build static site
         run: npm run build
 
       # A failed deployment can leave the Pages site disabled; enablement lets the
