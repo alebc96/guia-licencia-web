@@ -112,19 +112,6 @@
   }
 }
 
-// Imagen del hero: zoom suave mientras cruza la pantalla.
-@keyframes hero-media {
-  from {
-    transform: scale(0.94);
-    opacity: 0.6;
-  }
-
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
 // Confirmación de "tema leído".
 @keyframes pop {
   0% {

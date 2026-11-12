@@ -1,0 +1,523 @@
+@use "../abstracts/mixins" as *;
+
+// ==========================================================================
+// Ilustración del hero (src/components/home/HeroIllustration.tsx).
+// Todos los colores de escenario (fondo, mesa, pantalla, acentos) salen de
+// los tokens del tema, así que el dibujo cambia solo con claro, oscuro y
+// lectura. Piel, pelo, papel y señales son fijos: se leen bien en los tres.
+//
+// Movimiento: bucles lentos y pequeños, solo dentro de motion-ok (sin
+// reduce-motion y fuera del modo lectura). Sin animación, el dibujo queda en
+// su estado final: check dibujado y barra de progreso avanzada.
+// ==========================================================================
+
+.hero__media {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-art {
+  // Paleta local derivada del tema.
+  --ha-blob: var(--primary-soft);
+  --ha-blob-2: var(--accent-soft);
+  --ha-desk-top: color-mix(in oklch, var(--border) 75%, var(--border-strong));
+  --ha-desk-edge: color-mix(in oklch, var(--border-strong) 70%, var(--border));
+  --ha-floor: var(--shadow-color-strong);
+  --ha-chair: color-mix(in oklch, var(--primary) 22%, var(--surface-raised));
+  --ha-device: color-mix(in oklch, var(--text) 88%, var(--bg));
+  --ha-screen: var(--surface);
+  --ha-ui-line: var(--border);
+  --ha-ui-text: color-mix(in oklch, var(--text-subtle) 70%, var(--surface));
+  --ha-ui-muted: color-mix(in oklch, var(--text-subtle) 35%, var(--surface));
+  --ha-opt: var(--bg-soft);
+  --ha-ok: var(--success);
+  --ha-ok-soft: var(--success-soft);
+  --ha-primary: var(--primary);
+  --ha-accent: var(--accent);
+
+  // Fijos: personaje, papel y señales (colores de contenido).
+  --ha-skin: #d9956b;
+  --ha-skin-shade: #bf7a52;
+  --ha-hair: #6e3420;
+  --ha-hair-light: #8f4a2f;
+  --ha-ink: #2a1d18;
+  --ha-sweater: #ffc629;
+  --ha-sweater-dark: #e0a700;
+  --ha-pants: #3d4a6b;
+  --ha-paper: #fbfaf5;
+  --ha-paper-line: #c9d3e0;
+
+  display: block;
+  width: 100%;
+  max-width: 38rem;
+  height: auto;
+  overflow: visible;
+}
+
+// Fondo ---------------------------------------------------------------------
+.ha-blob {
+  fill: var(--ha-blob);
+}
+
+.ha-blob-2 {
+  fill: var(--ha-blob-2);
+}
+
+// Señales -------------------------------------------------------------------
+.ha-sign-red {
+  fill: var(--sign-red);
+  stroke: var(--sign-red);
+  stroke-width: 6;
+}
+
+.ha-sign-white {
+  fill: var(--sign-white);
+  stroke: var(--sign-white);
+  stroke-width: 2;
+}
+
+.ha-sign-num {
+  fill: var(--sign-black);
+  font-family: var(--font-display-stack);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+// Mesa y objetos ------------------------------------------------------------
+.ha-floor {
+  fill: var(--ha-floor);
+  opacity: 0.5;
+}
+
+.ha-desk-top {
+  fill: var(--ha-desk-top);
+}
+
+.ha-desk-edge {
+  fill: var(--ha-desk-edge);
+}
+
+.ha-chair {
+  fill: var(--ha-chair);
+}
+
+.ha-book-a {
+  fill: var(--ha-primary);
+}
+
+.ha-book-b {
+  fill: var(--ha-accent);
+}
+
+.ha-book-b-label {
+  fill: var(--on-primary);
+  font-family: var(--font-display-stack);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ha-paper {
+  fill: var(--ha-paper);
+}
+
+.ha-stroke-paper,
+.ha-paper-line,
+.ha-spine {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 1.5;
+}
+
+.ha-stroke-paper {
+  stroke: var(--ha-paper);
+  stroke-width: 2;
+}
+
+.ha-paper-line {
+  stroke: var(--ha-paper-line);
+}
+
+.ha-spine {
+  stroke: var(--ha-paper-line);
+  stroke-width: 2;
+}
+
+.ha-mug {
+  fill: var(--ha-primary);
+}
+
+.ha-mug-band {
+  fill: var(--ha-accent);
+}
+
+.ha-mug-handle {
+  fill: none;
+  stroke: var(--ha-primary);
+  stroke-width: 4;
+}
+
+.ha-steam {
+  fill: none;
+  stroke: var(--text-subtle);
+  stroke-width: 3;
+  stroke-linecap: round;
+  opacity: 0.7;
+}
+
+// Personaje -----------------------------------------------------------------
+.ha-skin {
+  fill: var(--ha-skin);
+}
+
+.ha-skin-shade {
+  fill: var(--ha-skin-shade);
+}
+
+.ha-hair {
+  fill: var(--ha-hair);
+}
+
+.ha-hair-light {
+  fill: none;
+  stroke: var(--ha-hair-light);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.ha-eye {
+  fill: var(--ha-ink);
+}
+
+.ha-line {
+  fill: none;
+  stroke: var(--ha-ink);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.ha-blush {
+  fill: #e86f6f;
+  opacity: 0.3;
+}
+
+.ha-sweater {
+  fill: var(--ha-sweater);
+}
+
+.ha-collar {
+  fill: none;
+  stroke: var(--ha-sweater-dark);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.ha-pants {
+  fill: none;
+  stroke: var(--ha-pants);
+  stroke-width: 18;
+  stroke-linejoin: round;
+}
+
+.ha-shoe {
+  fill: var(--ha-ink);
+}
+
+.ha-chair-base {
+  fill: none;
+  stroke: var(--ha-desk-edge);
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.ha-sleeve {
+  fill: none;
+  stroke: var(--ha-sweater);
+  stroke-width: 22;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ha-pencil,
+.ha-pencil-end {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.ha-pencil {
+  stroke: var(--ha-primary);
+}
+
+.ha-pencil-end {
+  stroke: #e86f6f;
+}
+
+.ha-pencil-tip {
+  fill: var(--ha-ink);
+}
+
+// Portátil y pregunta -------------------------------------------------------
+.ha-device {
+  fill: var(--ha-device);
+}
+
+.ha-device-base {
+  fill: color-mix(in oklch, var(--ha-device) 80%, var(--bg));
+}
+
+.ha-screen {
+  fill: var(--ha-screen);
+}
+
+.ha-ui-accent {
+  fill: var(--ha-primary);
+}
+
+.ha-ui-text {
+  fill: var(--ha-ui-text);
+}
+
+.ha-ui-muted {
+  fill: var(--ha-ui-muted);
+}
+
+.ha-ui-ok {
+  fill: var(--ha-ok);
+  opacity: 0.55;
+}
+
+.ha-opt {
+  fill: var(--ha-opt);
+  stroke: var(--ha-ui-line);
+  stroke-width: 1.5;
+}
+
+.ha-opt--ok {
+  fill: var(--ha-ok-soft);
+  stroke: var(--ha-ok);
+}
+
+.ha-radio {
+  fill: var(--ha-screen);
+  stroke: var(--text-subtle);
+  stroke-width: 1.5;
+}
+
+.ha-radio--ok {
+  fill: var(--ha-ok);
+}
+
+.ha-check {
+  fill: none;
+  stroke: var(--ha-screen);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.ha-track {
+  fill: var(--ha-ui-line);
+}
+
+.ha-progress {
+  fill: var(--ha-accent);
+}
+
+// Sello «sin anuncios» --------------------------------------------------------
+.ha-badge__plate {
+  fill: var(--surface-raised);
+  filter: drop-shadow(0 6px 10px var(--shadow-color-strong));
+}
+
+.ha-badge__ring,
+.ha-badge__slash {
+  fill: none;
+  stroke: var(--sign-red);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.ha-badge__ad {
+  fill: var(--text);
+  font-family: var(--font-display-stack);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.ha-badge__ribbon {
+  fill: var(--ha-ok);
+}
+
+.ha-badge__label {
+  fill: var(--surface);
+  font-family: var(--font-display-stack);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+// Piezas que giran o se escalan sobre sí mismas.
+.ha-float,
+.ha-badge__bob,
+.ha-eyes,
+.ha-writing,
+.ha-steam,
+.ha-progress {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.ha-writing {
+  transform-origin: 40% 90%; // muñeca apoyada en el cuaderno
+}
+
+.ha-progress {
+  transform-origin: left center;
+}
+
+// Movimiento ------------------------------------------------------------------
+.hero-art {
+  @include motion-ok {
+    .ha-float--a {
+      animation: ha-float 6s ease-in-out infinite alternate;
+    }
+
+    .ha-float--b {
+      animation: ha-float 7s ease-in-out -2.5s infinite alternate;
+    }
+
+    .ha-badge__bob {
+      animation: ha-bob 3.6s ease-in-out infinite alternate;
+    }
+
+    .ha-eyes {
+      animation: ha-blink 5.5s linear infinite;
+    }
+
+    .ha-writing {
+      animation: ha-write 1.8s ease-in-out infinite;
+    }
+
+    .ha-steam {
+      animation: ha-steam 3.2s var(--ease-out) infinite;
+    }
+
+    .ha-steam--2 {
+      animation-delay: -1.6s;
+    }
+
+    .ha-check {
+      animation: ha-check 6s var(--ease-out) infinite;
+    }
+
+    .ha-progress {
+      animation: ha-progress 6s var(--ease-out) infinite;
+    }
+  }
+}
+
+@keyframes ha-float {
+  from {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  to {
+    transform: translateY(-8px) rotate(2deg);
+  }
+}
+
+@keyframes ha-bob {
+  from {
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  to {
+    transform: translateY(-6px) rotate(3deg);
+  }
+}
+
+@keyframes ha-blink {
+  0%,
+  92%,
+  97%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  94.5% {
+    transform: scaleY(0.1);
+  }
+}
+
+// El lápiz va y viene sobre el renglón.
+@keyframes ha-write {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateX(3px) rotate(-3deg);
+  }
+
+  50% {
+    transform: translateX(6px) rotate(0deg);
+  }
+
+  75% {
+    transform: translateX(3px) rotate(3deg);
+  }
+}
+
+@keyframes ha-steam {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  35% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+// Ciclo de 6 s: se marca la respuesta, luego avanza el progreso, pausa y vuelta.
+@keyframes ha-check {
+  0%,
+  12% {
+    stroke-dashoffset: 1;
+  }
+
+  26%,
+  94% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes ha-progress {
+  0%,
+  28% {
+    transform: scaleX(0.82);
+  }
+
+  44%,
+  94% {
+    transform: scaleX(1);
+  }
+
+  100% {
+    transform: scaleX(0.82);
+  }
+}
