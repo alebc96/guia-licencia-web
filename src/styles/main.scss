@@ -1,0 +1,26 @@
+// ==========================================================================
+// Guía B — sistema de diseño v2 («Estudio»)
+// Punto de entrada único. Sustituye a src/app/globals.css conservando todos
+// los nombres de clase existentes.
+//
+//   abstracts/  tokens y mixins (no generan CSS)
+//   themes/     paletas y custom properties por tema: claro, oscuro, lectura
+//   base/       reset, tipografía, accesibilidad
+//   layout/     contenedores, bandas, navegación, pie
+//   components/ botones, tarjetas, prosa, controles, señales, ajustes
+//   motion/     keyframes
+// ==========================================================================
+
+@use "themes/themes";
+@use "base/reset";
+@use "base/typography";
+@use "layout/layout";
+@use "layout/nav";
+@use "components/buttons";
+@use "components/cards";
+@use "components/prose";
+@use "components/controls";
+@use "components/signs";
+@use "components/reading-tools";
+@use "motion/keyframes";
+@use "base/a11y"; // al final: forced-colors, reduced-motion e impresión ganan

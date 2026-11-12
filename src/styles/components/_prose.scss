@@ -1,0 +1,256 @@
+@use "../abstracts/mixins" as *;
+
+// ==========================================================================
+// Prosa del temario (Markdown). Aquí manda la lectura, no la marca:
+// - medida de 60–70 caracteres, interlineado 1.78 (1.85 en modo lectura)
+// - separación entre párrafos de ~1.15 em: cumple WCAG 1.4.12 con margen
+// - sin animaciones de entrada en párrafos: el texto debe estar quieto
+// - en el modo lectura, cambia a Literata (serif de pantalla)
+// ==========================================================================
+
+.prose {
+  max-width: var(--measure);
+  font-family: var(--font-prose);
+  font-size: calc(var(--fs-body) * var(--text-scale) * var(--user-scale));
+  line-height: var(--leading-prose);
+  letter-spacing: var(--tracking-body);
+  color: var(--text);
+  hanging-punctuation: first;
+
+  // Guiones automáticos solo en pantallas estrechas (en ancho, molestan).
+  @include down(sm) {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+
+  > * + * {
+    margin-top: var(--paragraph-gap);
+  }
+
+  // Titulares de sección: Inter compacta, con marcador amarillo.
+  h2 {
+    position: relative;
+    margin-top: calc(var(--paragraph-gap) * 2.6);
+    padding-top: var(--space-lg);
+    font-family: var(--font-display-stack);
+    font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.022em;
+    scroll-margin-top: var(--sticky-offset);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2.5rem;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--accent);
+      transform-origin: left;
+      @include scroll-reveal(grow-x, entry 10% cover 25%);
+    }
+  }
+
+  h3 {
+    margin-top: calc(var(--paragraph-gap) * 1.8);
+    font-family: var(--font-display-stack);
+    font-size: clamp(1.1875rem, 1.1rem + 0.45vw, 1.375rem);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.012em;
+    scroll-margin-top: var(--sticky-offset);
+  }
+
+  h2 + *,
+  h3 + * {
+    margin-top: 0.6em;
+  }
+
+  // Primer párrafo algo mayor: puerta de entrada al tema.
+  > p:first-child {
+    font-size: 1.08em;
+    color: var(--text);
+  }
+
+  ul,
+  ol {
+    padding-left: 1.4em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  li {
+    padding-left: 0.25em;
+  }
+
+  ul > li::marker {
+    color: var(--accent-ink);
+    font-size: 1.1em;
+  }
+
+  ol > li::marker {
+    color: var(--text-subtle);
+    font-family: var(--font-display-stack);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  a {
+    color: var(--primary);
+    font-weight: 500;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.2em;
+  }
+
+  // Negrita = dato que cae en el examen: subrayado tipo rotulador.
+  strong {
+    font-weight: 700;
+    background: linear-gradient(transparent 62%, color-mix(in srgb, var(--accent) 45%, transparent) 62%);
+    border-radius: 0.1em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+
+    [data-theme="dark"] & {
+      background: linear-gradient(transparent 62%, color-mix(in srgb, var(--accent) 30%, transparent) 62%);
+    }
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  blockquote {
+    position: relative;
+    padding: var(--space-md) var(--space-lg);
+    background: var(--primary-soft);
+    border-radius: var(--radius-md);
+    color: var(--text);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: var(--space-sm) auto var(--space-sm) 0;
+      width: 4px;
+      border-radius: 0 4px 4px 0;
+      background: var(--primary);
+    }
+
+    > * + * {
+      margin-top: 0.6em;
+    }
+  }
+
+  // Tablas: desplazables en móvil, cebra suave y cabecera pegajosa.
+  table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-text-stack);
+    font-size: 0.92em;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+  }
+
+  th,
+  td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    min-width: 8rem;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  th {
+    position: sticky;
+    top: 0;
+    font-weight: 700;
+    background: var(--bg-soft);
+    color: var(--text);
+  }
+
+  tbody tr:nth-child(even) td {
+    background: color-mix(in srgb, var(--bg-soft) 50%, transparent);
+  }
+
+  caption {
+    caption-side: bottom;
+    padding: 0.6rem 1rem;
+    font-size: var(--fs-fine);
+    color: var(--text-subtle);
+    text-align: left;
+  }
+
+  code {
+    font-family: var(--font-mono-stack);
+    font-size: 0.88em;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    padding: 0.05em 0.35em;
+    border-radius: var(--radius-xs);
+  }
+
+  img {
+    border-radius: var(--radius-md);
+  }
+
+  hr {
+    border: 0;
+    height: 4px;
+    margin-block: var(--space-2xl);
+    background: repeating-linear-gradient(90deg, var(--border-strong) 0 1.5rem, transparent 1.5rem 2.75rem);
+    opacity: 0.5;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Diseño de la ficha de tema
+// --------------------------------------------------------------------------
+.topic-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+  align-items: start;
+
+  @include up(md) {
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: clamp(2rem, 1rem + 3vw, 4.5rem);
+  }
+}
+
+.topic-layout__aside {
+  order: -1;
+
+  @include up(md) {
+    order: 0;
+    position: sticky;
+    top: var(--sticky-offset);
+  }
+
+  // En móvil el índice se pliega en una tarjeta para no empujar el texto.
+  @include down(md) {
+    .toc {
+      padding: var(--space-md);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      max-height: none;
+    }
+  }
+}
+
+.topic-layout__body {
+  min-width: 0;
+  max-width: var(--measure);
+}

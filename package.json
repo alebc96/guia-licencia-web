@@ -14,8 +14,9 @@
     "check:links": "node scripts/check-links.mjs",
     "generate:signs": "node scripts/generate-signs.mjs",
     "check:signs": "node scripts/generate-signs.mjs --check",
-    "verify": "npm run test && npm run check:signs && npm run check:content && npm run check:secrets",
-    "check:secrets": "node scripts/check-secrets.mjs"
+    "verify": "npm run test && npm run check:signs && npm run check:content && npm run check:secrets && npm run check:contrast",
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs"
   },
   "dependencies": {
     "gray-matter": "4.0.3",
@@ -36,6 +37,7 @@
     "@vitejs/plugin-react": "6.3.0",
     "jsdom": "31.0.0",
     "pagefind": "1.6.0",
+    "sass": "1.93.2",
     "typescript": "5.9.3",
     "vitest": "5.1.0"
   },

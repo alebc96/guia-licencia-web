@@ -74,7 +74,7 @@ export default function CreditosPage() {
               La página de cada señal muestra el autor, la licencia con enlace a su texto y un enlace al archivo
               original. Las imágenes CC BY-SA conservan su licencia; esta no se extiende al resto del contenido de la web.
               No son el símbolo oficial ni deben usarse como señalización. La ilustración de la portada es propia. La
-              tipografía es Inter, publicada bajo SIL Open Font License 1.1 y servida desde este dominio.
+              tipografía es Inter, Atkinson Hyperlegible Next (Braille Institute) y Literata (modo Lectura), todas bajo SIL Open Font License 1.1 y servidas desde este dominio. Los iconos de los ajustes de lectura proceden de Lucide (licencia ISC).
             </p>
             <ul className="plain-list">
               {senales.slice(0, IMAGE_CREDIT_SAMPLE).map((senal) => (

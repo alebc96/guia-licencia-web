@@ -1,0 +1,86 @@
+@use "../abstracts/mixins" as *;
+
+.skip-link {
+  position: absolute;
+  left: var(--space-sm);
+  top: calc(-1 * var(--space-3xl));
+  z-index: 300;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 700;
+  text-decoration: none;
+  transition: top var(--dur-fast) var(--ease-out);
+
+  &:focus {
+    top: var(--space-xs);
+  }
+}
+
+.visually-hidden {
+  @include visually-hidden;
+}
+
+// Modo de alto contraste de Windows: los bordes y focos deben sobrevivir.
+@media (forced-colors: active) {
+  .btn,
+  .card,
+  .topic-card,
+  .progress-toggle,
+  .chip,
+  .keyfact,
+  .callout,
+  .theme-switch {
+    border: 1px solid CanvasText;
+  }
+
+  .progress-toggle[data-done="true"],
+  .theme-switch__option[aria-checked="true"] {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+}
+
+// Reducción de movimiento: corte en seco a todo lo animado.
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// Impresión: apuntes limpios en blanco y negro.
+@media print {
+  .global-nav,
+  .sub-nav,
+  .mobile-menu,
+  .footer,
+  .reading-progress,
+  .reading-tools,
+  .topic-layout__aside,
+  .progress-toggle {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+
+  .tile {
+    padding-block: 1rem !important;
+    background: none !important;
+  }
+
+  .prose a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+  }
+}

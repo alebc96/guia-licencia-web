@@ -1,0 +1,375 @@
+@use "../abstracts/mixins" as *;
+
+// ==========================================================================
+// Controles: progreso, chips, badges, formularios, listas
+// ==========================================================================
+
+// --- Botón "Marcar como leído" ---------------------------------------------
+// Al marcar: relleno verde que crece desde el centro + el check se dibuja.
+.progress-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.55rem 1.1rem;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-display-stack);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast),
+    color var(--dur-base) var(--ease-standard),
+    transform var(--dur-base) var(--ease-spring);
+
+  // Círculo vacío antes del texto en estado pendiente.
+  &::before {
+    content: "";
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+
+  // Relleno que crece al completar.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--success);
+    border-radius: inherit;
+    transform: scale(0);
+    opacity: 0;
+    transition:
+      transform var(--dur-slow) var(--ease-out),
+      opacity var(--dur-fast);
+  }
+
+  &:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  &:active {
+    @include motion-ok {
+      transform: scale(0.95);
+    }
+  }
+
+  svg {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    stroke-width: 2.6;
+    stroke-dasharray: 24;
+    stroke-dashoffset: 0;
+  }
+
+  &[data-done="true"] {
+    border-color: var(--success);
+    color: var(--bg);
+
+    &::before {
+      display: none;
+    }
+
+    &::after {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    @include motion-ok {
+      animation: pop var(--dur-slow) var(--ease-spring);
+
+      svg {
+        animation: draw-check 420ms var(--ease-out) 120ms both;
+      }
+    }
+  }
+}
+
+// --- Progreso -----------------------------------------------------------------
+.progress-bar {
+  position: relative;
+  height: 0.5rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), color-mix(in srgb, var(--primary) 40%, var(--accent)));
+  transition: width var(--dur-reveal) var(--ease-out);
+}
+
+.progress-ring {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: inherit;
+  font-family: var(--font-display-stack);
+  font-size: var(--fs-fine);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-ring__svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  transform: rotate(-90deg);
+}
+
+.progress-ring__track {
+  stroke: currentColor;
+  opacity: 0.2;
+}
+
+.progress-ring__value {
+  stroke: var(--primary);
+  stroke-linecap: round;
+  transition: stroke-dashoffset var(--dur-reveal) var(--ease-out);
+}
+
+// Barra de lectura del tema (CSS puro, ligada al scroll del documento).
+.reading-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 120;
+  height: 3px;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  pointer-events: none;
+
+  @supports (animation-timeline: scroll()) {
+    animation: grow-x linear both;
+    animation-timeline: scroll(root);
+  }
+
+  // Sin soporte: no se muestra (no hay un valor fiable que pintar).
+  @supports not (animation-timeline: scroll()) {
+    display: none;
+  }
+}
+
+// --- Chips y badges ----------------------------------------------------------
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0.45rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast),
+    background-color var(--dur-fast),
+    color var(--dur-fast),
+    transform var(--dur-base) var(--ease-spring);
+
+  &:hover {
+    border-color: var(--border-strong);
+    color: var(--text);
+  }
+
+  &:active {
+    @include motion-ok {
+      transform: scale(0.95);
+    }
+  }
+
+  &[aria-pressed="true"],
+  &[data-selected="true"] {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+    color: var(--primary);
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  @include label-caps;
+  color: var(--text-muted);
+}
+
+.badge--new {
+  background: var(--primary-soft);
+  border-color: color-mix(in srgb, var(--primary) 30%, transparent);
+  color: var(--primary);
+}
+
+.badge--pending {
+  background: var(--warning-soft);
+  border-color: color-mix(in srgb, var(--warning-ink) 30%, transparent);
+  color: var(--warning-ink);
+}
+
+// --- Formularios ---------------------------------------------------------------
+.search-input {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.8rem 1.25rem;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1.0625rem;
+  transition:
+    border-color var(--dur-fast),
+    box-shadow var(--dur-base) var(--ease-out);
+
+  &::placeholder {
+    color: var(--text-subtle);
+    opacity: 1;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--focus-halo);
+  }
+}
+
+.field-label {
+  display: block;
+  @include label-caps;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2xs);
+}
+
+// --- Listas de las páginas de referencia ---------------------------------------
+.plain-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.plain-list__item,
+.resource-item,
+.search-results__item,
+.glossary__item {
+  padding-block: var(--space-md);
+  border-bottom: 1px solid var(--border);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.resource-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.glossary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.glossary__term {
+  font-family: var(--font-display-stack);
+  font-size: 1.3125rem;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+}
+
+.glossary__definition {
+  margin: 0.35rem 0 0;
+  max-width: var(--measure);
+  line-height: var(--leading-prose);
+  color: var(--text-muted);
+}
+
+.glossary__related {
+  font-size: var(--fs-caption);
+  color: var(--text-subtle);
+}
+
+.progress-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+
+.progress-list__item {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+  gap: var(--space-xs);
+  align-items: center;
+  min-height: 3.5rem;
+  padding-block: var(--space-xs);
+  border-bottom: 1px solid var(--border);
+
+  &[data-done="true"] {
+    .progress-list__state {
+      color: var(--success);
+    }
+
+    .progress-list__title {
+      color: var(--text-subtle);
+    }
+  }
+}
+
+.progress-list__index {
+  font-family: var(--font-mono-stack);
+  font-size: var(--fs-fine);
+  color: var(--text-subtle);
+}
+
+.progress-list__title {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.progress-list__state {
+  @include label-caps;
+  color: var(--text-subtle);
+}
+
+.search-results {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-list {
+  display: grid;
+  grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+  gap: 0.5rem 1rem;
+  margin-top: var(--space-xs);
+  font-size: var(--fs-caption);
+
+  dt {
+    color: var(--text-subtle);
+  }
+
+  dd {
+    margin: 0;
+    color: var(--text-muted);
+  }
+}

@@ -1,0 +1,110 @@
+@use "sass:map";
+@use "tokens" as *;
+
+// Accesos cortos a los mapas -------------------------------------------------
+@function space($key) {
+  @return map.get($space, $key);
+}
+@function radius($key) {
+  @return map.get($radii, $key);
+}
+@function ease($key) {
+  @return map.get($ease, $key);
+}
+@function dur($key) {
+  @return map.get($duration, $key);
+}
+@function fs($key) {
+  @return map.get($type-scale, $key);
+}
+
+// Media queries --------------------------------------------------------------
+@mixin up($bp) {
+  @media (min-width: map.get($breakpoints, $bp)) {
+    @content;
+  }
+}
+
+@mixin down($bp) {
+  @media (max-width: (map.get($breakpoints, $bp) - 0.02px)) {
+    @content;
+  }
+}
+
+// Movimiento -----------------------------------------------------------------
+// Las animaciones solo existen si el usuario no pidió reducir movimiento y
+// no está en modo lectura (que es, por diseño, un modo sin distracciones).
+@mixin motion-ok {
+  @media (prefers-reduced-motion: no-preference) {
+    :root:not([data-theme="reading"]):not([data-motion="reduce"]) & {
+      @content;
+    }
+  }
+}
+
+// Animación ligada al scroll (Scroll-driven Animations, CSS nativo, sin JS).
+// Mejora progresiva: si el navegador no la soporta, el contenido se ve
+// directamente en su estado final.
+@mixin scroll-reveal($name: reveal-up, $range: entry 5% cover 28%) {
+  @supports (animation-timeline: view()) {
+    @include motion-ok {
+      animation: $name linear both;
+      animation-timeline: view();
+      animation-range: $range;
+    }
+  }
+}
+
+// Foco visible de doble anillo: funciona sobre cualquier fondo.
+@mixin focus-ring($offset: 3px) {
+  outline: 3px solid var(--focus);
+  outline-offset: $offset;
+  box-shadow: 0 0 0 calc(#{$offset} + 3px) var(--focus-halo);
+}
+
+// Superficie "cristal" para barras pegajosas.
+@mixin glass($bg: var(--nav-bg)) {
+  background: $bg;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+
+  @supports not (backdrop-filter: blur(1px)) {
+    background: var(--bg);
+  }
+}
+
+// Etiqueta en versalitas (labels, numeración).
+@mixin label-caps {
+  font-family: $font-display;
+  font-size: fs(fine);
+  font-weight: 600;
+  letter-spacing: map.get($tracking, label);
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Área táctil mínima sin cambiar el tamaño visual del elemento.
+@mixin touch-target {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: max(100%, #{$touch-target});
+    height: max(100%, #{$touch-target});
+    transform: translate(-50%, -50%);
+  }
+}
