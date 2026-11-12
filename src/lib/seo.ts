@@ -15,22 +15,27 @@ interface PageMeta {
  */
 export function buildMetadata({ title, description, path, type = "website", noIndex }: PageMeta): Metadata {
   const isHome = path === "/";
-  const fullTitle = isHome ? SITE.title : `${title} — ${SITE.name}`;
   const url = absoluteUrl(path);
 
   return {
-    title: fullTitle,
+    // The root layout appends "— Guía B" through its title template, so the page
+    // only contributes its own name; the home page opts out of the template.
+    title: isHome ? { absolute: SITE.title } : title,
     description,
     alternates: { canonical: url },
     robots: noIndex ? { index: false, follow: false } : undefined,
     openGraph: {
       type,
-      title: fullTitle,
+      title: isHome ? SITE.title : `${title} — ${SITE.name}`,
       description,
       url,
       siteName: SITE.name,
       locale: SITE.locale.replace("-", "_"),
     },
-    twitter: { card: "summary_large_image", title: fullTitle, description },
+    twitter: {
+      card: "summary_large_image",
+      title: isHome ? SITE.title : `${title} — ${SITE.name}`,
+      description,
+    },
   };
 }
