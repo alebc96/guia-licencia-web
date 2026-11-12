@@ -5,12 +5,12 @@ import { BASE_PATH } from "@/lib/constants";
 
 interface SearchHit {
   url: string;
-  title: string;
   excerpt: string;
+  meta: { title?: string };
 }
 
 interface PagefindModule {
-  options?: (options: { basePath?: string }) => Promise<void>;
+  options?: (options: { basePath?: string; baseUrl?: string }) => Promise<void>;
   search: (query: string) => Promise<{ results: Array<{ data: () => Promise<SearchHit> }> }>;
 }
 
@@ -38,8 +38,10 @@ export function SearchBox() {
     dynImport(`${BASE_PATH}/pagefind/pagefind.js`)
       .then(async (module) => {
         if (cancelled) return;
+        // basePath is where the Pagefind bundle lives; baseUrl prefixes the
+        // result URLs, which are indexed relative to out/ without the base path.
         if (BASE_PATH && typeof module.options === "function") {
-          await module.options({ basePath: `${BASE_PATH}/` });
+          await module.options({ basePath: `${BASE_PATH}/pagefind/`, baseUrl: `${BASE_PATH}/` });
         }
         pagefind.current = module;
         setStatus("ready");
@@ -114,7 +116,7 @@ export function SearchBox() {
           {hits.map((hit) => (
             <li key={hit.url} className="search-results__item">
               <a href={hit.url} className="t-body-strong">
-                {hit.title}
+                {hit.meta.title ?? hit.url}
               </a>
               <p
                 className="t-caption"
