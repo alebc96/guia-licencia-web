@@ -90,10 +90,6 @@ export function ReadingTools() {
             )}
           />
         </fieldset>
-
-        <p className="reading-tools__hint">
-          El modo Lectura usa papel cálido, letra serif y desactiva las animaciones. Se guarda en este navegador.
-        </p>
       </div>
     </>
   );

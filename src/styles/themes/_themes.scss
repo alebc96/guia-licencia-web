@@ -104,15 +104,12 @@
   --text-scale: 1.08;
 }
 
-// Tamaño de texto (se multiplica con el del modo lectura).
+// Tamaño de texto: escala el cuerpo de la raíz, y todo lo que está en rem
+// (cuerpo, prosa, titulares, interfaz) lo sigue. Se multiplica con el modo lectura.
 @each $size, $scale in (s: 0.92, m: 1, l: 1.12, xl: 1.25) {
-  [data-text-size="#{$size}"] {
-    --user-scale: #{$scale};
+  html[data-text-size="#{$size}"] {
+    font-size: #{$scale * 100%};
   }
-}
-
-:root {
-  --user-scale: 1;
 }
 
 // Más contraste si el sistema lo pide.
