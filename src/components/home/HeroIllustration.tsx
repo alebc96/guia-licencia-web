@@ -41,7 +41,7 @@ export function HeroIllustration() {
       xmlns="http://www.w3.org/2000/svg"
     >
       <title id={TITLE_ID}>
-        Una joven estudia el teórico del permiso B en su escritorio: en el portátil acierta una pregunta de test,
+        Loidita estudia el teórico del permiso B en su escritorio: en el portátil acierta una pregunta de test,
         junto a sus apuntes, un lápiz, una taza y dos señales de tráfico. Un sello indica que la guía no tiene
         anuncios.
       </title>
