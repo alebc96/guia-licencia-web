@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { SITE, publicUrl } from "@/lib/constants";
+import { SITE } from "@/lib/constants";
 import { ArrowRightIcon } from "@/components/ui/icons";
+import { HeroIllustration } from "@/components/home/HeroIllustration";
 
 /** Home hero: eyebrow, headline, tagline, two calls to action and an illustration. */
 export function Hero() {
@@ -33,13 +34,7 @@ export function Hero() {
           </div>
 
           <div className="hero__media">
-            <img
-              src={publicUrl("/img/hero-road.svg")}
-              alt="Ilustración de una carretera de dos carriles con líneas discontinuas y señales al fondo"
-              width={640}
-              height={420}
-              decoding="async"
-            />
+            <HeroIllustration />
           </div>
         </div>
       </div>

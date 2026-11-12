@@ -230,17 +230,3 @@ main > .tile:first-child {
 .hero__copy {
   max-width: 38rem;
 }
-
-.hero__media img {
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius-xl);
-
-  @supports (animation-timeline: view()) {
-    @include motion-ok {
-      animation: hero-media linear both;
-      animation-timeline: view();
-      animation-range: cover 0% cover 60%;
-    }
-  }
-}
