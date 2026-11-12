@@ -121,7 +121,30 @@ export default async function SenalPage({ params }: PageProps) {
                 <dt>Fuente oficial</dt>
                 <dd>{senal.officialSource}</dd>
                 <dt>Crédito de imagen</dt>
-                <dd>{senal.imageCredit}</dd>
+                <dd>
+                  {senal.imageLicense ? (
+                    <>
+                      {senal.imageAuthor ? <>{senal.imageAuthor} · </> : null}
+                      {senal.imageLicenseUrl ? (
+                        <a href={senal.imageLicenseUrl} rel="license noopener" target="_blank">
+                          {senal.imageLicense}
+                        </a>
+                      ) : (
+                        senal.imageLicense
+                      )}
+                      {" · "}
+                      {senal.imageSourceUrl ? (
+                        <a href={senal.imageSourceUrl} rel="noopener" target="_blank">
+                          Wikimedia Commons
+                        </a>
+                      ) : (
+                        "Wikimedia Commons"
+                      )}
+                    </>
+                  ) : (
+                    senal.imageCredit
+                  )}
+                </dd>
                 <dt>Actualizada</dt>
                 <dd>{senal.updated}</dd>
               </dl>

@@ -171,8 +171,19 @@ if (fs.existsSync(creditsFile)) {
   const credits = JSON.parse(fs.readFileSync(creditsFile, "utf8"));
   for (const [code, credit] of Object.entries(credits)) {
     if (!senalCodes.has(code)) fail(`data/creditos.json: ${code} has no ficha`);
-    for (const field of ["artist", "license", "page"]) {
+    for (const field of ["license", "page"]) {
       if (!credit[field]) fail(`data/creditos.json: ${code} is missing ${field}`);
+    }
+    if (/p[áa]gina de origen/i.test(credit.license) || credit.artist === "Wikimedia Commons") {
+      fail(`data/creditos.json: ${code} still has the placeholder author/licence (run audit-commons-licenses.mjs --write)`);
+    }
+    if (/unknown author|no machine-readable|original uploader|assumed/i.test(credit.artist ?? "")) {
+      fail(`data/creditos.json: ${code} has a placeholder author "${credit.artist}" (run audit-commons-licenses.mjs --normalize)`);
+    }
+    // CC BY / BY-SA require the author and a link to the licence.
+    if (/^CC BY/i.test(credit.license)) {
+      if (!credit.artist) fail(`data/creditos.json: ${code} is ${credit.license} but has no artist`);
+      if (!credit.licenseUrl) fail(`data/creditos.json: ${code} is ${credit.license} but has no licenseUrl`);
     }
     if (!fs.existsSync(path.join(ROOT, "public", "senales", `${code.toLowerCase()}.svg`))) {
       fail(`data/creditos.json: ${code} credits an image that does not exist`);

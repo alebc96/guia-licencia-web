@@ -12,7 +12,9 @@ meaning: "Indica la existencia de un paso a nivel, un puente móvil o un muelle 
 related: []
 image: "/senales/p-9a.svg"
 imageAlt: "P-9a, Aproximación a un paso a nivel, puente móvil o muelle (200 m, lado derecho)"
-imageCredit: "Wikimedia Commons · licencia en la página de origen"
+imageCredit: "Dominio público · Wikimedia Commons"
+imageLicense: "Dominio público"
+imageSourceUrl: "https://commons.wikimedia.org/wiki/File:Spain_traffic_signal_p9a.svg"
 officialSource: "RD 465/2025, catálogo de señales verticales de circulación (Tomo I)"
 tier: "B"
 isNew: false

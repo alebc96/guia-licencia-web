@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { loadSenales } from "@/lib/content";
-import { SITE, publicUrl } from "@/lib/constants";
+import { SITE, absoluteUrl, publicUrl } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import { SubNav } from "@/components/layout/SubNav";
 import { formatSpanishDate } from "@/components/layout/Footer";
@@ -17,6 +17,11 @@ const IMAGE_CREDIT_SAMPLE = 8;
 
 export default function CreditosPage() {
   const senales = loadSenales();
+  const licenseCount = (test: (license: string) => boolean) =>
+    senales.filter((senal) => senal.imageLicense && test(senal.imageLicense)).length;
+  const publicDomain = licenseCount((l) => /^(dominio público|cc0)/i.test(l));
+  const ccBy = licenseCount((l) => /^CC BY \d/i.test(l));
+  const ccBySa = licenseCount((l) => /^CC BY-SA/i.test(l));
 
   return (
     <>
@@ -64,10 +69,12 @@ export default function CreditosPage() {
           <article className="stack">
             <h2 className="t-display-md">Imágenes y pictogramas</h2>
             <p>
-              Los pictogramas de las señales son dibujos esquemáticos propios: reproducen la forma y los colores del
-              símbolo oficial, pero no son el símbolo oficial ni deben usarse como señalización. La ilustración de la
-              portada también es propia. La tipografía es Inter, publicada bajo SIL Open Font License 1.1 y servida desde
-              este dominio.
+              Las imágenes de las señales proceden de Wikimedia Commons y se usan según la licencia de cada archivo:{" "}
+              {publicDomain} están en dominio público o CC0, {ccBy} son CC BY 4.0 y {ccBySa} son CC BY-SA 3.0 o 4.0.
+              La página de cada señal muestra el autor, la licencia con enlace a su texto y un enlace al archivo
+              original. Las imágenes CC BY-SA conservan su licencia; esta no se extiende al resto del contenido de la web.
+              No son el símbolo oficial ni deben usarse como señalización. La ilustración de la portada es propia. La
+              tipografía es Inter, publicada bajo SIL Open Font License 1.1 y servida desde este dominio.
             </p>
             <ul className="plain-list">
               {senales.slice(0, IMAGE_CREDIT_SAMPLE).map((senal) => (
@@ -102,8 +109,8 @@ export default function CreditosPage() {
               público y las correcciones se hacen mediante incidencias y propuestas sobre ese repositorio.
             </p>
             <p>
-              <a href={`${SITE.url.replace(/\/$/, "")}`} className="btn-link">
-                {SITE.url}
+              <a href={absoluteUrl("/")} className="btn-link">
+                {absoluteUrl("/")}
               </a>
             </p>
           </article>

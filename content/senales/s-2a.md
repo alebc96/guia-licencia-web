@@ -14,7 +14,10 @@ mistake: "Pensar que el final de la autovía es también el final de la prohibic
 related: ["S-1a"]
 image: "/senales/s-2a.svg"
 imageAlt: "S-2a, Fin de autovía"
-imageCredit: "Wikimedia Commons · licencia en la página de origen"
+imageCredit: "Ministerio de Transportes, Movilidad y Agenda Urbana · Dominio público · Wikimedia Commons"
+imageAuthor: "Ministerio de Transportes, Movilidad y Agenda Urbana"
+imageLicense: "Dominio público"
+imageSourceUrl: "https://commons.wikimedia.org/wiki/File:Spain_traffic_signal_S-2a.svg"
 officialSource: "RD 465/2025, catálogo de señales verticales de circulación (Tomo I)"
 tier: "A"
 isNew: false
