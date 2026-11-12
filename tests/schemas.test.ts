@@ -236,6 +236,21 @@ describe("senalFrontmatterSchema", () => {
     expectRejected(senalFrontmatterSchema, validSenalFrontmatter({ image: "/img/r-301.png" }), "image");
   });
 
+  it("rechaza enlaces de crédito que no son https y señala el campo", () => {
+    expectRejected(senalFrontmatterSchema, validSenalFrontmatter({ imageLicenseUrl: "javascript:alert(1)" }), "imageLicenseUrl");
+    expectRejected(senalFrontmatterSchema, validSenalFrontmatter({ imageSourceUrl: "http://commons.wikimedia.org/x" }), "imageSourceUrl");
+  });
+
+  it("acepta enlaces de crédito https", () => {
+    expectAccepted(
+      senalFrontmatterSchema,
+      validSenalFrontmatter({
+        imageLicenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+        imageSourceUrl: "https://commons.wikimedia.org/wiki/File:X.svg",
+      }),
+    );
+  });
+
   it("rechaza una ficha sin significado y señala `meaning`", () => {
     const { meaning: _meaning, ...rest } = validSenalFrontmatter();
     expectRejected(senalFrontmatterSchema, rest, "meaning");

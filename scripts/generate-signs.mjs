@@ -231,6 +231,10 @@ function renderFicha(signal) {
     `image: "/senales/${signal.slug}.svg"`,
     `imageAlt: "${quote(`${signal.code}, ${signal.name}`)}"`,
     `imageCredit: "${quote(signal.imageCredit)}"`,
+    ...(signal.imageAuthor ? [`imageAuthor: "${quote(signal.imageAuthor)}"`] : []),
+    ...(signal.imageLicense ? [`imageLicense: "${quote(signal.imageLicense)}"`] : []),
+    ...(signal.imageLicenseUrl ? [`imageLicenseUrl: "${quote(signal.imageLicenseUrl)}"`] : []),
+    ...(signal.imageSourceUrl ? [`imageSourceUrl: "${quote(signal.imageSourceUrl)}"`] : []),
     `officialSource: "${quote(OFFICIAL_SOURCE)}"`,
     `tier: "${signal.tier}"`,
     "isNew: false",
@@ -300,9 +304,13 @@ const signals = official.map((entry) => {
     tier: override?.tier ?? "B",
     verified: true,
     imageCredit: credit
-      ? [credit.artist, credit.license].filter(Boolean).join(" · ")
+      ? [credit.artist, credit.license, "Wikimedia Commons"].filter(Boolean).join(" · ")
       : "Pictograma esquemático propio; no reproduce el símbolo oficial",
     extraParagraphs: override ? [] : paragraphs.slice(1),
+    imageAuthor: credit?.artist || null,
+    imageLicense: credit?.license ?? null,
+    imageLicenseUrl: credit?.licenseUrl ?? null,
+    imageSourceUrl: credit?.page ?? null,
     needsGeneratedArt: !realImage,
   };
 });

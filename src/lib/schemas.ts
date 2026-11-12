@@ -17,6 +17,8 @@ const httpsUrl = z.string().url().refine((url) => url.startsWith("https://") || 
 });
 
 const nonEmpty = z.string().trim().min(1);
+// Credit links are rendered as hrefs; only https is accepted (no javascript: etc.).
+const secureUrl = z.string().url().regex(/^https:\/\//, "expected an https:// URL");
 
 export const keyFactSchema = z.object({
   label: nonEmpty,
@@ -80,6 +82,12 @@ export const senalFrontmatterSchema = z.object({
   image: z.string().regex(/^\/senales\/[a-z0-9-]+\.svg$/, "expected an SVG under /senales/"),
   imageAlt: nonEmpty,
   imageCredit: nonEmpty,
+  // Structured credit for Wikimedia Commons images (CC BY / CC BY-SA need the
+  // author, the licence with a link and a link to the source page).
+  imageAuthor: nonEmpty.optional(),
+  imageLicense: nonEmpty.optional(),
+  imageLicenseUrl: secureUrl.optional(),
+  imageSourceUrl: secureUrl.optional(),
   officialSource: nonEmpty,
   tier: z.enum(["A", "B", "C"]),
   isNew: z.boolean().default(false),

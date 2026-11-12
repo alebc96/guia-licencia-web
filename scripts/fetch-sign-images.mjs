@@ -176,6 +176,7 @@ async function main() {
 
   let downloaded = 0;
   let skipped = 0;
+  let newEntries = 0;
 
   for (let index = 0; index < selected.length; index += 20) {
     const batch = selected.slice(index, index + 20);
@@ -183,6 +184,7 @@ async function main() {
 
     for (const item of batch) {
       const target = path.join(OUT_DIR, `${item.signal.code.toLowerCase()}.svg`);
+      // Placeholder for new entries only: run audit-commons-licenses.mjs --write to fill the real credit.
       const attribution = meta.get(`File:${item.file.name}`) ?? {
         artist: "Wikimedia Commons",
         license: "licencia en la página de origen",
@@ -214,11 +216,18 @@ async function main() {
         continue;
       }
 
+      // Keep the real credit (artist, license, licenseUrl) already written by
+      // audit-commons-licenses.mjs for this same file; only new entries get placeholders.
+      const previous = credits[item.signal.code];
+      const sameFile = previous?.file === item.file.name;
+      if (!sameFile) newEntries += 1;
+
       credits[item.signal.code] = {
         file: item.file.name,
         page: `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(item.file.name)}`,
-        artist: attribution.artist,
-        license: attribution.license,
+        artist: sameFile && previous.artist !== undefined ? previous.artist : attribution.artist,
+        license: sameFile && previous.license !== undefined ? previous.license : attribution.license,
+        ...(sameFile && previous.licenseUrl ? { licenseUrl: previous.licenseUrl } : {}),
       };
       downloaded += 1;
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -227,6 +236,11 @@ async function main() {
 
   fs.writeFileSync(CREDITS, `${JSON.stringify(credits, null, 1)}\n`);
   console.log(`Downloaded ${downloaded} SVGs, skipped ${skipped}. Credits: ${path.relative(ROOT, CREDITS)}`);
+  if (newEntries > 0) {
+    console.log(
+      `${newEntries} entradas nuevas con créditos provisionales. Ejecuta: node scripts/audit-commons-licenses.mjs --write && node scripts/generate-signs.mjs`,
+    );
+  }
 }
 
 await main();
