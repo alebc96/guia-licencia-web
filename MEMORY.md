@@ -118,7 +118,11 @@ odd/tasks/          documento ODD de la feature
    esperado; no revertirlo.
 8. **Nunca volver a `next/font/google`**: `fonts.gstatic.com` da timeout en esta
    red y tumba todas las rutas de `dev` con un 500. Inter está vendorizada.
-9. **`next dev` genera `AGENTS.md`** si no se desactiva; aquí está desactivado con
+9. **Antes de cada push, `git status --short` tiene que estar vacío.** Los commits
+   por superficie dejan fuera archivos de `src/` o `tests/` con facilidad; el CI
+   corre los tests y un archivo sin commitear tumba el deploy entero (pasó dos
+   veces: esquema Zod y test de contenido). El síntoma es Pages en 404.
+10. **`next dev` genera `AGENTS.md`** si no se desactiva; aquí está desactivado con
    `agentRules: false` porque la memoria del proyecto es `MEMORY.md`.
 
 ---
