@@ -61,6 +61,23 @@ NEXT_PUBLIC_SITE_URL=https://alebc96.github.io
 
 Activa Pages en **Settings → Pages → Source: GitHub Actions**.
 
+#### Cambiar a un dominio propio
+
+No hace falta tocar código. El workflow lee la variable de repositorio opcional
+`CUSTOM_DOMAIN`: si existe, compila con `NEXT_PUBLIC_BASE_PATH=""` y
+`NEXT_PUBLIC_SITE_URL=https://<CUSTOM_DOMAIN>`; si no, usa los valores de arriba.
+
+1. En **Settings → Secrets and variables → Actions → Variables** crea
+   `CUSTOM_DOMAIN` con el dominio sin `https://` (por ejemplo `guiab.es`).
+2. Configura el DNS: registros `A` (o `ALIAS`/`ANAME`) del dominio apex hacia las
+   IP de GitHub Pages, o un `CNAME` de `www` hacia `alebc96.github.io`.
+3. En **Settings → Pages → Custom domain** escribe el dominio y guarda.
+   Con despliegue por Actions no se usa un fichero `CNAME`: el dominio se fija ahí.
+4. Activa **Enforce HTTPS** cuando GitHub emita el certificado.
+5. Relanza el workflow (push a `main` o *Run workflow*).
+
+GitHub redirige automáticamente la antigua URL `github.io` al dominio nuevo.
+
 ### Netlify o Vercel (alternativa)
 
 El sitio es estático; basta con:
