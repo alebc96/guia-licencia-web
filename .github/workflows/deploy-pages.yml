@@ -43,7 +43,11 @@ jobs:
           NEXT_PUBLIC_SITE_URL: https://alebc96.github.io
         run: npm run build
 
+      # A failed deployment can leave the Pages site disabled; enablement lets the
+      # workflow turn it back on instead of failing with a 404 from the API.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
