@@ -81,7 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     // suppressHydrationWarning: el script de preferencias pone data-theme y
     // data-text-size en <html> antes de que React hidrate.
-    <html lang={SITE.lang} className={`${inter.variable} ${atkinson.variable} ${literata.variable}`} suppressHydrationWarning>
+    <html lang={SITE.lang} data-scroll-behavior="smooth" className={`${inter.variable} ${atkinson.variable} ${literata.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: PREFERENCES_SCRIPT }} />
       </head>

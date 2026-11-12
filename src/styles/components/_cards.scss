@@ -148,7 +148,7 @@
 
 .topic-card__description {
   flex: 1;
-  font-size: calc(var(--fs-caption) * var(--user-scale));
+  font-size: calc(var(--fs-caption));
   line-height: 1.6;
   color: var(--text-muted);
 }
@@ -276,7 +276,7 @@
 // Índice lateral (TOC) con "scroll spy"
 // --------------------------------------------------------------------------
 .toc {
-  padding: var(--space-md) var(--space-md) var(--space-md) 0;
+  padding: 0 var(--space-md) var(--space-md) 0;
   font-size: var(--fs-caption);
   max-height: calc(100vh - var(--sticky-offset) - 2rem);
   overflow-y: auto;

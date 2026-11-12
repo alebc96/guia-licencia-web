@@ -47,7 +47,6 @@ export default async function TemaPage({ params }: PageProps) {
 
   return (
     <>
-      <div className="reading-progress" aria-hidden="true" />
       <SubNav
         title="Temario"
         links={[
@@ -161,6 +160,9 @@ export default async function TemaPage({ params }: PageProps) {
           </div>
         </div>
       </nav>
+
+      {/* Fija: al final para que no sea el primer elemento del segmento (Next lo usa para el scroll). */}
+      <div className="reading-progress" aria-hidden="true" />
     </>
   );
 }

@@ -10,7 +10,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
-  font-size: calc(var(--fs-body) * var(--text-scale) * var(--user-scale));
+  font-size: calc(var(--fs-body) * var(--text-scale));
   font-weight: calc(400 + var(--weight-optical, 0));
   line-height: var(--leading-body);
   letter-spacing: var(--tracking-body);
@@ -113,7 +113,7 @@ mark {
 }
 
 .t-lead {
-  font-size: calc(var(--fs-lead) * var(--user-scale));
+  font-size: calc(var(--fs-lead));
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: 0;
@@ -122,7 +122,7 @@ mark {
 }
 
 .t-lead-airy {
-  font-size: calc(var(--fs-lead) * var(--user-scale));
+  font-size: calc(var(--fs-lead));
   font-weight: 300;
   line-height: 1.6;
   color: var(--text-muted);
@@ -142,20 +142,20 @@ mark {
 }
 
 .t-caption {
-  font-size: calc(var(--fs-caption) * var(--user-scale));
+  font-size: calc(var(--fs-caption));
   line-height: 1.5;
   letter-spacing: map.get(t.$tracking, caption);
 }
 
 .t-caption-strong {
-  font-size: calc(var(--fs-caption) * var(--user-scale));
+  font-size: calc(var(--fs-caption));
   font-weight: 700;
   line-height: 1.4;
   letter-spacing: map.get(t.$tracking, caption);
 }
 
 .t-fine {
-  font-size: calc(var(--fs-fine) * var(--user-scale));
+  font-size: calc(var(--fs-fine));
   line-height: 1.45;
   letter-spacing: 0.02em;
 }
