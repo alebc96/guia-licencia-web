@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { EXAM_FACTS } from "@/lib/constants";
 
 /** The exam in 30 seconds: four utility cards. */
@@ -9,9 +10,9 @@ export function ExamFacts() {
           <h2 id="exam-facts-title" className="t-display-md">
             El examen en 30 segundos
           </h2>
-          <a href="/examen" className="btn-link">
+          <Link href="/examen" className="btn-link">
             Cómo es la prueba
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-4">
