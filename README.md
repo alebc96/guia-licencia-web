@@ -46,6 +46,13 @@ docker build -t guia-licencia-web .
 docker run --rm -p 8080:8080 guia-licencia-web
 ```
 
+La URL canónica se fija en el build con el argumento `NEXT_PUBLIC_SITE_URL`
+(por defecto `https://alebc96.github.io`):
+
+```bash
+docker build --build-arg NEXT_PUBLIC_SITE_URL=https://autoescuelaguide.com -t guia-licencia-web .
+```
+
 ## Despliegue
 
 ### GitHub Pages (por defecto)
