@@ -9,7 +9,7 @@ export const SITE = {
   tagline: "Todo el teórico. Bien explicado.",
   description:
     "Guía de estudio independiente para el teórico del permiso B: 17 temas, catálogo de señales explicado y enlaces a las fuentes oficiales del BOE y la DGT.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://alebc96.github.io",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://autoescuelaguide.com",
   locale: "es-ES",
   lang: "es",
   updated: "2026-11-11",

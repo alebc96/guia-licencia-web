@@ -12,7 +12,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # Root deploy: no base path inside the container.
 ENV NEXT_PUBLIC_BASE_PATH=""
 # Canonical site URL, overridable at build time (e.g. from Dokploy).
-ARG NEXT_PUBLIC_SITE_URL=https://alebc96.github.io
+ARG NEXT_PUBLIC_SITE_URL=https://autoescuelaguide.com
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
