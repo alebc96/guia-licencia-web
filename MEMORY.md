@@ -136,15 +136,20 @@ odd/tasks/          documento ODD de la feature
 ## 6. Estado real hoy
 
 - Aplicación completa navegable: inicio, temario (17 temas), señales (catálogo completo del BOE),
-  examen, práctico, recursos, glosario (49 términos), progreso, búsqueda, créditos, 404.
-- 50 páginas estáticas generadas correctamente.
+  examen, práctico, recursos, glosario (49 términos), progreso, búsqueda, créditos, 404, y las
+  páginas de acerca de, contacto, aviso legal, privacidad y cookies.
+- 426 URL en el sitemap (páginas fijas, 17 temas y 394 señales), todas generadas como HTML estático.
 - Catálogo de señales verticales **completo** desde el PDF oficial del BOE (RD
   465/2025, Tomo I): código, nombre y definición de cada señal. Las marcas viales
   y los paneles de orientación grandes quedan fuera de esta entrega.
+- Progreso en `localStorage`, con enlace para llevarlo a otro dispositivo y botón
+  «Seguir» hacia el último tema abierto.
+- Google Analytics 4 solo tras aceptar el aviso de consentimiento.
 - Suite de pruebas y checks de contenido en `npm run verify`.
-- Imagen Docker (nginx en 8080) y despliegue en GitHub Pages:
+- Producción: https://autoescuelaguide.com (Dokploy, despliegue automático al
+  hacer push a `main`). Copia secundaria en GitHub Pages:
   https://alebc96.github.io/guia-licencia-web/
-- `npm run dev` en http://localhost:3000 con las 13 rutas en 200.
+- `npm run dev` en http://localhost:3000.
 
 ## 7. Lo siguiente, en orden
 
@@ -152,4 +157,6 @@ odd/tasks/          documento ODD de la feature
 2. Completar las imágenes: las que no tienen SVG en Commons usan pictograma propio.
 3. Revisión editorial de los 17 temas contra BOE/DGT (`verified: true`).
 4. Playwright para el recorrido completo y Lighthouse en CI.
-5. Revisión normativa semestral.
+5. Antes de activar AdSense: NIF y domicilio en el aviso legal, CMP de Google y
+   quitar el lema «sin anuncios» (T-20 a T-22 en `docs/tareas.md`).
+6. Revisión normativa semestral.
