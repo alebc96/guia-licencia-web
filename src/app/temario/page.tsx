@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { loadTemas } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
-import { SubNav } from "@/components/layout/SubNav";
+import { SUB_NAV_ACTION_STYLE, SubNav } from "@/components/layout/SubNav";
+import { ContinueLink } from "@/components/progress/ContinueLink";
 import { TopicCard, type TopicSummary } from "@/components/temario/TopicCard";
 
 export const metadata: Metadata = buildMetadata({
@@ -25,8 +27,9 @@ export default function TemarioPage() {
           { href: "/senales", label: "Señales" },
           { href: "/examen", label: "El examen" },
         ]}
-        action={{ href: temas[0] ? `/temario/${temas[0].slug}` : "/temario", label: "Empezar" }}
-      />
+      >
+        <ContinueLink temas={temas.map(({ slug, order }) => ({ slug, order }))} firstLabel="Empezar" className="btn btn-primary" style={SUB_NAV_ACTION_STYLE} />
+      </SubNav>
 
       <section className="tile tile-parchment">
         <div className="container">
@@ -79,7 +82,8 @@ export default function TemarioPage() {
               <h2 className="t-display-md">Cómo usar el temario</h2>
               <p style={{ marginTop: 12 }}>
                 Un tema por sesión, con la sección «Lo esencial» el día antes del examen. Marca cada tema como leído: el
-                progreso se guarda en tu navegador y el porcentaje aparece en la barra superior.
+                progreso se guarda en tu navegador y lo tienes siempre en{" "}
+                <Link href="/progreso">Mi progreso</Link>, arriba a la derecha.
               </p>
             </div>
           </div>

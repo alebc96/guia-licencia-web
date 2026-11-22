@@ -37,7 +37,7 @@ export default function HomePage() {
 
   return (
     <>
-      <Hero />
+      <Hero temas={topics} />
       <ExamFacts />
       <TopicGrid topics={topics} />
       <SignalFeature senales={featured.length >= 4 ? featured : senales.slice(0, 6)} />
@@ -88,6 +88,9 @@ export default function HomePage() {
           <div className="row" style={{ justifyContent: "center", marginTop: 32 }}>
             <Link href="/temario" className="btn btn-primary">
               Ver el temario
+            </Link>
+            <Link href="/progreso" className="btn btn-ghost">
+              Ver mi progreso
             </Link>
             <Link href="/buscar" className="btn btn-ghost">
               Buscar algo concreto

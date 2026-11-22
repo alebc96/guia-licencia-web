@@ -68,7 +68,6 @@ export const FOOTER_COLUMNS = [
       { href: "/recursos", label: "Recursos y fuentes" },
       { href: "/glosario", label: "Glosario" },
       { href: "/buscar", label: "Buscar" },
-      { href: "/creditos", label: "Créditos y aviso legal" },
     ],
   },
 ] as const;

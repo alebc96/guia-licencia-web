@@ -4,8 +4,10 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import type { ReactNode } from "react";
 
 const STORAGE_KEY = "guiab.progress.v1";
+// Kept apart from the progress record so export, import and reset leave it alone.
+const LAST_TEMA_KEY = "guiab.last-tema.v1";
 
-interface ProgressState {
+export interface ProgressState {
   temas: string[];
   senales: string[];
 }
@@ -20,6 +22,10 @@ export interface ProgressApi extends ProgressState {
   toggleTema: (slug: string) => void;
   toggleSenal: (code: string) => void;
   reset: () => void;
+  /** Last topic page the reader opened, or null. */
+  lastTema: string | null;
+  visitTema: (slug: string) => void;
+  importProgress: (incoming: ProgressState) => void;
 }
 
 const ProgressContext = createContext<ProgressApi | null>(null);
@@ -52,11 +58,26 @@ interface ProgressProviderProps {
  */
 export function ProgressProvider({ children, totalTemas }: ProgressProviderProps) {
   const [state, setState] = useState<ProgressState>(EMPTY);
+  const [lastTema, setLastTema] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     setState(readStorage());
+    try {
+      setLastTema(window.localStorage.getItem(LAST_TEMA_KEY));
+    } catch {
+      /* Blocked storage: no "continue" hint, nothing else breaks. */
+    }
     setReady(true);
+  }, []);
+
+  const visitTema = useCallback((slug: string) => {
+    setLastTema(slug);
+    try {
+      window.localStorage.setItem(LAST_TEMA_KEY, slug);
+    } catch {
+      /* Same as above. */
+    }
   }, []);
 
   const persist = useCallback((next: ProgressState) => {
@@ -88,6 +109,16 @@ export function ProgressProvider({ children, totalTemas }: ProgressProviderProps
 
   const reset = useCallback(() => persist(EMPTY), [persist]);
 
+  const importProgress = useCallback(
+    (incoming: ProgressState) => {
+      persist({
+        temas: Array.from(new Set([...state.temas, ...incoming.temas])),
+        senales: Array.from(new Set([...state.senales, ...incoming.senales])),
+      });
+    },
+    [persist, state],
+  );
+
   const value = useMemo<ProgressApi>(
     () => ({
       ...state,
@@ -98,8 +129,11 @@ export function ProgressProvider({ children, totalTemas }: ProgressProviderProps
       toggleTema,
       toggleSenal,
       reset,
+      lastTema,
+      visitTema,
+      importProgress,
     }),
-    [state, ready, totalTemas, toggleTema, toggleSenal, reset],
+    [state, ready, totalTemas, toggleTema, toggleSenal, reset, lastTema, visitTema, importProgress],
   );
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;

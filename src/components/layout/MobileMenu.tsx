@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NAV_ITEMS } from "@/lib/constants";
 import { CloseIcon, MenuIcon } from "@/components/ui/icons";
+import { ProgressRing } from "@/components/progress/ProgressRing";
 
 /**
  * Full-screen mobile navigation. Opens from the global bar (visible below
@@ -52,6 +53,12 @@ export function MobileMenu() {
       {open ? (
         <nav id="mobile-menu" className="mobile-menu" aria-label="Navegación principal">
           <ul className="mobile-menu__list">
+            <li>
+              <Link href="/progreso" className="mobile-menu__link">
+                Mi progreso
+                <ProgressRing />
+              </Link>
+            </li>
             {NAV_ITEMS.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="mobile-menu__link">
@@ -59,11 +66,6 @@ export function MobileMenu() {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link href="/progreso" className="mobile-menu__link">
-                Mi progreso
-              </Link>
-            </li>
             <li>
               <Link href="/buscar" className="mobile-menu__link">
                 Buscar

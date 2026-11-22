@@ -156,6 +156,29 @@
   }
 }
 
+// Progress gets a visible pill so it reads as a destination, not a decoration.
+.global-nav__progress {
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  padding-inline: 0.625rem 0.75rem;
+
+  &[aria-current="page"] {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+}
+
+.global-nav__progress-label {
+  display: none;
+  font-size: var(--fs-fine);
+  font-weight: 600;
+  white-space: nowrap;
+
+  @include up(lg) {
+    display: inline;
+  }
+}
+
 .global-nav__menu {
   @include up(sm) {
     display: none;
@@ -323,7 +346,30 @@
   border-top: 1px solid var(--border);
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
   gap: var(--space-2xs) var(--space-md);
   font-size: var(--fs-fine);
   color: var(--text-subtle);
+}
+
+// Legal pages (credits today; legal notice, privacy and cookies later) sit at
+// the end of the bottom line instead of repeating in the columns.
+.footer__legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+
+  @include up(sm) {
+    margin-left: auto;
+  }
+
+  a {
+    color: var(--text-muted);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+
+    &:hover {
+      color: var(--primary);
+    }
+  }
 }

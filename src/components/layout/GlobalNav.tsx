@@ -32,9 +32,12 @@ export function GlobalNav() {
             <SearchIcon />
           </Link>
           <ReadingTools />
-          <Link href="/progreso" className="global-nav__icon" aria-label="Ver mi progreso">
-            <ProgressRing />
-          </Link>
+          <NavLink href="/progreso" className="global-nav__icon global-nav__progress">
+            <ProgressRing label="Mi progreso" />
+            <span className="global-nav__progress-label" aria-hidden="true">
+              Mi progreso
+            </span>
+          </NavLink>
           <MobileMenu />
         </div>
       </div>

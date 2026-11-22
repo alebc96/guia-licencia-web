@@ -27,9 +27,9 @@ export function Footer() {
           </span>
           <span>{SITE.disclaimer}</span>
           <span>Actualizado el {formatSpanishDate(SITE.updated)}</span>
-          <Link href="/creditos" className="footer__link">
-            Créditos y aviso legal
-          </Link>
+          <nav aria-label="Información legal" className="footer__legal-links">
+            <Link href="/creditos">Créditos y aviso legal</Link>
+          </nav>
         </div>
       </div>
     </footer>

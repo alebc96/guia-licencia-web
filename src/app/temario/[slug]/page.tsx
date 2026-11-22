@@ -9,6 +9,7 @@ import { SubNav } from "@/components/layout/SubNav";
 import { Markdown } from "@/components/content/Markdown";
 import { TableOfContents } from "@/components/content/TableOfContents";
 import { ProgressToggle } from "@/components/progress/ProgressToggle";
+import { TrackTemaVisit } from "@/components/progress/ContinueLink";
 import { formatSpanishDate } from "@/components/layout/Footer";
 
 interface PageProps {
@@ -47,6 +48,7 @@ export default async function TemaPage({ params }: PageProps) {
 
   return (
     <>
+      <TrackTemaVisit slug={tema.slug} />
       <SubNav
         title="Temario"
         links={[

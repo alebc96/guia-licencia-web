@@ -2,9 +2,10 @@ import Link from "next/link";
 import { SITE } from "@/lib/constants";
 import { ArrowRightIcon } from "@/components/ui/icons";
 import { HeroIllustration } from "@/components/home/HeroIllustration";
+import { ContinueLink, type ContinueTopic } from "@/components/progress/ContinueLink";
 
 /** Home hero: eyebrow, headline, tagline, two calls to action and an illustration. */
-export function Hero() {
+export function Hero({ temas }: { temas: ContinueTopic[] }) {
   return (
     <section className="tile tile-parchment" aria-labelledby="hero-title">
       <div className="container">
@@ -21,9 +22,7 @@ export function Hero() {
               cuentas, sin anuncios y sin simulacros escondidos.
             </p>
             <div className="row" style={{ marginTop: 32 }}>
-              <Link href="/temario/tipos-de-vehiculos" className="btn btn-primary">
-                Empezar por el tema 1
-              </Link>
+              <ContinueLink temas={temas} firstLabel="Empezar por el tema 1" className="btn btn-primary" />
               <Link href="/senales" className="btn btn-ghost">
                 Explorar señales
               </Link>

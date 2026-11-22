@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 interface SubNavLink {
   href: string;
@@ -12,6 +12,9 @@ interface SubNavProps {
   action?: { href: string; label: string } | null;
   children?: ReactNode;
 }
+
+/** Compact size for a primary button placed in the bar. */
+export const SUB_NAV_ACTION_STYLE: CSSProperties = { minHeight: 32, padding: "6px 16px", fontSize: 14 };
 
 /** Frosted 52 px section bar: section name on the left, contextual links right. */
 export function SubNav({ title, links = [], action = null, children }: SubNavProps) {
@@ -31,7 +34,7 @@ export function SubNav({ title, links = [], action = null, children }: SubNavPro
           ) : null}
           {children}
           {action ? (
-            <Link href={action.href} className="btn btn-primary" style={{ minHeight: 32, padding: "6px 16px", fontSize: 14 }}>
+            <Link href={action.href} className="btn btn-primary" style={SUB_NAV_ACTION_STYLE}>
               {action.label}
             </Link>
           ) : null}
