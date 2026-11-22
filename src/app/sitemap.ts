@@ -13,6 +13,11 @@ const STATIC_PATHS = [
   "/progreso/",
   "/buscar/",
   "/creditos/",
+  "/acerca/",
+  "/contacto/",
+  "/aviso-legal/",
+  "/privacidad/",
+  "/cookies/",
 ];
 
 // Static export requires an explicit opt-in for metadata routes.

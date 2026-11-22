@@ -363,7 +363,13 @@
     margin-left: auto;
   }
 
-  a {
+  a,
+  .footer__legal-button {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    cursor: pointer;
     color: var(--text-muted);
     text-decoration: underline;
     text-underline-offset: 0.2em;

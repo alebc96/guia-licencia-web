@@ -43,7 +43,8 @@ const PERSONAL_PATTERNS = [
 const PATH_EXEMPTIONS = [/^docs\/estado\.md$/];
 
 /** Lines that name a well-known non-personal address. */
-const EMAIL_ALLOWLIST = [/example\.com$/, /noreply@github\.com$/, /git@github\.com$/];
+// The site's public contact address (legal notice and privacy policy).
+const EMAIL_ALLOWLIST = [/example\.com$/, /noreply@github\.com$/, /git@github\.com$/, /^alebecerrac96@gmail\.com$/];
 
 function isBinary(file) {
   return /\.(svg|png|jpe?g|webp|avif|ico|woff2?|pdf|zip)$/i.test(file);

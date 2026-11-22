@@ -8,7 +8,7 @@ import { ProgressTransfer } from "@/components/progress/ProgressTransfer";
 export const metadata: Metadata = buildMetadata({
   title: "Mi progreso",
   description:
-    "Tu avance en los 17 temas del permiso B. Se guarda en tu navegador: sin cuentas, sin cookies y sin servidor.",
+    "Tu avance en los 17 temas del permiso B. Se guarda en tu navegador: sin cuentas y sin servidor.",
   path: "/progreso/",
 });
 

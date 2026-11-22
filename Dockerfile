@@ -14,6 +14,10 @@ ENV NEXT_PUBLIC_BASE_PATH=""
 # Canonical site URL, overridable at build time (e.g. from Dokploy).
 ARG NEXT_PUBLIC_SITE_URL=https://autoescuelaguide.com
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+# Google Analytics 4 (public id, loaded only after consent). Pass an empty
+# value to build without analytics.
+ARG NEXT_PUBLIC_GA_ID=G-68N32CQT0G
+ENV NEXT_PUBLIC_GA_ID=$NEXT_PUBLIC_GA_ID
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build

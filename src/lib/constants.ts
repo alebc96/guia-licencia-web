@@ -16,7 +16,24 @@ export const SITE = {
   normCutoff: "2026-11-11",
   disclaimer:
     "Guía independiente. No es una publicación oficial de la Dirección General de Tráfico.",
+  /** Titular shown in the legal notice and privacy policy. */
+  owner: {
+    name: "Manuel Alejandro Becerra Castro",
+    email: "alebecerrac96@gmail.com",
+  },
+  /** Date the legal texts were last changed. */
+  legalUpdated: "2026-11-22",
 } as const;
+
+/** Legal pages linked from the bottom line of the footer. */
+export const LEGAL_LINKS = [
+  { href: "/acerca", label: "Acerca de" },
+  { href: "/contacto", label: "Contacto" },
+  { href: "/creditos", label: "Créditos" },
+  { href: "/aviso-legal", label: "Aviso legal" },
+  { href: "/privacidad", label: "Privacidad" },
+  { href: "/cookies", label: "Cookies" },
+] as const;
 
 /**
  * Deploying under a sub-path (GitHub Pages project site) needs every public

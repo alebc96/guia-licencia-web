@@ -2,7 +2,7 @@
 
 Guía de estudio **estática** del teórico del permiso B (España): 17 temas,
 catálogo de señales, examen, práctico, recursos, glosario y progreso local.
-Sin backend, sin cuentas, sin cookies y sin analítica.
+Sin backend y sin cuentas. Google Analytics solo se carga si el visitante lo acepta (`NEXT_PUBLIC_GA_ID`).
 
 - **Stack:** Next.js 16 (App Router) · React 19 · TypeScript · exportación estática
 - **Contenido:** Markdown + Zod como fuente de verdad

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { FOOTER_COLUMNS, SITE } from "@/lib/constants";
+import { FOOTER_COLUMNS, LEGAL_LINKS, SITE } from "@/lib/constants";
+import { ConsentSettingsButton } from "@/components/consent/ConsentSettingsButton";
 
 /** Parchment footer: navigation columns plus the legal notice. */
 export function Footer() {
@@ -28,7 +29,12 @@ export function Footer() {
           <span>{SITE.disclaimer}</span>
           <span>Actualizado el {formatSpanishDate(SITE.updated)}</span>
           <nav aria-label="Información legal" className="footer__legal-links">
-            <Link href="/creditos">Créditos y aviso legal</Link>
+            {LEGAL_LINKS.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {link.label}
+              </Link>
+            ))}
+            <ConsentSettingsButton />
           </nav>
         </div>
       </div>

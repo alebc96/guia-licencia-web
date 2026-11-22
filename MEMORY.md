@@ -17,8 +17,9 @@ Una web **estática** de estudio del teórico del permiso B (España): 17 temas,
 catálogo de señales, páginas de examen y práctico, recursos, glosario y progreso
 local. Todo el contenido vive en Markdown; no hay base de datos.
 
-**No tiene**: backend, cuentas, cookies, analítica, simulacros, banco de
-preguntas ni traducciones. Cualquier petición de «login» o «resultados» queda
+**No tiene**: backend, cuentas, simulacros, banco de preguntas ni traducciones.
+La única cookie es la de Google Analytics, que solo se carga tras aceptar el
+aviso de consentimiento (`src/lib/analytics.ts`, `NEXT_PUBLIC_GA_ID`). Cualquier petición de «login» o «resultados» queda
 fuera de alcance por decisión del usuario.
 
 ---

@@ -7,6 +7,7 @@ import { ProgressProvider } from "@/components/progress/ProgressProvider";
 import { loadTemas } from "@/lib/content";
 import { BASE_PATH, SITE, publicUrl } from "@/lib/constants";
 import { PREFERENCES_SCRIPT } from "@/components/reading/preferences";
+import { ConsentBanner } from "@/components/consent/ConsentBanner";
 
 /**
  * Inter is vendored as a woff2 (latin subset, variable weights) instead of being
@@ -94,6 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main id="contenido">{children}</main>
           <Footer />
         </ProgressProvider>
+        <ConsentBanner />
       </body>
     </html>
   );

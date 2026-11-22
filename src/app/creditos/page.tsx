@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { loadSenales } from "@/lib/content";
-import { SITE, absoluteUrl, publicUrl } from "@/lib/constants";
+import { SITE, publicUrl } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import { SubNav } from "@/components/layout/SubNav";
 import { formatSpanishDate } from "@/components/layout/Footer";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Créditos y aviso legal",
+  title: "Créditos",
   description:
-    "Aviso de guía independiente, licencias de tipografías y pictogramas, fuentes oficiales citadas y política de datos de esta guía del permiso B.",
+    "Aviso de guía independiente, licencias de tipografías y pictogramas y fuentes oficiales citadas en esta guía del permiso B.",
   path: "/creditos/",
 });
 
@@ -25,12 +25,12 @@ export default function CreditosPage() {
 
   return (
     <>
-      <SubNav title="Créditos" links={[{ href: "/recursos", label: "Fuentes" }, { href: "/creditos", label: "Aviso legal" }]} />
+      <SubNav title="Créditos" links={[{ href: "/recursos", label: "Fuentes" }, { href: "/aviso-legal", label: "Aviso legal" }]} />
 
       <section className="tile tile-parchment">
         <div className="container-read">
           <h1 className="t-display-lg">
-            Aviso legal y créditos
+            Créditos
           </h1>
           <p className="t-lead" style={{ marginTop: 16 }}>{SITE.disclaimer}</p>
           <p className="t-caption muted" style={{ marginTop: 12 }}>
@@ -94,24 +94,11 @@ export default function CreditosPage() {
           </article>
 
           <article className="stack">
-            <h2 className="t-display-md">Datos y privacidad</h2>
+            <h2 className="t-display-md">Aviso legal y privacidad</h2>
             <p>
-              Esta web no tiene cuentas, no usa cookies, no incluye analítica ni servicios externos en tiempo de
-              ejecución. El progreso de estudio se guarda únicamente en el almacenamiento local de tu navegador y puedes
-              borrarlo desde la página de progreso. No se envía ningún dato a ningún servidor.
-            </p>
-          </article>
-
-          <article className="stack">
-            <h2 className="t-display-md">Titularidad y contacto</h2>
-            <p>
-              Proyecto personal publicado en abierto. El código y el contenido están en un repositorio
-              público y las correcciones se hacen mediante incidencias y propuestas sobre ese repositorio.
-            </p>
-            <p>
-              <a href={absoluteUrl("/")} className="btn-link">
-                {absoluteUrl("/")}
-              </a>
+              Quién está detrás de la guía, las condiciones de uso y cómo se tratan los datos están en el{" "}
+              <Link href="/aviso-legal">aviso legal</Link>, la <Link href="/privacidad">política de privacidad</Link> y
+              la <Link href="/cookies">política de cookies</Link>.
             </p>
           </article>
 

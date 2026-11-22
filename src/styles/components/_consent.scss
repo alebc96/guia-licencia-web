@@ -1,0 +1,51 @@
+@use "../abstracts/mixins" as *;
+
+// ==========================================================================
+// Aviso de consentimiento de analítica: barra fija abajo, sin bloquear la
+// lectura. Aceptar y Rechazar tienen el mismo peso visual a propósito.
+// ==========================================================================
+
+.consent {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 110;
+  padding: var(--space-md) var(--gutter) calc(var(--space-md) + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-raised) 96%, transparent);
+  color: var(--text);
+  box-shadow: 0 -8px 24px color-mix(in srgb, var(--text) 8%, transparent);
+}
+
+.consent__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: var(--container);
+  margin-inline: auto;
+
+  @include up(sm) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.consent__copy {
+  display: grid;
+  gap: var(--space-2xs);
+  max-width: 46rem;
+
+  a {
+    color: var(--primary);
+  }
+}
+
+.consent__actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+
+  .btn {
+    flex: 1;
+  }
+}
