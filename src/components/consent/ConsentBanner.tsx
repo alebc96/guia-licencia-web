@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
-  GA_ID,
   OPEN_CONSENT_EVENT,
+  getGaId,
   loadAnalytics,
   readConsent,
   revokeAnalytics,
@@ -15,13 +15,13 @@ import {
 /**
  * Asks before loading Google Analytics. Accept and reject carry the same
  * weight; the choice is kept in `localStorage` and can be changed from the
- * footer. Renders nothing when the build has no analytics id.
+ * footer. Renders nothing when analytics is off for this page.
  */
 export function ConsentBanner() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (!GA_ID) return;
+    if (!getGaId()) return;
     const consent = readConsent();
     if (consent === "granted") loadAnalytics();
     if (consent === null) setOpen(true);
@@ -31,7 +31,7 @@ export function ConsentBanner() {
     return () => window.removeEventListener(OPEN_CONSENT_EVENT, reopen);
   }, []);
 
-  if (!GA_ID || !open) return null;
+  if (!open) return null;
 
   const choose = (consent: Consent) => {
     saveConsent(consent);
