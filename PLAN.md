@@ -1035,7 +1035,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 - [ ] Créditos de todas las imágenes.
 - [ ] Enlaces a BOE/DGT.
 - [ ] Disclaimer claro.
-- [ ] Sin cookies ni analítica por defecto.
+- [ ] Sin cookies ni analítica por defecto (hoy Google Analytics solo se carga si el visitante lo acepta).
 - [ ] Sin texto, tablas o imágenes copiadas de Vialtest u otras webs.
 
 ---

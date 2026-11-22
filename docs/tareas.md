@@ -38,13 +38,24 @@ de X)».
 
 | ID | Tarea | Hecho cuando |
 |---|---|---|
-| T-14 | Exportar e importar el progreso en JSON | Botón que descarga y restaura el estado local |
+| ~~T-14~~ | ~~Exportar e importar el progreso en JSON~~ | **Hecho en la iteración 4**, con otro enfoque: en lugar de JSON, enlace (`#importar=`) o código desde `/progreso` que combina con lo existente |
 | T-15 | Página «Novedades» con el changelog normativo completo | `/novedades` enlazada desde el footer |
 | T-16 | Reducir la duplicación de cabeceras de sección en las páginas de contenido | Componente `SectionHeader` único |
 | T-17 | Valorar Netlify/Vercel como despliegue alternativo documentado | Una sección del README con los pasos exactos |
 
+## Prioridad 5 — legal y monetización
+
+| ID | Tarea | Hecho cuando |
+|---|---|---|
+| T-19 | Confirmar en Google Analytics la retención de datos de 14 meses (por defecto son 2) | La configuración de GA coincide con lo que dice `/privacidad` (pendiente del usuario) |
+| T-20 | Añadir NIF y domicilio al aviso legal antes de activar AdSense | `/aviso-legal` los muestra (pendiente del usuario) |
+| T-21 | Sustituir el banner de consentimiento propio por el CMP de Google al activar AdSense | El consentimiento lo gestiona un CMP certificado y se retira `src/components/consent/*` si procede |
+| T-22 | Quitar el lema «sin anuncios» (hero e ilustración) si se activa AdSense | Ningún texto ni ilustración lo afirma |
+| T-23 | Unificar el botón de `/progreso` con la lógica de `ContinueLink` (opcional) | Una sola fuente para el destino de «Seguir» |
+
 ## Pendiente de decisión del usuario
 
-- Dominio propio (hoy se publica en GitHub Pages).
+- ~~Dominio propio (hoy se publica en GitHub Pages).~~ **Resuelto en la iteración 4**:
+  https://autoescuelaguide.com en Dokploy.
 - Si se quiere alguna foto editorial real en la portada (hoy es ilustración propia
   para no arrastrar licencias).

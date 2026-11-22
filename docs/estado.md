@@ -5,6 +5,81 @@ Registro de qué se ha hecho, iteración por iteración. Lo que falta está en
 
 ---
 
+## Iteración 4 — 2026-11-22
+
+**Objetivo:** publicar en un dominio propio con producción real, facilitar el
+progreso entre dispositivos y dejar la web preparada a nivel legal (páginas
+legales y analítica con consentimiento).
+
+### Producción en autoescuelaguide.com
+
+- La web se sirve en https://autoescuelaguide.com, desplegada con Dokploy en el
+  servidor Hetzner del usuario, con despliegue automático al hacer push a `main`
+  (tarda ~1-2 min). GitHub Pages (`alebc96.github.io/guia-licencia-web`) sigue como
+  copia secundaria.
+- **Trampa detectada:** Dokploy no construye con nuestro `Dockerfile`, así que los
+  `ARG` por defecto no le llegan. Por eso `canonical`, `og:url` y `sitemap.xml`
+  apuntaban a `alebc96.github.io`. Arreglado con `https://autoescuelaguide.com` como
+  valor por defecto en el `Dockerfile` y en el fallback de `SITE.url`
+  (`src/lib/constants.ts`).
+
+### Progreso entre dispositivos (cierra T-14)
+
+- En `/progreso`: «Compartir enlace» (`navigator.share` o portapapeles) y «Copiar
+  código». El progreso va codificado (base64url de un JSON v1) tras `#importar=`;
+  el navegador no envía el fragmento al servidor.
+- Al abrir el enlace se pide confirmación y se **combina** (unión) con lo que ya
+  hay. Se valida, se limita el tamaño (20.000 caracteres) y se filtra a slugs de
+  temas y códigos de señal existentes.
+- Ficheros: `src/lib/progress-transfer.ts`,
+  `src/components/progress/ProgressTransfer.tsx` e `importProgress` en
+  `ProgressProvider`.
+
+### «Mi progreso» más accesible y botón «Seguir»
+
+- Píldora con texto en la barra superior (texto visible desde `lg`; en móvil,
+  anillo y %), primera opción del menú móvil, botón en la portada y enlace en
+  `/temario`.
+- Botón «Seguir» (`src/components/progress/ContinueLink.tsx`) en la portada y en la
+  barra de `/temario`: «Seguir en el tema X» si el último tema abierto no está
+  leído; si lo está, «Seguir con el tema X» (primer pendiente); «Repasar el
+  temario» si todo está leído; «Empezar por el tema 1» sin historial.
+- El último tema se guarda aparte en `localStorage` (`guiab.last-tema.v1`): no viaja
+  en el enlace ni lo borra «Borrar el progreso».
+
+### Pie, páginas legales y analítica
+
+- Pie: «Créditos y aviso legal» ya no se repite en las columnas; la línea inferior
+  tiene los enlaces legales (`LEGAL_LINKS` en `constants`): Acerca de · Contacto ·
+  Créditos · Aviso legal · Privacidad · Cookies · Preferencias de cookies.
+- Páginas nuevas, en el sitemap: `/aviso-legal`, `/privacidad`, `/cookies`,
+  `/acerca` y `/contacto` (marco común `src/components/legal/LegalPage.tsx`).
+  `/creditos` queda solo con créditos.
+- Titular: Manuel Alejandro Becerra Castro, contacto alebecerrac96@gmail.com
+  (`SITE.owner`; añadido a `EMAIL_ALLOWLIST` de `scripts/check-secrets.mjs`). Sin
+  NIF ni domicilio: harán falta cuando haya actividad económica o AdSense.
+- Google Analytics 4 (`G-68N32CQT0G`) con banner de consentimiento propio: no se
+  carga nada de Google hasta «Aceptar»; Aceptar y Rechazar con el mismo peso;
+  «Preferencias de cookies» en el pie y en `/cookies`; al revocar se borran las
+  cookies `_ga`. Consent Mode v2 con las señales publicitarias denegadas. Clave
+  `guiab.consent.v1` en `localStorage`.
+- El ID se resuelve en el navegador: manda `NEXT_PUBLIC_GA_ID` del build (vacío =
+  apagado); si no está, se usa el ID de producción solo si el host es
+  `autoescuelaguide.com` o `www`. Local y GitHub Pages quedan sin analítica.
+  Ficheros: `src/lib/analytics.ts`, `src/components/consent/*`,
+  `src/styles/components/_consent.scss`.
+- El contenedor GTM-T4H9R24F, creado por error, no se usa.
+- La política de privacidad dice conservación de 14 meses en GA: el usuario debe
+  configurarlo en GA (por defecto son 2 meses). **Pendiente de confirmar.**
+
+### Varios
+
+- Borrado `rediseno-estilos.zip` (copia antigua del rediseño).
+- Tests: **137 pasan** (nuevos: `progress-transfer`, `continue-target`,
+  `consent-banner`, `analytics`).
+
+---
+
 ## Iteración 2 — 2026-11-11
 
 **Objetivo:** dos cosas pedidas tras ver la iteración 1: quitar el ruido visual y

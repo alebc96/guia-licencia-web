@@ -4,7 +4,7 @@
 **Fecha del análisis:** 12 de noviembre de 2026
 **Objetivo:** publicar la web en un dominio propio, adaptarla a la normativa española/europea y dejarla lista para solicitar Google AdSense.
 
-**Estado:** el dominio, los datos del titular y la cuenta de AdSense están pendientes de la decisión del titular. Mientras tanto, el repositorio se deja listo para desplegar.
+**Estado (22/11/2026):** el dominio https://autoescuelaguide.com está en uso (Dokploy, no GitHub Pages), con aviso legal, privacidad, cookies, acerca, contacto, pie global y Google Analytics 4 tras consentimiento. Pendientes: NIF y domicilio en el aviso legal, confirmar la retención de 14 meses en GA y todo lo de AdSense (cuenta, CMP de Google, `ads.txt`).
 
 **Actualización 12/11/2026 — verificado.** Revisado contra el código y las fuentes oficiales. Cambios:
 - Sección 1: imágenes (394 fichas: 286 de Wikimedia Commons y 108 pictogramas propios) y auditoría de licencias.
@@ -21,6 +21,8 @@
 ---
 
 ## 1. Estado actual de la web (revisado)
+
+> Esta sección describe el estado del 12/11/2026. A 22/11/2026 la web está en https://autoescuelaguide.com y ya tiene páginas legales, contacto, acerca de, pie global y Google Analytics con consentimiento (ver el **Estado** de arriba).
 
 - Guía de estudio en español para el teórico del permiso B: 17 temas, señales, examen, práctico, recursos, glosario, buscador y progreso.
 - Alojada en GitHub Pages bajo la ruta `/guia-licencia-web/` (URL base confirmada en `.github/workflows/deploy-pages.yml`).
@@ -57,10 +59,10 @@ Reglas para elegir registrador:
 
 ## 3. Tareas de infraestructura (dominio y despliegue)
 
-- [ ] Registrar el dominio elegido: `[[DOMINIO]]`.
-- [ ] Configurar el dominio en Settings → Pages y los registros DNS hacia GitHub Pages. Con despliegues por Actions no se usa el archivo `CNAME`. En curso: que el dominio sea solo una variable de repositorio `CUSTOM_DOMAIN` (ver README cuando se actualice).
-- [ ] Activar "Enforce HTTPS" en la configuración de Pages.
-- [ ] **Cambiar la ruta base.** Hoy el sitio vive en `/guia-licencia-web/`; con dominio propio pasará a `/`. Verificado:
+- [x] Registrar el dominio elegido: `autoescuelaguide.com` (en uso desde el 22/11/2026).
+- [ ] No aplica a producción, que no usa Pages (se sirve con Dokploy en Hetzner); solo si el dominio se llevara a GitHub Pages: configurarlo en Settings → Pages y los registros DNS. Con despliegues por Actions no se usa el archivo `CNAME`. En curso: que el dominio sea solo una variable de repositorio `CUSTOM_DOMAIN` (ver README cuando se actualice).
+- [ ] Activar "Enforce HTTPS" en la configuración de Pages (no aplica a producción, que no usa Pages).
+- [x] **Cambiar la ruta base** (hecho: producción sirve en `/`). Hoy el sitio vive en `/guia-licencia-web/`; con dominio propio pasará a `/`. Verificado:
   - [x] La ruta base solo se controla con `NEXT_PUBLIC_BASE_PATH` y `NEXT_PUBLIC_SITE_URL` en `.github/workflows/deploy-pages.yml` (líneas 45-46). No hay rutas `/guia-licencia-web/` escritas en el código.
   - [x] Enlaces internos: los enlaces sin ruta base de ProgressSummary, ExamFacts y creditos están corregidos (cambios pendientes de commit).
   - [x] No hay service worker.
@@ -87,7 +89,7 @@ Datos del titular necesarios (preguntar al usuario, no inventar):
 
 ### 4.1 Aviso legal (art. 10 LSSI-CE)
 Obligatorio en cuanto la web tenga actividad económica, incluida la publicidad.
-- [ ] Identificación del titular (datos anteriores), visible de forma permanente y de fácil acceso desde el pie de todas las páginas.
+- [ ] Identificación del titular (datos anteriores; hecho el nombre y el correo, faltan NIF y domicilio), visible de forma permanente y de fácil acceso desde el pie de todas las páginas.
 - [ ] Condiciones de uso y limitación de responsabilidad:
   - la guía no es una publicación oficial de la DGT,
   - no sustituye a una autoescuela,
@@ -98,37 +100,37 @@ Obligatorio en cuanto la web tenga actividad económica, incluida la publicidad.
 - [ ] Legislación aplicable y jurisdicción.
 
 ### 4.2 Política de privacidad (RGPD y LOPDGDD, arts. 13-14 RGPD)
-- [ ] Responsable del tratamiento y contacto.
-- [ ] Qué datos se tratan, con qué finalidad y base jurídica, plazos y derechos del usuario.
+- [x] Responsable del tratamiento y contacto.
+- [x] Qué datos se tratan, con qué finalidad y base jurídica, plazos y derechos del usuario (texto básico en `/privacidad`; la retención de 14 meses en GA está pendiente de configurar por el usuario).
 - [ ] Mención expresa a **Google AdSense y terceros proveedores/redes publicitarias**, que pueden usar cookies e identificadores.
 - [ ] Fecha de vigencia y cómo se avisará de cambios.
 - [ ] Si se añade formulario de contacto o newsletter, describir ese tratamiento.
 
 ### 4.3 Política de cookies (art. 22.2 LSSI)
-- [ ] Tabla de cookies y tecnologías: nombre, titular, finalidad, duración.
+- [x] Tabla de cookies y tecnologías: nombre, titular, finalidad, duración (texto básico en `/cookies`).
 - [ ] Incluir las de Google/AdSense y, si se usa, la analítica.
-- [ ] Indicar cómo retirar o modificar el consentimiento.
+- [x] Indicar cómo retirar o modificar el consentimiento.
 
 ### 4.4 Banner / gestor de consentimiento
-- [ ] Banner que bloquee cookies no esenciales y los scripts de anuncios **hasta que haya consentimiento**.
-- [ ] Botones de aceptar y rechazar con el mismo nivel de visibilidad, y acceso para cambiar la elección después.
+- [x] Banner que bloquee cookies no esenciales **hasta que haya consentimiento** (hecho para Google Analytics; falta para anuncios).
+- [x] Botones de aceptar y rechazar con el mismo nivel de visibilidad, y acceso para cambiar la elección después («Preferencias de cookies» en el pie y en `/cookies`).
 - [x] Requisitos de Google verificados: desde el 16/01/2024, los anuncios personalizados en el EEE y Reino Unido exigen un CMP certificado por Google e integrado con IAB TCF (desde el 31/07/2024 también en Suiza). El estándar vigente es TCF v2.3 (obligatorio desde el 01/03/2026). Sin CMP certificado solo se sirven anuncios limitados o no personalizados. Fuentes: https://support.google.com/adsense/answer/13554116 y https://support.google.com/adsense/answer/14210870
 - [ ] Recomendación: usar el mensaje "Privacidad y mensajería" de AdSense (CMP certificado, Google LLC, CMP ID 300), configurado desde el panel de AdSense, en lugar de un banner propio. Que sea gratuito es probable, pero **no confirmado**.
 
 ### 4.5 Páginas de apoyo
-- [ ] Acerca de: quién está detrás, a quién sirve la web, metodología y fuentes.
-- [ ] Contacto: un correo que funcione de verdad (y/o formulario).
-- [ ] Enlazar aviso legal, privacidad, cookies, contacto y acerca de desde el **pie global** de todas las páginas. Hoy el pie (`src/components/layout/Footer.tsx`, enlaces en `FOOTER_COLUMNS` de `src/lib/constants.ts`) solo enlaza `/creditos`.
+- [x] Acerca de (`/acerca`): quién está detrás, a quién sirve la web, metodología y fuentes.
+- [x] Contacto (`/contacto`): un correo que funcione de verdad (y/o formulario).
+- [x] Enlazar aviso legal, privacidad, cookies, contacto y acerca de desde el **pie global** de todas las páginas (`LEGAL_LINKS` en `src/lib/constants.ts`). Hoy el pie (`src/components/layout/Footer.tsx`, enlaces en `FOOTER_COLUMNS` de `src/lib/constants.ts`) solo enlaza `/creditos`.
 
 ### 4.6 Datos de contacto en el repositorio
-- [ ] Añadir el correo de contacto a `EMAIL_ALLOWLIST` en `scripts/check-secrets.mjs` (hoy solo admite `example.com`, `noreply@github.com` y `git@github.com`). El paso "Secret and personal-data scan" de CI se ejecuta antes del build y bloquea cualquier otro email.
+- [x] Añadir el correo de contacto a `EMAIL_ALLOWLIST` en `scripts/check-secrets.mjs` (hoy solo admite `example.com`, `noreply@github.com` y `git@github.com`). El paso "Secret and personal-data scan" de CI se ejecuta antes del build y bloquea cualquier otro email.
 - [ ] Revisar a mano el NIF y el domicilio: `check-secrets.mjs` no detecta NIF ni direcciones postales.
 
 ## 5. Cambios en textos existentes
 
-- [ ] Reescribir en `/creditos/` la afirmación "no hay cookies, analítica ni servicios externos / no se envía ningún dato": dejará de ser cierta con AdSense. Mantener solo lo que siga siendo verdad. La misma afirmación aparece en `src/app/creditos/page.tsx` (líneas 92-94), `src/app/progreso/page.tsx` (meta description, línea 10), `README.md` (línea 5), `PLAN.md` (línea 1038), `MEMORY.md` (línea 20) y `odd/tasks/guia-licencia-web.md` (líneas 14 y 46, decisión D5). Revisar también los documentos internos.
-- [ ] Sustituir "Proyecto personal publicado en abierto" por la identificación real del titular.
-- [ ] Informar de que el progreso se guarda en el almacenamiento local del navegador, y cómo borrarlo (ya existe la página de progreso).
+- [x] Reescribir en `/creditos/` la afirmación "no hay cookies, analítica ni servicios externos / no se envía ningún dato": dejará de ser cierta con AdSense. Mantener solo lo que siga siendo verdad. La misma afirmación aparece en `src/app/creditos/page.tsx` (líneas 92-94), `src/app/progreso/page.tsx` (meta description, línea 10), `README.md` (línea 5), `PLAN.md` (línea 1038), `MEMORY.md` (línea 20) y `odd/tasks/guia-licencia-web.md` (líneas 14 y 46, decisión D5). Revisar también los documentos internos.
+- [x] Sustituir "Proyecto personal publicado en abierto" por la identificación real del titular (Manuel Alejandro Becerra Castro, `SITE.owner`; sin NIF ni domicilio todavía).
+- [x] Informar de que el progreso se guarda en el almacenamiento local del navegador, y cómo borrarlo (ya existe la página de progreso).
 - [ ] Mantener el aviso de independencia visible y el pie con la fecha de actualización.
 - [ ] Evitar cualquier elemento visual o textual que haga pensar que la web es oficial o está respaldada por la DGT.
 - [ ] Comprobar que "Guía B" no choca con marcas registradas existentes (consulta en la OEPM). **Comprobar.**
@@ -155,7 +157,7 @@ Obligatorio en cuanto la web tenga actividad económica, incluida la publicidad.
 ### 6.3 Privacidad técnica
 - [ ] Auditar con las herramientas de desarrollador qué peticiones de red hace la web hoy (fuentes, scripts, imágenes externas, embeds) y confirmar que todo se sirve desde el propio dominio.
 - [ ] Tras añadir AdSense, repetir la auditoría y documentar las cookies reales en la política de cookies.
-- [ ] Decidir si se usará analítica (opcional). Si se usa, preferir una opción respetuosa con la privacidad y reflejarla en los textos y en el consentimiento.
+- [x] Decidir si se usará analítica: decidido, Google Analytics 4 con consentimiento previo, reflejado en los textos y en el banner.
 
 ### 6.4 Fiscalidad y titularidad
 - [ ] Consultar con un gestor si los ingresos de AdSense obligan a darse de alta como autónomo y cómo tributan. Verificado: no hay guía oficial de la AEAT ni de la Seguridad Social específica para AdSense. La STS 162/2026, de 16 de febrero, establece que unos ingresos inferiores al SMI no excluyen automáticamente la habitualidad (se valora caso por caso). Los ingresos tributan en IRPF como actividad económica.

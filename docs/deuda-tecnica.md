@@ -16,6 +16,7 @@ No es una lista de deseos: cada entrada se aceptó por una razón concreta.
 | DT-10 | Datos de progreso sin migración de versión | Guardar `{temas, senales}` con clave `guiab.progress.v1` es suficiente hoy | Si cambia la forma, hay que invalidar la clave | Función de migración por versión de clave |
 | DT-11 | `check:links` hace peticiones de red reales | Verificar 40 enlaces externos en cada push es lento y frágil | Puede fallar por red, no por contenido | Ejecutarlo solo en el workflow semanal (T-11) |
 | DT-12 | Documentación de despliegue sin Netlify/Vercel verificado | No se dispone de credenciales de esos proveedores | El usuario tiene que añadir el archivo de configuración si los quiere | T-17 |
+| DT-13 | Banner de consentimiento propio en lugar de un CMP certificado | Hoy solo hay analítica (GA4) y no hace falta CMP certificado | No cumple los requisitos de Google para anuncios personalizados (CMP con IAB TCF) | Sustituir por el CMP de Google al activar AdSense (T-21) |
 
 ## Deuda cerrada
 

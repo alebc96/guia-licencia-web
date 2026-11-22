@@ -5,8 +5,8 @@ Este archivo es lo primero que hay que leer al retomar el proyecto. Lo demás
 vive en `docs/` (estado, tareas, deuda técnica, fuentes, diseño, cobertura del
 catálogo) y el plan original está en `PLAN.md`.
 
-- **Última actualización:** 2026-11-11
-- **Iteración actual:** 1 (aplicación completa, catálogo inicial, Docker, despliegue en GitHub Pages)
+- **Última actualización:** 2026-11-22
+- **Iteración actual:** 4 (producción en https://autoescuelaguide.com con Dokploy, progreso entre dispositivos, páginas legales y GA con consentimiento)
 - **Documento de trabajo ODD:** `odd/tasks/guia-licencia-web.md`
 
 ---
@@ -36,7 +36,7 @@ fuera de alcance por decisión del usuario.
 | Tests | Vitest 5 + Testing Library, más `npm run check:content` |
 | Tipografía | Inter self-hosted en `src/fonts` (`next/font/local`); en Apple gana `-apple-system` (SF Pro) |
 | Servidor de producción | Imagen Docker multi-etapa con nginx (puerto 8080) |
-| Despliegue público | GitHub Pages con GitHub Actions (sin tokens extra) |
+| Despliegue público | https://autoescuelaguide.com con Dokploy (autodeploy en push a `main`); GitHub Pages con GitHub Actions como copia secundaria |
 
 El plan original (`PLAN.md`) pedía CSS Modules y «sin tests». Se cambió a un solo
 archivo CSS global y a una suite real de pruebas porque el usuario pidió pruebas
@@ -123,7 +123,12 @@ odd/tasks/          documento ODD de la feature
    por superficie dejan fuera archivos de `src/` o `tests/` con facilidad; el CI
    corre los tests y un archivo sin commitear tumba el deploy entero (pasó dos
    veces: esquema Zod y test de contenido). El síntoma es Pages en 404.
-10. **`next dev` genera `AGENTS.md`** si no se desactiva; aquí está desactivado con
+10. **Dokploy no usa los `ARG` del `Dockerfile`**: construye por su cuenta y los
+   valores por defecto no le llegan (por eso `canonical` y `sitemap.xml`
+   apuntaron a `alebc96.github.io`). Cualquier valor de build necesario en
+   producción debe tener fallback en el código o resolverse en runtime. Tras cada
+   despliegue, comprobar el `canonical` y `/sitemap.xml`.
+11. **`next dev` genera `AGENTS.md`** si no se desactiva; aquí está desactivado con
    `agentRules: false` porque la memoria del proyecto es `MEMORY.md`.
 
 ---

@@ -47,7 +47,7 @@ docker run --rm -p 8080:8080 guia-licencia-web
 ```
 
 La URL canónica se fija en el build con el argumento `NEXT_PUBLIC_SITE_URL`
-(por defecto `https://alebc96.github.io`):
+(por defecto `https://autoescuelaguide.com`):
 
 ```bash
 docker build --build-arg NEXT_PUBLIC_SITE_URL=https://autoescuelaguide.com -t guia-licencia-web .
@@ -55,7 +55,20 @@ docker build --build-arg NEXT_PUBLIC_SITE_URL=https://autoescuelaguide.com -t gu
 
 ## Despliegue
 
-### GitHub Pages (por defecto)
+### Producción: autoescuelaguide.com (Dokploy)
+
+https://autoescuelaguide.com se sirve desde el servidor Hetzner del proyecto con
+Dokploy, con despliegue automático al hacer push a `main` (~1-2 min). Dokploy no
+construye con nuestro `Dockerfile`, así que sus `ARG` por defecto no le llegan:
+los valores necesarios en producción tienen fallback en el código
+(`SITE.url` en `src/lib/constants.ts`). Tras desplegar, comprueba el `canonical`
+y `/sitemap.xml`.
+
+Analítica: `NEXT_PUBLIC_GA_ID` del build manda (vacío = apagada). Si no está
+definido, se usa el ID de producción solo cuando el host es `autoescuelaguide.com`
+o `www`; en local y en GitHub Pages no hay analítica. Nunca se carga sin «Aceptar».
+
+### GitHub Pages (copia secundaria)
 
 `.github/workflows/deploy-pages.yml` compila y publica en cada push a `main`.
 Como es un *project site*, el sitio vive en `/<repositorio>/`, y eso se resuelve
